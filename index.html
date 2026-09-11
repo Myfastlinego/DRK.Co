@@ -4,33 +4,1035 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>M.BizAccount V19</title>
+<style>
+:root{--green:#173b2b;--green2:#28563f;--gold:#b8892f;--bg:#eef2eb;--card:#fff;--text:#1e2b24;--muted:#66756c;--line:#d7ded6;--danger:#a33d3d;--shadow:0 5px 18px #173b2b12}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}.app{display:flex;min-height:100vh}.side{width:245px;background:var(--green);color:#fff;padding:16px 0;position:sticky;top:0;height:100vh;overflow:auto}.brand{padding:6px 18px 18px;border-bottom:1px solid #ffffff20}.brandbox{display:flex;gap:10px;align-items:center}.brandlogo{width:42px;height:42px;object-fit:contain;border-radius:8px;background:#fff;padding:3px}.brand b{font:23px Georgia}.brand b i{color:#d3ad5a;font-style:normal}.brand small{display:block;color:#b9c7bf;margin-top:3px}.nav{padding-top:8px}.nav button{display:block;width:100%;padding:12px 18px;background:none;border:0;border-left:3px solid transparent;color:#dce6df;text-align:left;font-size:14px}.nav button:hover,.nav button.on{background:#ffffff12;border-left-color:var(--gold);color:#fff}.nav .ico{width:25px;display:inline-block}.main{flex:1;padding:24px;overflow:auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px}.topbar h1{margin:0;font:28px Georgia;color:var(--green)}.sub{color:var(--muted);margin-top:4px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:13px}.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;box-shadow:var(--shadow)}.card small{color:var(--muted)}.money{font:21px monospace;margin-top:8px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}.primary,.secondary,.dangerbtn{padding:9px 13px;border-radius:6px;cursor:pointer}.primary{background:var(--green2);color:#fff;border:0}.secondary{background:#fff;color:var(--green);border:1px solid #bdc9c0}.dangerbtn{background:#fff;color:var(--danger);border:1px solid #d8b4b4}.search{max-width:360px}input,select,textarea{padding:9px;border:1px solid #cbd5cd;border-radius:6px;background:#fff;width:100%;font:inherit}.field{margin-bottom:12px;flex:1}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.row{display:flex;gap:10px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:8px}table{width:100%;border-collapse:collapse;background:#fff;min-width:650px}th{text-align:left;font-size:11px;color:var(--green);border-bottom:2px solid var(--green);padding:10px}td{padding:9px;border-bottom:1px solid var(--line)}td.r,th.r{text-align:right}.empty{padding:24px;background:#fff;border:1px dashed #cbd5cd;border-radius:8px;color:var(--muted)}.modalbg{position:fixed;z-index:20;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:14px}.modal{width:min(760px,100%);max-height:92vh;overflow:auto;background:#f9fbf8;border-radius:12px;padding:20px;box-shadow:0 20px 60px #0005}.modal h2{font:22px Georgia;margin:0 0 16px}.foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.logoPreview{max-height:75px;max-width:190px;border-radius:8px}.badge{display:inline-block;padding:4px 7px;border-radius:99px;background:#edf3ed;color:var(--green);font-size:11px}.chart{width:100%;height:230px}.muted{color:var(--muted)}.right{text-align:right}.lock{position:fixed;inset:0;background:var(--green);z-index:99;display:flex;align-items:center;justify-content:center;color:#fff}.lockbox{width:min(360px,92%);background:#fff;color:var(--text);padding:25px;border-radius:14px;text-align:center}.lockbox h2{font:25px Georgia;color:var(--green)}.toast{position:fixed;right:18px;bottom:18px;background:var(--green);color:#fff;padding:11px 15px;border-radius:8px;display:none;z-index:100}.invoiceprint{max-width:900px;margin:auto;background:#fff;padding:28px}.invoiceprint table{min-width:0}.invoiceprint th{color:#111;border-color:#111}.invoiceprint td{border-color:#ccc}.voucher{background:#fff;border:1px solid #aeb9b1;border-radius:6px;box-shadow:0 4px 16px #173b2b18}.vhead{background:#edf2ed;border-bottom:1px solid #bfc9c1;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}.vtitle{font:20px Georgia;color:#173b2b}.vbody{padding:14px}.vfields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.vfield{display:grid;grid-template-columns:145px 1fr;align-items:center;gap:8px}.vfield label{font-size:12px;color:#526159}.vtable{margin-top:12px;border:1px solid #aeb9b1}.vtable table{min-width:0}.vtable th{background:#edf2ed;border-bottom:1px solid #aeb9b1}.vbottom{display:grid;grid-template-columns:1fr 320px;gap:15px;margin-top:12px}.hotkeys{font-size:11px;color:#68766e;line-height:1.8}.totals{border:1px solid #bfc9c1;padding:10px;background:#f8faf7}.totals div{display:flex;justify-content:space-between;padding:3px}.totals .grand{font-weight:bold;border-top:1px solid #aeb9b1;margin-top:5px;padding-top:8px}@media(max-width:700px){.vfields,.vbottom{grid-template-columns:1fr}.vfield{grid-template-columns:110px 1fr}}@media(max-width:800px){.side{width:64px}.brand{padding:8px}.brand b,.brand small,.nav span{display:none}.nav button{padding:13px 18px}.main{padding:15px}.grid2{grid-template-columns:1fr}.row{flex-direction:column}.topbar{align-items:flex-start}.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.cards{grid-template-columns:1fr}.main{padding:10px}.card,.panel{padding:13px}}
+@media print{body{background:#fff}.noprint{display:none!important}.invoiceprint{padding:0;max-width:none}.side,.main>.topbar{display:none!important}}
+
+/* M.BizAccount V3 classic gateway */
+.classic-gateway{min-height:calc(100vh - 55px);background:#f7f8f9;color:#173b55;font-family:Arial,sans-serif}
+.cg-top{min-height:55px;background:#2465a8;color:#fff;display:flex;align-items:center;padding:0 12px;gap:18px}
+.cg-brand{font-size:23px;font-weight:700;min-width:190px}.cg-brand small{display:block;font-size:9px;letter-spacing:1px;font-weight:400}
+.cg-menu-top{display:flex;gap:22px;align-items:center;font-size:12px;flex:1}.cg-goto{background:#d9ebf8;color:#174d7a;border:1px solid #a8c8df;padding:8px 22px;font-weight:bold}
+.cg-actions{display:flex;gap:16px;font-size:11px;white-space:nowrap}
+.cg-body{display:grid;grid-template-columns:minmax(380px,1fr) 390px 175px;min-height:calc(100vh - 55px)}
+.cg-left{background:#fff;border-right:1px solid #b6c8d5;padding:34px 28px}.cg-period{display:grid;grid-template-columns:1fr 1fr;border-bottom:3px solid #66a4d0;padding-bottom:16px}.cg-period label,.cg-head{display:block;color:#6f8ca3;font-size:10px;margin-bottom:7px}.cg-period b{font-size:13px}.cg-headrow{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #77a9cb;padding:9px 0 7px}.cg-row{display:grid;grid-template-columns:1fr 1fr;padding:14px 0;font-size:14px}.cg-row div:last-child{text-align:right;font-weight:bold}
+.cg-center{display:flex;align-items:center;justify-content:center;background:#fbfbfb}.cg-box{width:300px;background:#e1f1fb;border:1px solid #7ba8c8;box-shadow:0 1px 4px #0002}.cg-title{background:#2868ad;color:#fff;text-align:center;padding:8px;font-size:14px;font-weight:bold}.cg-section{padding:13px 20px 3px;color:#7896ad;font-size:10px;text-transform:uppercase}.cg-item{display:block;width:100%;border:0;background:transparent;text-align:left;padding:4px 20px;font-size:14px;color:#143e62;cursor:pointer}.cg-item:hover,.cg-item:focus,.cg-item.selected{background:#f7c62b;color:#111;outline:none}.cg-quit{margin:28px 20px 18px;width:calc(100% - 40px)!important}
+.cg-right{background:#dceefa;border-left:1px solid #b0c6d7}.cg-key{display:flex;justify-content:space-between;width:100%;border:0;border-bottom:1px solid #bad0df;background:transparent;color:#204c70;padding:8px 7px;font-size:12px;text-align:left;cursor:pointer}.cg-key:hover,.cg-key:focus{background:#c7e1f1;outline:none}.cg-key b{color:#225b88}.cg-footer{position:fixed;left:0;right:0;bottom:0;background:#eef3f7;border-top:1px solid #b9c7d0;color:#526b7c;padding:5px 9px;font-size:11px}
+@media(max-width:1000px){.cg-body{grid-template-columns:1fr 300px}.cg-left{display:none}}@media(max-width:650px){.cg-body{grid-template-columns:1fr}.cg-right{display:none}.cg-box{width:min(92%,320px)}.cg-menu-top,.cg-actions{display:none}.cg-brand{min-width:auto}}
+
+
+/* M.BizAccount V4 - accounting-first controls */
+.v4-topmenu{display:flex;gap:6px;flex-wrap:wrap;background:#eef3f7;border:1px solid #b9c7d0;padding:5px;margin:6px 0}
+.v4-topmenu button{background:#fff;border:1px solid #b9c7d0;padding:6px 10px;font-size:11px;cursor:pointer}
+.v4-topmenu button:hover{background:#dceefa}
+.v4-f10{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.v4-f10 button{padding:9px;text-align:left;background:#fff;border:1px solid #c4ced5;cursor:pointer}
+.v4-f10 button:hover{background:#edf4f8}
+.v4-help{font-size:11px;color:#637583;padding:7px 0}
+.v4-banner{background:#f7fbfe;border:1px solid #bdd1df;padding:7px 10px;margin:7px 0;font-size:11px}
+
+
+/* M.BizAccount V10 - clean A4 tax invoice */
+.tax-invoice{font-family:Arial,Helvetica,sans-serif;color:#111;background:#fff;width:210mm;min-height:297mm;margin:10px auto;padding:10mm 11mm;font-size:10px;line-height:1.18;box-shadow:0 0 0 1px #d5d5d5}
+.tax-invoice *{box-sizing:border-box;min-width:0}
+.ti-top{display:grid;grid-template-columns:42% 35% 23%;align-items:start;margin-bottom:7mm}
+.ti-meta{font-size:8.5px;padding-top:5mm;overflow-wrap:anywhere}
+.ti-meta div{margin:2px 0}
+.ti-title{text-align:center;padding-top:1mm}
+.ti-title h1{font-size:19px;margin:0 0 3px;font-weight:700}
+.ti-title b{font-size:10px}
+.ti-qr{width:27mm;height:27mm;border:1px solid #222;display:flex;align-items:center;justify-content:center;margin-left:auto}
+.ti-qrbox{width:23mm;height:23mm;background:repeating-linear-gradient(45deg,#111 0 1px,#fff 1px 3px);position:relative}
+.ti-qrbox:before,.ti-qrbox:after{content:"";position:absolute;width:7mm;height:7mm;background:#fff;border:2mm solid #111}
+.ti-qrbox:before{left:1mm;top:1mm}.ti-qrbox:after{right:1mm;bottom:1mm}
+.ti-box{border:1px solid #222}
+.ti-grid{display:grid;grid-template-columns:47% 53%}
+.ti-seller{padding:5px;min-height:25mm;border-bottom:1px solid #222;overflow-wrap:anywhere}
+.ti-party{padding:5px;min-height:22mm;border-bottom:1px solid #222;overflow-wrap:anywhere}
+.ti-right{border-left:1px solid #222;min-width:0}
+.ti-right-row{display:grid;grid-template-columns:1fr 1fr;min-height:7.7mm;border-bottom:1px solid #777}
+.ti-right-row:last-child{border-bottom:0}
+.ti-right-row span{padding:4px;border-right:1px solid #777;overflow-wrap:anywhere}
+.ti-right-row span:last-child{border-right:0}
+.ti-items{width:100%;border-collapse:collapse;table-layout:fixed}
+.ti-items th,.ti-items td{border:1px solid #333;padding:4px 3px;vertical-align:top;overflow-wrap:anywhere}
+.ti-items th{text-align:center;font-weight:bold}
+.ti-items th:nth-child(1){width:6%}.ti-items th:nth-child(2){width:27%}.ti-items th:nth-child(3){width:12%}.ti-items th:nth-child(4){width:12%}.ti-items th:nth-child(5){width:10%}.ti-items th:nth-child(6){width:7%}.ti-items th:nth-child(7){width:9%}.ti-items th:nth-child(8){width:17%}
+.ti-items td.num,.ti-items th.num{text-align:right}.ti-items td.center,.ti-items th.center{text-align:center}
+.ti-items tbody td{height:10mm}
+.ti-summary{display:grid;grid-template-columns:58% 42%;border:1px solid #333;border-top:0}
+.ti-words{padding:6px;border-right:1px solid #333;min-height:31mm;overflow-wrap:anywhere}
+.ti-totalbox{padding:6px;min-width:0;overflow:hidden}
+.totalline{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
+.totalline.grand{font-size:11px;border-top:1px solid #777;margin-top:2px;padding-top:4px}
+.ti-tax{width:100%;max-width:100%;table-layout:fixed;border-collapse:collapse;margin-top:5px}
+.ti-tax th,.ti-tax td{border:1px solid #333;padding:3px;overflow-wrap:anywhere}
+.ti-tax th:nth-child(1){width:44%}.ti-tax th:nth-child(2){width:22%}.ti-tax th:nth-child(3){width:34%}
+.ti-tax td.num{text-align:right}
+.ti-bottom{display:grid;grid-template-columns:55% 45%;border:1px solid #333;border-top:0;min-height:31mm}
+.ti-declare{padding:6px;border-right:1px solid #333;overflow-wrap:anywhere}
+.ti-sign{text-align:right;padding:6px;display:flex;flex-direction:column;justify-content:space-between}
+.ti-computer{text-align:center;margin-top:5px;font-size:8.5px}
+.ti-note{font-size:8.5px;color:#444;margin-top:3px}
+.ti-printbar{display:flex;gap:7px;justify-content:flex-end;margin-bottom:8px}
+@media(max-width:700px){
+ body{overflow-x:auto}
+ .tax-invoice{width:100%;min-width:0;min-height:auto;margin:0;padding:9px 8px;font-size:8.5px;box-shadow:none}
+ .ti-top{grid-template-columns:40% 36% 24%;margin-bottom:7px}
+ .ti-title h1{font-size:16px}.ti-title b{font-size:8px}.ti-meta{font-size:7px;padding-top:14px}
+ .ti-qr{width:22mm;height:22mm}.ti-qrbox{width:19mm;height:19mm}
+ .ti-items th,.ti-items td{padding:3px 2px;font-size:7px}.ti-items tbody td{height:8.5mm}
+ .ti-right-row{min-height:6.5mm}.ti-right-row span{padding:3px}
+ .ti-summary{grid-template-columns:57% 43%}.ti-words,.ti-totalbox,.ti-declare,.ti-sign{padding:4px}
+ .ti-bottom{min-height:27mm}.ti-tax th,.ti-tax td{padding:2px;font-size:7px}
+ .ti-computer,.ti-note{font-size:6.5px}.ti-printbar{position:sticky;top:0;background:#eef2eb;padding:5px;margin:-9px -8px 7px;z-index:5}
+ .ti-printbar button{font-size:10px;padding:5px 7px}
+}
+@media print{
+ @page{size:A4 portrait;margin:0}
+ .invoice-dual{width:210mm}
+ html,body{margin:0!important;padding:0!important;background:#fff!important}
+ .app{display:block!important;min-height:0!important}
+ .tax-invoice{width:210mm;min-height:297mm;margin:0;padding:9mm 11mm;box-shadow:none;font-size:10px}
+ .ti-printbar{display:none!important}
+}
+
+.company-logo{max-width:34mm;max-height:18mm;object-fit:contain;display:block;margin-bottom:3mm}
+.company-logo-placeholder{width:34mm;height:18mm;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:8px;color:#777;margin-bottom:3mm}
+
+
+/* M.BizAccount V10 Invoice Designer */
+.format-panel{background:#f7f9fb;border:1px solid #c6d1d8;padding:12px;margin:10px 0}
+.format-panel h3{margin:0 0 8px;color:#244b67}
+.format-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.format-grid label{font-size:12px;font-weight:600}
+.format-grid select,.format-grid input[type=text],.format-grid textarea{width:100%;margin-top:4px;padding:7px;border:1px solid #b8c5cc;border-radius:3px;background:#fff}
+.format-grid textarea{min-height:60px;resize:vertical}
+.format-checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.format-checks label{font-weight:400}
+.invoice-preview-frame{border:1px solid #b9c6ce;background:#e9edf0;padding:12px;overflow:auto}
+.preview-scale{transform-origin:top left}
+.format-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.format-actions button{padding:7px 12px;border:1px solid #8da1ae;background:#fff;cursor:pointer}
+.format-actions .primary{background:#24608a;color:#fff;border-color:#24608a}
+@media(max-width:650px){.format-grid{grid-template-columns:1fr}}
+
+
+.invoice-company-logo{width:27mm;height:27mm;object-fit:contain;display:block;margin-left:auto}
+@media(max-width:700px){.invoice-company-logo{width:22mm;height:22mm}}
+
+
+.invoice-copy-label{font-weight:700;text-align:right;font-size:10px;margin:0 0 3mm;text-transform:uppercase;letter-spacing:.3px}
+.invoice-copy{page-break-after:always}
+.invoice-copy:last-child{page-break-after:auto}
+@media print{
+ .invoice-copy{page-break-after:always;break-after:page}
+ .invoice-copy:last-child{page-break-after:auto;break-after:auto}
+}
+
+
+/* M.BizAccount V10 - reactive keyboard-first accounting shell */
+.v9-focus{outline:2px solid #f0b400!important;outline-offset:-2px}
+.v9-status{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#eaf2f8;border-top:1px solid #9bb5c8;padding:5px 10px;font-size:11px;color:#294e68}
+.v9-status b{color:#123f5e}
+.v9-menuhint{font-size:10px;color:#60788a;margin:4px 20px 8px}
+.v9-kbd{font-family:monospace;border:1px solid #9fb2bf;background:#fff;padding:1px 4px;border-radius:2px}
+@media(max-width:700px){
+ .v9-status{font-size:9px}.v9-menuhint{font-size:9px}
+}
+
+
+/* V10 reference-style GST invoice */
+.ref-invoice{width:210mm;min-height:297mm;margin:0 auto;background:#fff;color:#111;font-family:Arial,Helvetica,sans-serif;font-size:9.5px;line-height:1.15;padding:7mm 7mm 6mm;box-sizing:border-box}
+.ref-copy-label{text-align:right;font-weight:700;font-size:10px;margin-bottom:2mm}
+.ref-head{display:grid;grid-template-columns:57% 43%;gap:4mm;align-items:start}
+.ref-company{display:grid;grid-template-columns:30mm 1fr;gap:4mm;min-height:36mm}
+.ref-logo{width:28mm;height:28mm;object-fit:contain;border:0}
+.ref-logo-placeholder{width:28mm;height:28mm;border:1px solid #bbb;display:flex;align-items:center;justify-content:center;font-size:7px;color:#777}
+.ref-company h2{font-size:16px;margin:6mm 0 2mm;text-transform:uppercase}
+.ref-company p{margin:1px 0}
+.ref-meta{background:#f7f4d7;padding:3mm;border-radius:1mm;min-height:36mm}
+.ref-meta div{margin:1.5mm 0}
+.ref-title{text-align:center;font-weight:700;margin:2mm 0 3mm}
+.ref-title .small{font-size:9px}
+.ref-buyer{background:#f7f4d7;padding:3mm;min-height:27mm;margin-bottom:2mm}
+.ref-buyer b:first-child{font-size:9px}
+.ref-einv{display:grid;grid-template-columns:1fr 38mm;gap:3mm;min-height:31mm;margin:1mm 0 2mm}
+.ref-einfo{padding:2mm 8mm}
+.ref-einfo .label{display:inline-block;background:#f7f4d7;padding:2mm 4mm;font-weight:700;margin-bottom:3mm}
+.ref-qr{display:flex;align-items:center;justify-content:center}
+.ref-qr img{width:32mm;height:32mm;object-fit:contain}
+.ref-qrbox{width:31mm;height:31mm;border:1px solid #333;background:repeating-linear-gradient(45deg,#111 0 1px,#fff 1px 3px);position:relative}
+.ref-qrbox:before,.ref-qrbox:after{content:"";position:absolute;width:8mm;height:8mm;background:#fff;border:2mm solid #111}
+.ref-qrbox:before{left:2mm;top:2mm}.ref-qrbox:after{right:2mm;bottom:2mm}
+.ref-items{width:100%;border-collapse:collapse;table-layout:fixed}
+.ref-items th,.ref-items td{border:1px solid #222;padding:2.5px 2px;vertical-align:top;overflow-wrap:anywhere}
+.ref-items th{text-align:center;font-weight:700}
+.ref-items th:nth-child(1){width:5%}.ref-items th:nth-child(2){width:34%}.ref-items th:nth-child(3){width:11%}.ref-items th:nth-child(4){width:11%}.ref-items th:nth-child(5){width:12%}.ref-items th:nth-child(6){width:9%}.ref-items th:nth-child(7){width:18%}
+.ref-items td.n,.ref-items th.n{text-align:right}.ref-items td.c,.ref-items th.c{text-align:center}
+.ref-items tbody tr{height:9mm}
+.ref-items tfoot td{font-weight:700;height:7mm}
+.ref-totals{display:grid;grid-template-columns:64% 36%;border:1px solid #222;border-top:0}
+.ref-words{padding:3mm;min-height:19mm}
+.ref-right-total{padding:3mm;border-left:1px solid #222}
+.ref-right-total div{display:flex;justify-content:space-between;margin:1.5mm 0}
+.ref-tax{width:100%;border-collapse:collapse;margin-top:3mm}
+.ref-tax th,.ref-tax td{border:1px solid #222;padding:2px}
+.ref-tax th{text-align:center}
+.ref-tax td.n{text-align:right}
+.ref-analysis{margin-top:2mm}
+.ref-analysis table{width:100%;border-collapse:collapse;table-layout:fixed}
+.ref-analysis th,.ref-analysis td{border:1px solid #222;padding:2.5px}
+.ref-analysis th{text-align:center}
+.ref-analysis td.n{text-align:right}
+.ref-bottom{display:grid;grid-template-columns:55% 45%;border:1px solid #222;border-top:0;min-height:30mm}
+.ref-declare{padding:3mm}
+.ref-sign{padding:3mm;text-align:right;display:flex;flex-direction:column;justify-content:space-between}
+.ref-footer{text-align:center;font-size:8px;margin-top:2mm;border-top:1px solid #ddd;padding-top:1.5mm}
+.ref-note{font-size:7.5px;margin-top:1mm}
+@media print{
+ .ref-invoice{margin:0;width:210mm;min-height:297mm;box-shadow:none}
+ .ref-copy{page-break-after:always;break-after:page}
+ .ref-copy:last-child{page-break-after:auto;break-after:auto}
+}
+
+<style id="v11ref">.classic-ref{width:210mm;min-height:297mm;margin:0 auto;background:#fff;color:#111;font:9.2px Arial,Helvetica,sans-serif;padding:6mm 8mm 5mm;box-sizing:border-box}.classic-copy{text-align:right;font-weight:700;font-size:9px}.classic-title{text-align:center;font-weight:700;font-size:12px;margin:1mm 0 2mm}.classic-topline{display:grid;grid-template-columns:1fr 43mm;min-height:32mm}.classic-irn{padding:4mm 2mm 2mm 0;line-height:1.45;word-break:break-all}.classic-qr{text-align:center;font-size:8px;font-weight:700}.classic-logo{max-width:30mm;max-height:24mm;object-fit:contain}.classic-logo-placeholder{width:30mm;height:24mm;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:7px;color:#777}.classic-qr-image{width:32mm;height:32mm;object-fit:contain;display:block;margin:1mm auto}.classic-qr-box{width:29mm;height:29mm;margin:1mm auto;border:1px solid #222;background:repeating-linear-gradient(45deg,#111 0 1px,#fff 1px 3px);display:flex;align-items:center;justify-content:center;font-size:7px}.classic-info,.classic-items,.classic-tax{width:100%;border-collapse:collapse;table-layout:fixed}.classic-info td{border:1px solid #222;padding:2px 3px;vertical-align:top}.classic-info .seller{width:49%;font-size:9px}.classic-info .partyblock{width:49%;min-height:24mm}.classic-items{margin-top:0}.classic-items th,.classic-items td,.classic-tax th,.classic-tax td{border:1px solid #222;padding:2.2px;vertical-align:top}.classic-items th,.classic-tax th{font-weight:700;text-align:center}.classic-items th:nth-child(1){width:5%}.classic-items th:nth-child(2){width:33%}.classic-items th:nth-child(3){width:11%}.classic-items th:nth-child(4){width:11%}.classic-items th:nth-child(5){width:11%}.classic-items th:nth-child(6){width:14%}.classic-items th:nth-child(7){width:15%}.classic-items tbody tr{height:9mm}.n{text-align:right}.c{text-align:center}.classic-summary{display:grid;grid-template-columns:64% 36%;border:1px solid #222;border-top:0;min-height:21mm}.classic-summary .words{padding:3mm}.sumbox{border-left:1px solid #222;padding:2mm}.sumbox div{display:flex;justify-content:space-between;padding:1px}.classic-tax{margin-top:2mm}.taxwords{padding:2mm 0}.classic-bottom{display:grid;grid-template-columns:55% 45%;border:1px solid #222;min-height:30mm}.classic-bottom>div{padding:3mm}.classic-bottom .sign{border-left:1px solid #222;text-align:right;display:flex;flex-direction:column;justify-content:space-between}.classic-footer{text-align:center;font-size:7.5px;border-top:1px solid #777;margin-top:2mm;padding-top:1.5mm}.classic-ref.ref-copy{page-break-after:always;break-after:page}.classic-ref.ref-copy:last-child{page-break-after:auto;break-after:auto}@media print{.classic-ref{margin:0;width:210mm;min-height:297mm;box-shadow:none}.classic-ref.ref-copy{page-break-after:always}.classic-ref.ref-copy:last-child{page-break-after:auto}}@media(max-width:700px){.classic-ref{width:100%;min-height:auto;padding:10px;font-size:8px}.classic-info,.classic-items,.classic-tax{font-size:7px}.classic-topline{grid-template-columns:1fr 34mm}.classic-qr-image{width:25mm;height:25mm}.classic-qr-box{width:24mm;height:24mm}}</style></style>
+
+<style id="tallyref-v12">
+.tallyref-page{width:210mm;min-height:297mm;margin:0 auto;background:#fff;color:#111;font:9px Arial,Helvetica,sans-serif;line-height:1.18;padding:6mm 5mm 4mm;box-sizing:border-box}
+.tallyref-copy{text-align:right;font-weight:700;font-size:9px;margin-bottom:1mm;text-transform:uppercase}
+.tallyref-heading{text-align:center;font-weight:700;font-size:10px;margin-bottom:2mm}
+.tallyref-head{display:grid;grid-template-columns:58% 42%;gap:3mm;align-items:start}
+.tallyref-company{display:grid;grid-template-columns:27mm 1fr;gap:3mm;min-height:27mm}
+.tallyref-logo{width:25mm;height:25mm;object-fit:contain}
+.tallyref-logo-placeholder{width:25mm;height:25mm;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:7px;color:#777}
+.tallyref-companyname{font-size:14px;font-weight:700;margin:1mm 0 1.5mm}
+.tallyref-companytext div{margin:.7mm 0}
+.tallyref-invoicemeta{background:#f5f2d6;padding:2.5mm;min-height:24mm}
+.tallyref-invoicemeta div{margin:1.2mm 0}
+.tallyref-buyer{background:#f5f2d6;padding:2.5mm;min-height:23mm;margin-top:1mm}
+.tallyref-buyer b:first-child{font-size:9px}
+.tallyref-order{display:grid;grid-template-columns:1fr 1fr;padding:1.5mm 0;min-height:7mm}
+.tallyref-einv{display:grid;grid-template-columns:1fr 38mm;min-height:31mm;margin:0 0 1.5mm}
+.tallyref-einfo{padding:1.5mm 8mm 1.5mm 1mm}
+.tallyref-e-label{display:inline-block;background:#f5f2d6;padding:2mm 4mm;font-weight:700;margin-bottom:2.5mm}
+.tallyref-einfo div{margin:1mm 0;word-break:break-all}
+.tallyref-qrcell{display:flex;align-items:center;justify-content:center}
+.tallyref-qr{width:30mm;height:30mm;object-fit:contain}
+.tallyref-qrbox{width:29mm;height:29mm;border:1px solid #222;background:repeating-linear-gradient(45deg,#111 0 1px,#fff 1px 3px);position:relative}
+.tallyref-qrbox:before,.tallyref-qrbox:after{content:"";position:absolute;width:7mm;height:7mm;background:#fff;border:2mm solid #111}
+.tallyref-qrbox:before{left:2mm;top:2mm}.tallyref-qrbox:after{right:2mm;bottom:2mm}
+.tallyref-items{width:100%;border-collapse:collapse;table-layout:fixed}
+.tallyref-items th,.tallyref-items td{border:1px solid #222;padding:2.3px 2px;vertical-align:top;overflow-wrap:anywhere}
+.tallyref-items th{text-align:center;font-weight:700}
+.tallyref-items th:nth-child(1){width:5%}.tallyref-items th:nth-child(2){width:34%}.tallyref-items th:nth-child(3){width:11%}.tallyref-items th:nth-child(4){width:10%}.tallyref-items th:nth-child(5){width:11%}.tallyref-items th:nth-child(6){width:12%}.tallyref-items th:nth-child(7){width:7%}.tallyref-items th:nth-child(8){width:10%}
+.tallyref-items td.n,.tallyref-items th.n{text-align:right}.tallyref-items td.c,.tallyref-items th.c{text-align:center}
+.tallyref-items tbody tr{height:9mm}.tallyref-items tfoot td{height:6mm}
+.tallyref-summary{display:grid;grid-template-columns:64% 36%;border:1px solid #222;border-top:0;min-height:18mm}
+.tallyref-words{padding:2.5mm}.tallyref-words span{float:right}
+.tallyref-totalbox{border-left:1px solid #222;padding:2mm}
+.tallyref-totalbox div{display:flex;justify-content:space-between;margin:1mm 0}
+.tallyref-totalbox .grand{border-top:1px solid #777;padding-top:1.5mm;margin-top:1.5mm;font-size:10px}
+.tallyref-analysis{margin-top:2mm}
+.tallyref-tax{width:100%;border-collapse:collapse;table-layout:fixed}
+.tallyref-tax th,.tallyref-tax td{border:1px solid #222;padding:2px;vertical-align:top;overflow-wrap:anywhere}
+.tallyref-tax th{text-align:center}.tallyref-tax td.n{text-align:right}
+.tallyref-tax th:nth-child(1){width:16%}.tallyref-tax th:nth-child(2){width:16%}.tallyref-tax th:nth-child(3){width:10%}.tallyref-tax th:nth-child(4){width:15%}.tallyref-tax th:nth-child(5){width:13%}.tallyref-tax th:nth-child(6){width:15%}.tallyref-tax th:nth-child(7){width:15%}
+.tallyref-taxwords{padding:2mm 0}
+.tallyref-bottom{display:grid;grid-template-columns:55% 45%;border:1px solid #222;min-height:27mm}
+.tallyref-declare{padding:2.5mm}.tallyref-sign{border-left:1px solid #222;padding:2.5mm;text-align:right;display:flex;flex-direction:column;justify-content:space-between}
+.tallyref-footer{text-align:center;font-size:7.5px;border-top:1px solid #777;margin-top:1.5mm;padding-top:1mm}
+@media print{
+ .tallyref-page{margin:0;width:210mm;min-height:297mm;padding:6mm 5mm 4mm;box-shadow:none}
+ .tallyref-page.ref-copy{page-break-after:always;break-after:page}
+ .tallyref-page.ref-copy:last-child{page-break-after:auto;break-after:auto}
+}
+@media(max-width:700px){
+ .tallyref-page{width:100%;min-height:auto;padding:10px;font-size:7.5px}
+ .tallyref-companyname{font-size:11px}.tallyref-items th,.tallyref-items td,.tallyref-tax th,.tallyref-tax td{font-size:6.5px;padding:2px}
+}
+</style>
+<style>.cancelbtn{padding:7px 10px;border-radius:6px;cursor:pointer;background:#fff7f7;color:#a33d3d;border:1px solid #d8a8a8}.cancelled-badge{display:inline-block;padding:3px 7px;border-radius:99px;background:#fdecec;color:#9b2f2f;font-weight:700;font-size:11px}.invoice-status{font-weight:700;color:#9b2f2f;border:1px solid #d8a8a8;padding:3px 7px;display:inline-block;margin-bottom:3mm}</style><style id="website-shell">
+.website-bar{position:sticky;top:0;z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:#0f172a;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.website-brand{font-weight:800}.website-sub{font-size:12px;opacity:.75}
+.website-actions{display:flex;gap:8px}.website-actions a,.website-actions button{color:#fff;background:transparent;border:1px solid rgba(255,255,255,.35);border-radius:8px;padding:7px 10px;text-decoration:none;cursor:pointer}
+@media(max-width:600px){.website-sub{display:none}.website-actions a{display:none}.website-bar{padding:9px 10px}}
+</style>
+<style id="v20-responsive">
+/* M.BizAccount V20 — responsive app shell */
+html, body { width:100%; max-width:100%; overflow-x:hidden; }
+body { margin:0; }
+*, *::before, *::after { box-sizing:border-box; }
+img { max-width:100%; }
+button, input, select, textarea { max-width:100%; }
+#app { width:100%; min-width:0; }
+.website-bar { width:100%; }
+@media (max-width: 900px) {
+  .app, .main, .content, .page, .panel, .card { max-width:100%; }
+  .grid, .dashboard-grid, .two-col, .three-col { grid-template-columns:1fr !important; }
+  .sidebar { width:100% !important; }
+  .table-wrap, .table-responsive, .invoice-preview-frame { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+}
+@media (max-width: 700px) {
+  body { font-size:14px; }
+  .website-bar { padding:8px 10px; gap:8px; }
+  .website-brand { font-size:16px; }
+  .website-actions { gap:5px; }
+  .website-actions button { padding:6px 8px; }
+  input, select, textarea { font-size:16px !important; min-height:40px; }
+  button { min-height:38px; }
+  .modalbg { padding:8px !important; align-items:flex-start !important; }
+  .modal { width:100% !important; max-width:100% !important; margin:0 !important; }
+  .foot { flex-wrap:wrap !important; gap:6px !important; }
+  .foot > * { max-width:100%; }
+  .format-grid { grid-template-columns:1fr !important; }
+  .format-actions { flex-direction:column; }
+  .format-actions button { width:100%; }
+  .v4-topmenu { overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; }
+  .v4-topmenu button { flex:0 0 auto; }
+  .v4-f10 { grid-template-columns:1fr !important; }
+  .invoice-preview-frame { padding:5px; }
+  .tax-invoice, .classic-ref, .tallyref-page, .ref-invoice {
+    width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:8px !important;
+    box-shadow:none !important;
+  }
+  .ti-top, .classic-topline, .tallyref-head {
+    grid-template-columns:1fr !important;
+    gap:7px !important;
+  }
+  .ti-title { order:-1; }
+  .ti-qr, .classic-qr, .tallyref-qrcell { margin-left:0; }
+  .ti-grid { grid-template-columns:1fr !important; }
+  .ti-bottom, .ref-bottom, .tallyref-bottom { grid-template-columns:1fr !important; }
+  .ti-sign, .ref-sign, .tallyref-sign { border-left:0 !important; border-top:1px solid #222; }
+  .ti-items, .ti-tax, .classic-items, .classic-tax, .tallyref-items, .tallyref-tax, .ref-items, .ref-tax, .ref-analysis table {
+    font-size:7px !important;
+  }
+  .ti-items th, .ti-items td, .ti-tax th, .ti-tax td,
+  .classic-items th, .classic-items td, .classic-tax th, .classic-tax td,
+  .tallyref-items th, .tallyref-items td, .tallyref-tax th, .tallyref-tax td,
+  .ref-items th, .ref-items td, .ref-tax th, .ref-tax td { padding:2px !important; }
+}
+@media (max-width: 430px) {
+  .website-sub { display:none; }
+  .website-actions button { font-size:12px; }
+  .tax-invoice, .classic-ref, .tallyref-page, .ref-invoice { padding:6px !important; }
+  .ti-title h1 { font-size:15px !important; }
+  .ti-meta { font-size:7px !important; }
+  .ti-items th, .ti-items td, .ti-tax th, .ti-tax td,
+  .classic-items th, .classic-items td, .classic-tax th, .classic-tax td,
+  .tallyref-items th, .tallyref-items td, .tallyref-tax th, .tallyref-tax td,
+  .ref-items th, .ref-items td, .ref-tax th, .ref-tax td { font-size:6px !important; }
+}
+@media print {
+  html, body { overflow:visible !important; }
+  .tax-invoice, .classic-ref, .tallyref-page, .ref-invoice { width:210mm !important; }
+}
+</style>
+
+
+<style id="v21-upgrade">
+/* V21 Tally-style accounting workflow */
+.v21-section{margin-top:18px}
+.v21-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.v21-card{border:1px solid #d9dee7;border-radius:12px;padding:14px;background:#fff}
+.v21-card h3{margin:0 0 7px}
+.v21-kpi{font-size:22px;font-weight:800}
+.v21-help{font-size:12px;color:#667085}
+.v21-shortcuts{display:flex;flex-wrap:wrap;gap:7px}
+.v21-shortcuts span{border:1px solid #ccd3df;border-radius:7px;padding:5px 8px;background:#f7f8fa;font-size:12px}
+@media(max-width:700px){.v21-grid{grid-template-columns:1fr}}
+</style>
+<script>
+/* V21 compatibility helpers — adds Tally-style voucher categories without replacing existing data. */
+window.V21_FEATURES = {
+  voucherTypes: ["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],
+  gstModes: ["Local (CGST + SGST/UTGST)","Interstate (IGST)","Exempt","Nil Rated"],
+  units: ["NOS","KG","LTR","BOX","MTR","SET"]
+};
+function v21VoucherMenu(){
+  return `<div class="v21-section"><div class="v21-card">
+    <h3>Voucher Types</h3>
+    <div class="v21-shortcuts">${V21_FEATURES.voucherTypes.map((x,i)=>`<span>${i+1}. ${x}</span>`).join("")}</div>
+    <div class="v21-help" style="margin-top:8px">Use the existing voucher screens to record transactions. This layer keeps the Tally-style terminology while preserving your current M.BizAccount data.</div>
+  </div></div>`;
+}
+function v21GstSummary(){
+  const tx=(window.D&&Array.isArray(D.tx))?D.tx:[];
+  let sales=0,purchase=0;
+  tx.filter(x=>!x.cancelled).forEach(x=>{
+    const t=String(x.type||"").toLowerCase();
+    const total=Number(x.total||x.amount||0);
+    if(t.includes("sales")) sales+=total;
+    if(t.includes("purchase")) purchase+=total;
+  });
+  return `<div class="v21-section"><div class="v21-grid">
+    <div class="v21-card"><div class="v21-help">Sales</div><div class="v21-kpi">${typeof money==="function"?money(sales):sales.toFixed(2)}</div></div>
+    <div class="v21-card"><div class="v21-help">Purchase</div><div class="v21-kpi">${typeof money==="function"?money(purchase):purchase.toFixed(2)}</div></div>
+  </div></div>`;
+}
+</script>
+
+
+<style id="v22-accounting-ui">
+:root{--v22-border:#cfd6df;--v22-bg:#f5f7fa;--v22-panel:#fff;--v22-text:#1d2939}
+.v22-gateway{font-family:Arial,sans-serif;color:var(--v22-text);background:var(--v22-bg);border:1px solid var(--v22-border);border-radius:8px;overflow:hidden;margin:10px 0}
+.v22-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--v22-border);background:var(--v22-panel)}
+.v22-brand{font-weight:800;font-size:18px}.v22-sub{font-size:11px;opacity:.65}
+.v22-grid{display:grid;grid-template-columns:230px 1fr;min-height:420px}
+.v22-nav{border-right:1px solid var(--v22-border);padding:10px;background:#fafbfc}
+.v22-nav button{display:block;width:100%;text-align:left;margin:4px 0;padding:9px 10px;border:1px solid transparent;background:transparent;border-radius:6px;cursor:pointer}
+.v22-nav button:hover{border-color:var(--v22-border);background:var(--v22-panel)}
+.v22-main{padding:14px}.v22-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.v22-card{background:var(--v22-panel);border:1px solid var(--v22-border);border-radius:8px;padding:12px}
+.v22-label{font-size:11px;opacity:.65}.v22-value{font-size:20px;font-weight:800;margin-top:4px}
+.v22-short{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.v22-key{padding:6px 8px;border:1px solid var(--v22-border);border-radius:6px;background:var(--v22-panel);font-size:12px}
+@media(max-width:800px){.v22-grid{grid-template-columns:1fr}.v22-nav{border-right:0;border-bottom:1px solid var(--v22-border);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.v22-nav button{margin:0}.v22-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){.v22-cards{grid-template-columns:1fr}.v22-head{align-items:flex-start;flex-direction:column}}
+</style>
+
+<script id="v22-accounting-layer">
+/* M.BizAccount V22: original accounting workflow layer; does not copy Tally branding/assets. */
+window.MBizV22={
+  vouchers:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],
+  reports:["Day Book","Trial Balance","Profit & Loss","Balance Sheet","Outstanding","Stock Summary","GST Summary","HSN/SAC Summary"],
+  shortcuts:["F2 Date","F4 Contra","F5 Payment","F6 Receipt","F7 Journal","F8 Sales","F9 Purchase"]
+};
+function mbizV22Open(tabName){
+  if(typeof window.tab!=="undefined"){window.tab=tabName; if(typeof render==="function")render();}
+}
+function mbizV22Panel(){
+  const sales=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("sales")).length:0;
+  const purchase=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("purchase")).length:0;
+  return `<section class="v22-gateway">
+    <div class="v22-head"><div><div class="v22-brand">M.BizAccount</div><div class="v22-sub">Accounting & GST Edition</div></div>
+    <div class="v22-sub">Tally-style workflow • Original M.BizAccount interface</div></div>
+    <div class="v22-grid">
+      <nav class="v22-nav">
+        <button onclick="mbizV22Open('dashboard')">🏠 Gateway / Dashboard</button>
+        <button onclick="mbizV22Open('parties')">📒 Ledgers / Accounts</button>
+        <button onclick="mbizV22Open('items')">📦 Inventory</button>
+        <button onclick="mbizV22Open('voucher')">🧾 Vouchers</button>
+        <button onclick="mbizV22Open('payments')">📅 Day Book</button>
+        <button onclick="mbizV22Open('expenses')">💳 Expenses</button>
+        <button onclick="mbizV22Open('reports')">📊 Reports / GST</button>
+        <button onclick="mbizV22Open('settings')">⚙️ Company / Settings</button>
+      </nav>
+      <main class="v22-main">
+        <div class="v22-cards">
+          <div class="v22-card"><div class="v22-label">Sales Vouchers</div><div class="v22-value">${sales}</div></div>
+          <div class="v22-card"><div class="v22-label">Purchase Vouchers</div><div class="v22-value">${purchase}</div></div>
+          <div class="v22-card"><div class="v22-label">Ledgers</div><div class="v22-value">${window.D?D.parties.length:0}</div></div>
+          <div class="v22-card"><div class="v22-label">Stock Items</div><div class="v22-value">${window.D?D.items.length:0}</div></div>
+        </div>
+        <div class="v22-short">${MBizV22.vouchers.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div>
+        <div class="v22-short">${MBizV22.shortcuts.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div>
+      </main>
+    </div>
+  </section>`;
+}
+</script>
+
 </head>
 <body>
-<div class="website-bar"><div>M.BizAccount</div><button type="button" onclick="window.print()">Print</button></div>
-<div id="app"></div><div id="toast"></div>
+<div class="website-bar">
+  <div><div class="website-brand">M.BizAccount</div><div class="website-sub">GST Billing &amp; Accounting</div></div>
+  <div class="website-actions"><a href="#app">Open Software</a><button type="button" onclick="window.print()">Print</button></div>
+</div>
+<div id="app"><div id="v21FeatureLayer"></div>
+<div id="app"></div><div id="toast" class="toast"></div>
 <script>
 const KEY="mbizaccount_v3_data";
-const blank=()=>({company:{name:"M.BizAccount"},parties:[],items:[],tx:[],expenses:[],counter:{sales:1,purchase:1,receipt:1,payment:1,expense:1},pin:""});
+const blank=()=>({company:{name:"M.BizAccount",logo:"",address:"",gstin:"",phone:"",email:"",bank:"",account:"",ifsc:"",terms:"Goods once sold will not be taken back.\\nSubject to local jurisdiction."},parties:[],items:[],tx:[],expenses:[],counter:{sales:1,purchase:1,receipt:1,payment:1,expense:1},pin:""});
 let D=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){return blank()}})();
-D.company=D.company||{};D.parties=D.parties||[];D.items=D.items||[];D.tx=D.tx||[];D.expenses=D.expenses||[];D.counter=D.counter||blank().counter;
-let tab="gateway",modal="",activeParty=null;
-const $=id=>document.getElementById(id);
+D.company=D.company||blank().company;D.parties=D.parties||[];D.items=D.items||[];D.tx=D.tx||D.vouchers||[];D.expenses=D.expenses||[];D.counter=D.counter||blank().counter;
+let tab="gateway",activeParty=null,modal="",editing=null,invoiceLines=[],searchTerm="",gatewayMenuIndex=0;
+
+const $=id=>document.getElementById(id), uid=()=>Math.random().toString(36).slice(2,10), today=()=>new Date().toISOString().slice(0,10);
+const money=n=>"₹"+(Number(n)||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 function save(){localStorage.setItem(KEY,JSON.stringify(D));render()}
-function render(){const app=$("app"); if(!app)return; app.innerHTML=`<main tabindex="-1"><h1>${D.company.name||"M.BizAccount"}</h1><p>Keyboard System V2 enabled.</p><button type="button" onclick="tab='dashboard';render()">Dashboard</button><button type="button" onclick="tab='settings';render()">Settings</button></main>`}
-function isEditableTarget(el){if(!el)return false;const tag=el.tagName;return tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT"||el.isContentEditable}
-function isDisabled(el){return !!(el&&('disabled' in el&&el.disabled || el.getAttribute&&el.getAttribute('aria-disabled')==='true'))}
-function isVisible(el){return !!el && el.getClientRects().length>0 && getComputedStyle(el).visibility!=="hidden" && getComputedStyle(el).display!=="none"}
-function getInteractive(root=document){return [...root.querySelectorAll('button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>isVisible(el)&&!isDisabled(el)&&el.getAttribute('aria-hidden')!=="true")}
-function focusRing(el){if(!el)return;el.classList.add('kbv2-focus');el.scrollIntoView({block:'nearest',inline:'nearest'})}
-function triggerFocusedAction(){const el=document.activeElement;if(!el||isDisabled(el))return false;if(el.matches('button,a[href],[role="button"],[role="menuitem"],[role="option"],[role="tab"]')){el.click();return true}if(el.matches('[role="listitem"],.card,.cg-item,[data-key-action]')){el.click();return true}return false}
-function closeTopOverlay(){const dialogs=[...document.querySelectorAll('.modalbg,[role="dialog"],[aria-modal="true"]')].filter(isVisible);if(dialogs.length){const top=dialogs[dialogs.length-1];const close=top.querySelector('[data-close],.modal .secondary,button[aria-label*="close" i]');if(close&&!isDisabled(close)){close.click();return true}if(typeof modal!=="undefined'&&modal){modal="";render();return true}}if(typeof modal!=="undefined'&&modal){modal="";render();return true}return false}
-function enterAction(e){const el=document.activeElement;if(isDisabled(el))return true;if(isEditableTarget(el)){if(el.matches('input[type="search"],input.search,[data-enter="search"]')){el.dispatchEvent(new Event('change',{bubbles:true}));return true}if(el.closest('form')){const form=el.closest('form');const submit=form.querySelector('button[type="submit"],input[type="submit"]');if(submit&&!isDisabled(submit)){submit.click();}return true}return false}return triggerFocusedAction()}
-function moveContext(delta){const active=document.activeElement;let scope=active?.closest('.cg-box,[role="menu"],[role="listbox"],[role="tablist"],[data-key-nav]')||document;let items=getInteractive(scope).filter(el=>!isEditableTarget(el));if(!items.length)return false;let i=items.indexOf(active);if(i<0)i=delta>0?-1:0;let n=(i+delta+items.length)%items.length;focusRing(items[n]);return true}
-function setupKeyboardV2(){if(window.__KBV2_INSTALLED__)return;window.__KBV2_INSTALLED__=true;document.documentElement.classList.add('keyboard-v2');document.addEventListener('keydown',function(e){if(e.defaultPrevented)return;const t=e.target||document.activeElement;if(e.key==="Escape"){if(closeTopOverlay()){e.preventDefault();return}if(isEditableTarget(t))return;return}if(e.key==="Enter"){if(enterAction(e)){if(!isEditableTarget(t)||t.matches('input[type="search"],input.search,[data-enter="search"]'))e.preventDefault();return}}if(e.key==="ArrowDown"||e.key==="ArrowUp"){if(isEditableTarget(t)&&!t.matches('select'))return;if(moveContext(e.key==="ArrowDown"?1:-1))e.preventDefault();return}if(e.key==="ArrowRight"||e.key==="ArrowLeft"){if(isEditableTarget(t)&&!t.matches('select'))return;const tabs=t.closest('[role="tablist"]');if(tabs){const items=getInteractive(tabs);let i=items.indexOf(t);if(i>=0){const n=(i+(e.key==="ArrowRight"?1:-1)+items.length)%items.length;focusRing(items[n]);e.preventDefault()}}return}},true);document.addEventListener('focusin',e=>{const el=e.target;if(el.matches('button,a[href],[role="button"],[role="menuitem"],[role="option"],[role="tab"],input,select,textarea,[tabindex]'))el.classList.add('kbv2-focus')},true)}
-setupKeyboardV2();render();
+function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",1800)}
+function no(type){let n=D.counter[type]||1;D.counter[type]=n+1;return type.slice(0,2).toUpperCase()+"-"+String(n).padStart(4,"0")}
+function fyShort(dateStr){const d=new Date((dateStr||today())+"T00:00:00");const y=d.getFullYear();const start=d.getMonth()>=3?y:y-1;return String(start).slice(-2)+String(start+1).slice(-2)}
+function invoicePrefix(){return (D.company.invoicePrefix||"INV/TT").trim().replace(/\s+/g,"")}
+function invoiceNo(type,dateStr,consume=false){let n=D.counter[type]||1;if(consume)D.counter[type]=n+1;const prefix=type==="sales"?invoicePrefix():((D.company.purchasePrefix||"PUR/TT").trim().replace(/\s+/g,""));return prefix+"/"+fyShort(dateStr)+"/"+String(n).padStart(6,"0")}
+
+function pname(id){return D.parties.find(p=>p.id===id)?.name||"Cash / Walk-in"}
+function txEffect(v){if(v.type==="sales")return +(v.total||0);if(v.type==="purchase")return -(v.total||0);if(v.type==="receipt")return -(v.amount||0);if(v.type==="payment")return +(v.amount||0);return 0}
+function totals(){let sales=0,purchases=0,gst=0,cash=0,expenses=0;D.tx.filter(v=>!v.cancelled).forEach(v=>{if(v.type==="sales"){sales+=+v.total||0;gst+=+v.gst||0;if(v.mode==="Cash")cash+=+v.total||0}if(v.type==="purchase"){purchases+=+v.total||0;gst-=+v.gst||0;if(v.mode==="Cash")cash-=+v.total||0}if(v.type==="receipt")cash+=+v.amount||0;if(v.type==="payment")cash-=+v.amount||0});D.expenses.forEach(e=>{expenses+=+e.amount||0;cash-=+e.amount||0});let rec=0,pay=0;D.parties.forEach(p=>{let b=D.tx.filter(v=>v.partyId===p.id&&!v.cancelled).reduce((a,v)=>a+txEffect(v),0);if(p.type==="customer")rec+=Math.max(0,b);else pay+=Math.max(0,-b)});let stock=D.items.reduce((a,i)=>a+(+i.stock||0)*(+i.rate||0),0);return{sales,purchases,gst,cash,expenses,rec,pay,stock,profit:sales-purchases-expenses}}
+function header(title,sub){return `<div class="topbar"><div><h1>${title}</h1><div class="sub">${sub||""}</div></div><span class="badge">${new Date().toLocaleDateString("en-IN")}</span></div>`}
+function table(head,rows){return `<div class="tablewrap"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((x,i)=>`<td class="${i===r.length-1?'r':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
+function gateway(){
+let fy="1-Apr-"+new Date().getFullYear()+" to 31-Mar-"+(new Date().getFullYear()+1);
+let last=D.tx.length?[...D.tx].sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0].date:"No entries";
+const menu=[
+ ["Create / Alter","parties"],
+ ["Chart of Accounts","parties"],
+ ["Stock Items / Inventory","items"],
+ ["Vouchers","voucher"],
+ ["Day Book","payments"],
+ ["Expenses","expenses"],
+ ["Banking","payments"],
+ ["Import / Search","search"],
+ ["Balance Sheet","reports"],
+ ["Profit & Loss A/c","reports"],
+ ["Trial Balance / GST","reports"],
+ ["Stock Summary","reports"],
+ ["Outstanding","reports"],
+ ["Display More Reports","reports"],
+ ["Quit / Dashboard","dashboard"]
+];
+let mi=Math.max(0,Math.min(gatewayMenuIndex||0,menu.length-1));
+return `<div class="classic-gateway" tabindex="0">
+<div class="cg-top"><div class="cg-brand">M.BizAccount<small>ACCOUNTING SOFTWARE V13</small></div>
+<div class="cg-menu-top"><span>MANAGE</span><span onclick="tab='settings';render()">K: Company</span><span onclick="tab='settings';render()">Y: Data</span><span>Z: Exchange</span><button class="cg-goto" onclick="tab='search';render()">G: Go To</button></div>
+<div class="cg-actions"><span>O: Import</span><span>E: Export</span><span>M: Share</span><span>P: Print</span><span>F1: Help</span></div></div>
+<div class="cg-body"><div class="cg-left"><div class="cg-period"><div><span class="cg-head">CURRENT PERIOD</span><b>${fy}</b></div><div><span class="cg-head">CURRENT DATE</span><b>${new Date((D.workingDate||today())+"T00:00:00").toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</b></div></div>
+<div class="cg-headrow"><span class="cg-head">NAME OF COMPANY</span><span class="cg-head">DATE OF LAST ENTRY</span></div><div class="cg-row"><div>${esc(D.company.name||"M.BizAccount")}</div><div>${last}</div></div>
+<div class="v9-menuhint"><span class="v9-kbd">↑</span> <span class="v9-kbd">↓</span> Move &nbsp; <span class="v9-kbd">Enter</span> Select &nbsp; <span class="v9-kbd">Esc</span> Back</div>
+</div>
+<div class="cg-center"><div class="cg-box"><div class="cg-title">Gateway of M.BizAccount</div>
+<div class="cg-section">Masters</div>
+${menu.slice(0,3).map((m,i)=>`<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`).join("")}
+<div class="cg-section">Transactions</div>
+${menu.slice(3,6).map((m,j)=>{let i=j+3;return `<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`}).join("")}
+<div class="cg-section">Utilities</div>
+${menu.slice(6,8).map((m,j)=>{let i=j+6;return `<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`}).join("")}
+<div class="cg-section">Reports</div>
+${menu.slice(8,14).map((m,j)=>{let i=j+8;return `<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`}).join("")}
+<button id="gateway-item-14" class="cg-item cg-quit ${mi===14?'selected v9-focus':''}" tabindex="${mi===14?0:-1}" data-gindex="14" onclick="gatewayActivate(14)">Quit / Dashboard</button>
+</div></div>
+<div class="cg-right">
+<button class="cg-key" onclick="dateDialog()"><b>F2:</b><span>Date</span></button><button class="cg-key" onclick="tab='settings';render()"><b>F3:</b><span>Company</span></button>
+<button class="cg-key" onclick="contraDialog()"><b>F4:</b><span>Contra</span></button><button class="cg-key" onclick="moneyDialog('payment')"><b>F5:</b><span>Payment</span></button><button class="cg-key" onclick="moneyDialog('receipt')"><b>F6:</b><span>Receipt</span></button><button class="cg-key" onclick="journalDialog()"><b>F7:</b><span>Journal</span></button><button class="cg-key" onclick="invoiceDialog('sales')"><b>F8:</b><span>Sales</span></button><button class="cg-key" onclick="invoiceDialog('purchase')"><b>F9:</b><span>Purchase</span></button><button class="cg-key" onclick="voucherMenu()"><b>F10:</b><span>Vouchers</span></button><button class="cg-key" onclick="tab='settings';render()"><b>F11:</b><span>Features</span></button><button class="cg-key" onclick="tab='settings';render()"><b>F12:</b><span>Configure</span></button>
+</div></div><div class="v9-status"><span><b>Enter</b> Select/Accept &nbsp; <b>Esc</b> Back &nbsp; <b>↑↓</b> Navigate</span><span><b>F8</b> Sales &nbsp; <b>F9</b> Purchase</span></div><div class="cg-footer">M.BizAccount V13 · Keyboard-first workflow · Tally-like accounting navigation</div></div>`;
+}
+function gatewayActivate(i){
+  gatewayMenuIndex=i;
+  const actions=[
+    ()=>{tab="parties";activeParty=null;render()},
+    ()=>{tab="parties";activeParty=null;render()},
+    ()=>{tab="items";render()},
+    ()=>voucherMenu(),
+    ()=>{tab="payments";render()},
+    ()=>{tab="expenses";render()},
+    ()=>{tab="payments";render()},
+    ()=>{tab="search";render()},
+    ()=>{tab="reports";render()},
+    ()=>{tab="reports";render()},
+    ()=>{tab="reports";render()},
+    ()=>{tab="reports";render()},
+    ()=>{tab="reports";render()},
+    ()=>{tab="reports";render()},
+    ()=>{tab="dashboard";render()}
+  ];
+  actions[i]();
+}
+function dateDialog(){
+  modal=`<div class="modalbg"><div class="modal"><h2>Change Date — F2</h2><div class="field"><label>Current date</label><input id="dateValue" type="date" value="${today()}"></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="setWorkingDate()">Accept</button></div></div></div>`;
+  render();setTimeout(()=>$("dateValue")?.focus(),0);
+}
+function setWorkingDate(){
+  D.workingDate=$("dateValue").value||today();save();toast("Date changed");
+}
+function contraDialog(){
+  if(!D.parties.length)return alert("Add a party first.");
+  modal=`<div class="modalbg"><div class="modal"><h2>Contra Voucher — F4</h2><div class="v4-help">Use this for cash/bank transfers.</div><div class="row"><div class="field"><label>Date</label><input id="cd" type="date" value="${today()}"></div><div class="field"><label>Amount</label><input id="ca2" type="number" min="0"></div></div><div class="row"><div class="field"><label>From</label><select id="cf"><option>Cash</option><option>Bank</option></select></div><div class="field"><label>To</label><select id="ct2"><option>Bank</option><option>Cash</option></select></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveContra()">Accept</button></div></div></div>`;
+  render();
+}
+function saveContra(){
+  const amount=+($("ca2")?.value||0);if(amount<=0)return alert("Enter an amount.");
+  D.tx.push({id:uid(),type:"contra",number:no("receipt"),date:$("cd").value||today(),amount,from:$("cf").value,to:$("ct2").value,total:amount});
+  modal="";save();toast("Contra voucher saved");
+}
+
+function voucherMenu(){
+modal=`<div class="modalbg"><div class="modal"><h2>Voucher Types — F10</h2>
+<div class="v4-help">Select a voucher type and press Enter.</div>
+<div class="v4-f10">
+<button onclick="modal='';invoiceDialog('sales')"><b>F8</b> Sales</button>
+<button onclick="modal='';invoiceDialog('purchase')"><b>F9</b> Purchase</button>
+<button onclick="modal='';moneyDialog('payment')"><b>F5</b> Payment</button>
+<button onclick="modal='';moneyDialog('receipt')"><b>F6</b> Receipt</button>
+<button onclick="modal='';journalDialog()"><b>F7</b> Journal</button>
+<button onclick="modal='';tab='invoices';render()"><b>Alt+F6</b> Credit Note / Sales Returns</button>
+<button onclick="modal='';tab='invoices';render()"><b>Alt+F5</b> Debit Note / Purchase Returns</button>
+<button onclick="modal='';stockJournalDialog()"><b>Alt+F7</b> Stock Journal</button>
+<button onclick="modal='';tab='items';render()"><b>Ctrl+F7</b> Physical Stock</button>
+<button onclick="modal='';tab='invoices';render()"><b>Alt+F8</b> Delivery Note</button>
+<button onclick="modal='';tab='invoices';render()"><b>Ctrl+F8</b> Sales Order</button>
+<button onclick="modal='';tab='invoices';render()"><b>Ctrl+F9</b> Purchase Order</button>
+</div>
+<div class="foot"><button class="secondary" onclick="modal='';render()">Close</button></div></div></div>`;
+render()
+}
+
+function dashboard(){let s=totals(),recent=[...D.tx,...D.expenses.map(e=>({...e,type:"expense"}))].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,8);return header("Dashboard","Your complete business overview.")+
+`<div class="cards">${[["Sales",s.sales],["Purchases",s.purchases],["Receivable",s.rec],["Payable",s.pay],["Cash & bank",s.cash],["Stock value",s.stock],["Expenses",s.expenses],["Profit / Loss",s.profit]].map(x=>`<div class="card"><small>${x[0]}</small><div class="money">${money(x[1])}</div></div>`).join("")}</div>
+<div class="grid2" style="margin-top:15px"><div class="panel"><h3>Sales vs purchases</h3><canvas id="chart" class="chart"></canvas></div><div class="panel"><h3>Quick actions</h3><div class="actions"><button class="primary" onclick="invoiceDialog('sales')">+ Sales invoice</button><button class="secondary" onclick="invoiceDialog('purchase')">+ Purchase</button><button class="secondary" onclick="expenseDialog()">+ Expense</button><button class="secondary" onclick="moneyDialog('receipt')">+ Receipt</button></div></div></div>
+<br><h3>Recent activity</h3>${recent.length?table(["No.","Date","Type","Party / Note","Amount","Actions"],recent.map(x=>[x.number||"—",x.date,x.type,pname(x.partyId)||esc(x.note),money(x.total??x.amount),x.id?`<button class="secondary" onclick="editTx('${x.id}')">Edit</button> <button class="dangerbtn" onclick="deleteTx('${x.id}')">Delete</button>`:"—"])):empty("No transactions yet.")}`}
+
+function parties(){return header("Customers & suppliers","Ledger balances and contact details.")+`<div class="actions"><input class="search" id="partySearch" placeholder="Search party..." value="${esc(searchTerm)}" oninput="searchTerm=this.value;renderParties()"><button class="primary" onclick="partyDialog()">+ Add party</button></div><div id="partyList"></div>`}
+function renderParties(){let a=D.parties.filter(p=>(p.name+" "+p.phone+" "+p.gstin).toLowerCase().includes(searchTerm.toLowerCase()));$("partyList").innerHTML=a.length?table(["Name","Type","GSTIN","Phone","Balance",""],a.map(p=>{let b=D.tx.filter(v=>v.partyId===p.id).reduce((z,v)=>z+txEffect(v),0);return [`<b>${esc(p.name)}</b>`,p.type,esc(p.gstin||"—"),esc(p.phone||"—"),money(Math.abs(b))+" "+(b>=0?"Dr":"Cr"),`<button class="secondary" onclick="activeParty='${p.id}';render()">Ledger</button> <button class="secondary" onclick="partyDialog('${p.id}')">Edit</button> <button class="dangerbtn" onclick="deleteParty('${p.id}')">Delete</button>`]})):empty("No parties found.")}
+function partyDialog(id){let p=D.parties.find(x=>x.id===id)||{name:"",type:"customer",gstin:"",phone:"",address:""};modal=`<div class="modalbg"><div class="modal"><h2>${id?"Edit":"Add"} party</h2><div class="field"><label>Name</label><input id="pn" value="${esc(p.name)}"></div><div class="row"><div class="field"><label>Type</label><select id="pt"><option value="customer" ${p.type==="customer"?"selected":""}>Customer</option><option value="supplier" ${p.type==="supplier"?"selected":""}>Supplier</option></select></div><div class="field"><label>GSTIN</label><input id="pg" value="${esc(p.gstin)}"></div></div><div class="row"><div class="field"><label>Phone</label><input id="pp" value="${esc(p.phone)}"></div><div class="field"><label>Address</label><input id="pa" value="${esc(p.address)}"></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveParty('${id||""}')">Save</button></div></div></div>`;render()}
+function saveParty(id){let p={id:id||uid(),name:$("pn").value.trim(),type:$("pt").value,gstin:$("pg").value,phone:$("pp").value,address:$("pa").value};if(!p.name)return alert("Enter a name.");if(id)D.parties=D.parties.map(x=>x.id===id?p:x);else D.parties.push(p);modal="";save();toast("Party saved")}
+function deleteParty(id){if(confirm("Delete this party? Transactions will remain.")){D.parties=D.parties.filter(p=>p.id!==id);save()}}
+function ledger(){let p=D.parties.find(x=>x.id===activeParty);if(!p){activeParty=null;return parties()}let run=0,v=D.tx.filter(x=>x.partyId===p.id&&!x.cancelled).sort((a,b)=>a.date.localeCompare(b.date));return `<button class="secondary" onclick="activeParty=null;render()">← Back</button>`+header(esc(p.name),p.type+" ledger")+`<div class="actions"><button class="primary" onclick="invoiceDialog('sales','${p.id}')">+ Sales</button><button class="secondary" onclick="invoiceDialog('purchase','${p.id}')">+ Purchase</button><button class="secondary" onclick="moneyDialog('receipt','${p.id}')">+ Receipt</button><button class="secondary" onclick="moneyDialog('payment','${p.id}')">+ Payment</button></div>`+(v.length?table(["Date","Voucher","Type","Debit","Credit","Balance",""],v.map(x=>{let e=txEffect(x);run+=e;return[x.date,x.number,x.type,e>0?money(e):"",e<0?money(-e):"",money(Math.abs(run))+" "+(run>=0?"Dr":"Cr"),`<button class="secondary" onclick="editTx('${x.id}')">Edit</button>`]})):empty("No transactions yet."))}
+
+function items(){return header("Inventory","Items, stock, HSN and GST rates.")+`<div class="actions"><input class="search" id="itemSearch" placeholder="Search item..." value="${esc(searchTerm)}" oninput="searchTerm=this.value;renderItems()"><button class="primary" onclick="itemDialog()">+ Add item</button></div><div id="itemList"></div>`}
+function renderItems(){let a=D.items.filter(x=>(x.name+" "+x.hsn).toLowerCase().includes(searchTerm.toLowerCase()));$("itemList").innerHTML=a.length?table(["Item","HSN","Unit","Rate","GST","Stock","Value",""],a.map(x=>[esc(x.name),esc(x.hsn||"—"),x.unit,money(x.rate),x.gstRate+"%",x.stock,money(x.stock*x.rate),`<button class="secondary" onclick="itemDialog('${x.id}')">Edit</button> <button class="dangerbtn" onclick="deleteItem('${x.id}')">Delete</button>`])):empty("No items found.")}
+function itemDialog(id){let x=D.items.find(i=>i.id===id)||{name:"",hsn:"",unit:"NOS",rate:0,gstRate:18,stock:0};modal=`<div class="modalbg"><div class="modal"><h2>${id?"Edit":"Add"} item</h2><div class="field"><label>Item name</label><input id="in" value="${esc(x.name)}"></div><div class="row"><div class="field"><label>HSN</label><input id="ih" value="${esc(x.hsn)}"></div><div class="field"><label>Unit</label><select id="iu">${["NOS","KG","LTR","BOX","MTR","SET"].map(u=>`<option ${x.unit===u?"selected":""}>${u}</option>`).join("")}</select></div></div><div class="row"><div class="field"><label>Rate</label><input id="ir" type="number" value="${x.rate}"></div><div class="field"><label>GST %</label><select id="ig">${[0,5,12,18,28].map(g=>`<option value="${g}" ${+x.gstRate===g?"selected":""}>${g}%</option>`).join("")}</select></div><div class="field"><label>Current stock</label><input id="is" type="number" value="${x.stock}"></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveItem('${id||""}')">Save</button></div></div></div>`;render()}
+function saveItem(id){let x={id:id||uid(),name:$("in").value.trim(),hsn:$("ih").value,unit:$("iu").value,rate:+$("ir").value||0,gstRate:+$("ig").value,stock:+$("is").value||0};if(!x.name)return alert("Enter an item name.");if(id)D.items=D.items.map(a=>a.id===id?x:a);else D.items.push(x);modal="";save();toast("Item saved")}
+function deleteItem(id){if(confirm("Delete item?")){D.items=D.items.filter(x=>x.id!==id);save()}}
+
+function invoices(){let v=D.tx.filter(x=>x.type==="sales"||x.type==="purchase").sort((a,b)=>b.date.localeCompare(a.date));return header("Invoices","Create, edit, print, cancel and share professional invoices.")+`<div class="actions"><button class="primary" onclick="invoiceDialog('sales')">+ Sales invoice</button><button class="secondary" onclick="invoiceDialog('purchase')">+ Purchase invoice</button></div>`+(v.length?table(["No.","Date","Type","Party","Amount","Status","Actions"],v.map(x=>[x.number,x.date,x.type,pname(x.partyId),money(x.total),x.cancelled?`<span class="cancelled-badge">CANCELLED</span>`:`<span class="badge">ACTIVE</span>`,x.cancelled?`<button class="secondary" onclick="previewSavedInvoice('${x.id}')">👁️ Preview</button> <button class="secondary" onclick="printInvoice('${x.id}')">View / Print</button>`:`<button class="secondary" onclick="previewSavedInvoice('${x.id}')">👁️ Preview</button> <button class="secondary" onclick="printInvoice('${x.id}')">Print / PDF</button> <button class="secondary" onclick="shareWhatsApp('${x.id}')">WhatsApp</button> <button class="secondary" onclick="editTx('${x.id}')">Edit</button> <button class="cancelbtn" onclick="cancelBill('${x.id}')">Cancel Bill</button> <button class="dangerbtn" onclick="deleteTx('${x.id}')">Delete</button>`])):empty("No invoices yet."))}
+function invoiceDialog(type,partyId){
+if(!D.parties.length)return alert("Add a customer/supplier first.");
+if(!D.items.length)return alert("Add an item first.");
+invoiceLines=[{item:D.items[0].id,qty:1,rate:D.items[0].rate,gst:D.items[0].gstRate,discount:0}];
+modal=`<div class="modalbg"><div class="modal" style="width:min(1080px,100%)">
+<div class="voucher"><div class="vhead"><div class="vtitle">${type==="sales"?"Sales Voucher":"Purchase Voucher"}</div><div><b>${type==="sales"?"F8":"F9"}</b> &nbsp; Voucher No. <b>${invoiceNo(type,today(),false)}</b></div></div>
+<div class="vbody"><div class="vfields">
+<div class="vfield"><label>Date</label><input id="vd" type="date" value="${today()}"></div>
+<div class="vfield"><label>Party A/c name</label><select id="vp">${D.parties.map(p=>`<option value="${p.id}" ${p.id===partyId?"selected":""}>${esc(p.name)}</option>`).join("")}</select></div>
+<div class="vfield"><label>Payment mode</label><select id="vm"><option>Cash</option><option>Bank transfer</option><option>UPI</option><option>Cheque</option><option>Credit</option></select></div>
+<div class="vfield"><label>Place of Supply</label><input id="vpos" placeholder="State name"></div>
+<div class="vfield"><label>Delivery Note</label><input id="vdn" placeholder="Optional"></div>
+<div class="vfield"><label>Mode / Terms of Payment</label><input id="vmtp" placeholder="e.g. 30 Days"></div>
+<div class="vfield"><label>Reference No. & Date</label><input id="vref" placeholder="Optional"></div>
+<div class="vfield"><label>Buyer's Order No.</label><input id="vbo" placeholder="Optional"></div>
+<div class="vfield"><label>Dispatch Doc No.</label><input id="vdd" placeholder="Optional"></div>
+<div class="vfield"><label>Dispatched through</label><input id="vdt" placeholder="Transporter"></div>
+<div class="vfield"><label>Destination</label><input id="vdest" placeholder="City / State"></div>
+<div class="vfield"><label>Terms of Delivery</label><input id="vterms" value="${esc(D.company.terms||"")}" placeholder="Terms of delivery"></div>
+</div>
+<div id="lines" class="vtable"></div><button class="secondary" onclick="addLine()">+ Add Item</button>
+<div class="field" style="margin-top:12px"><label>Narration / Declaration note</label><textarea id="vn" rows="2" placeholder="Enter narration..."></textarea></div>
+<div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="secondary" onclick="previewDraftInvoice('${type}')">👁️ Preview Bill</button><button class="primary" onclick="saveInvoice('${type}')">Accept / Save</button></div></div></div></div></div>`;
+render();drawLines();}
+function drawLines(){if(!$('lines'))return;$('lines').innerHTML=`<table><thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>GST%</th><th>Disc.%</th><th>Total</th><th></th></tr></thead><tbody>${invoiceLines.map((l,i)=>`<tr><td><select onchange="chgLine(${i},'item',this.value)">${D.items.map(x=>`<option value="${x.id}" ${x.id===l.item?"selected":""}>${esc(x.name)}</option>`).join('')}</select></td><td><input type="number" min="0" value="${l.qty}" onchange="chgLine(${i},'qty',this.value)"></td><td><input type="number" min="0" step="0.01" value="${l.rate}" onchange="chgLine(${i},'rate',this.value)"></td><td><input type="number" min="0" step="0.01" value="${l.gst}" onchange="chgLine(${i},'gst',this.value)"></td><td><input type="number" min="0" step="0.01" value="${l.discount||0}" onchange="chgLine(${i},'discount',this.value)"></td><td>${money(l.qty*l.rate*(1-(l.discount||0)/100)*(1+l.gst/100))}</td><td><button class="dangerbtn" onclick="invoiceLines.splice(${i},1);drawLines()">×</button></td></tr>`).join('')}</tbody></table>`;let sub=invoiceLines.reduce((a,l)=>a+l.qty*l.rate*(1-(l.discount||0)/100),0),gst=invoiceLines.reduce((a,l)=>a+l.qty*l.rate*(1-(l.discount||0)/100)*l.gst/100,0);$('tot').innerHTML=`<div class="right">Taxable value: ${money(sub)}<br>GST: ${money(gst)}<br><b>Grand total: ${money(sub+gst)}</b></div>`;}
+function chgLine(i,k,v){invoiceLines[i][k]=k==='item'?v:+v;if(k==='item'){let x=D.items.find(a=>a.id===v);invoiceLines[i].rate=x.rate;invoiceLines[i].gst=x.gstRate}drawLines()}
+function addLine(){let x=D.items[0];invoiceLines.push({item:x.id,qty:1,rate:x.rate,gst:x.gstRate,discount:0});drawLines()}
+function previewDraftInvoice(type){
+  if(!invoiceLines.length)return alert("Add at least one item first.");
+  const sub=invoiceLines.reduce((a,l)=>a+(+l.qty||0)*(+l.rate||0)*(1-(+l.discount||0)/100),0);
+  const gst=invoiceLines.reduce((a,l)=>a+(+l.qty||0)*(+l.rate||0)*(1-(+l.discount||0)/100)*(+l.gst||0)/100,0);
+  const v={type,date:$('vd')?.value||today(),partyId:$('vp')?.value||D.parties[0]?.id,mode:$('vm')?.value||'',number:invoiceNo(type,$('vd')?.value||today(),false),lines:invoiceLines.map(x=>({...x})),subtotal:sub,gst,total:sub+gst,placeOfSupply:$('vpos')?.value||'',deliveryNote:$('vdn')?.value||'',paymentTerms:$('vmtp')?.value||'',reference:$('vref')?.value||'',orderNo:$('vbo')?.value||'',dispatchDoc:$('vdd')?.value||'',dispatchedThrough:$('vdt')?.value||'',destination:$('vdest')?.value||'',terms:$('vterms')?.value||'',narration:$('vn')?.value||''};
+  const html=invoiceHTML(v);
+  modal=`<div class="modalbg"><div class="modal" style="width:min(1050px,100%);background:#eef2ee"><div class="foot" style="margin-top:0;margin-bottom:10px"><b style="margin-right:auto;font-size:18px">Invoice Preview</b><button class="secondary" onclick="modal='';render()">← Back to Bill</button><button class="primary" onclick="printPreviewWindow()">🖨️ Print / PDF</button></div><div id="previewInvoiceArea">${html}</div></div></div>`;
+  render();
+}
+function previewSavedInvoice(id){
+  const v=D.tx.find(x=>x.id===id); if(!v)return;
+  modal=`<div class="modalbg"><div class="modal" style="width:min(1050px,100%);background:#eef2ee"><div class="foot" style="margin-top:0;margin-bottom:10px"><b style="margin-right:auto;font-size:18px">Invoice Preview — ${esc(v.number||'')}</b><button class="secondary" onclick="modal='';render()">Close</button><button class="primary" onclick="printInvoice('${id}')">🖨️ Print / PDF</button></div><div id="previewInvoiceArea">${invoiceHTML(v)}</div></div></div>`;
+  render();
+}
+function printPreviewWindow(){
+  const area=document.getElementById('previewInvoiceArea'); if(!area)return;
+  const w=window.open('', '_blank'); if(!w)return alert('Please allow pop-ups to print the invoice.');
+  w.document.write('<!doctype html><html><head><title>Invoice Preview</title><style>'+Array.from(document.styleSheets).map(()=> '').join('')+'</style></head><body>'+area.innerHTML+'</div></body></html>');
+  w.document.close(); setTimeout(()=>w.print(),300);
+}
+function saveInvoice(type){if(!invoiceLines.length)return alert("Add at least one line.");let sub=invoiceLines.reduce((a,l)=>a+l.qty*l.rate*(1-(l.discount||0)/100),0),gst=invoiceLines.reduce((a,l)=>a+l.qty*l.rate*(1-(l.discount||0)/100)*l.gst/100,0),total=sub+gst;let v={id:uid(),type,date:$('vd').value,partyId:$('vp').value,mode:$('vm').value,number:invoiceNo(type,$('vd').value,true),lines:invoiceLines.map(x=>({...x})),subtotal:sub,gst,total,narration:$('vn')?.value||'',placeOfSupply:$('vpos')?.value||'',deliveryNote:$('vdn')?.value||'',paymentTerms:$('vmtp')?.value||'',reference:$('vref')?.value||'',orderNo:$('vbo')?.value||'',dispatchDoc:$('vdd')?.value||'',dispatchedThrough:$('vdt')?.value||'',destination:$('vdest')?.value||'',terms:$('vterms')?.value||''};D.tx.push(v);invoiceLines.forEach(l=>{let x=D.items.find(i=>i.id===l.item);x.stock+=type==='sales'?-l.qty:l.qty});modal='';save();toast('Invoice saved')}
+
+function payments(){let v=D.tx.filter(x=>x.type==="payment"||x.type==="receipt").sort((a,b)=>b.date.localeCompare(a.date));return header("Payments & receipts","Track money received and paid.")+`<div class="actions"><button class="primary" onclick="moneyDialog('receipt')">+ Receipt</button><button class="secondary" onclick="moneyDialog('payment')">+ Payment</button></div>`+(v.length?table(["No.","Date","Type","Party","Mode","Amount",""],v.map(x=>[x.number,x.date,x.type,pname(x.partyId),x.mode,money(x.amount),`<button class="secondary" onclick="editTx('${x.id}')">Edit</button> <button class="dangerbtn" onclick="deleteTx('${x.id}')">Delete</button>`])):empty("No payments or receipts yet."))}
+function moneyDialog(type,partyId){if(!D.parties.length)return alert("Add a party first.");modal=`<div class="modalbg"><div class="modal"><h2>Record ${type}</h2><div class="row"><div class="field"><label>Date</label><input id="md" type="date" value="${today()}"></div><div class="field"><label>Party</label><select id="mp">${D.parties.map(p=>`<option value="${p.id}" ${p.id===partyId?"selected":""}>${esc(p.name)}</option>`).join("")}</select></div></div><div class="row"><div class="field"><label>Amount</label><input id="ma" type="number" min="0"></div><div class="field"><label>Mode</label><select id="mm"><option>Cash</option><option>Bank transfer</option><option>UPI</option><option>Cheque</option></select></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveMoney('${type}')">Save</button></div></div></div>`;render()}
+function saveMoney(type){let a=+$("ma").value||0;if(a<=0)return alert("Enter amount.");D.tx.push({id:uid(),type,date:$("md").value,partyId:$("mp").value,mode:$("mm").value,amount:a,number:no(type)});modal="";save();toast("Saved")}
+
+function expenses(){return header("Expenses","Record operating and business expenses.")+`<div class="actions"><button class="primary" onclick="expenseDialog()">+ Add expense</button></div>`+(D.expenses.length?table(["No.","Date","Category","Note","Mode","Amount",""],[...D.expenses].sort((a,b)=>b.date.localeCompare(a.date)).map(e=>[e.number,e.date,esc(e.category),esc(e.note||"—"),e.mode,money(e.amount),`<button class="secondary" onclick="editExpense('${e.id}')">Edit</button> <button class="dangerbtn" onclick="deleteExpense('${e.id}')">Delete</button>`])):empty("No expenses yet."))}
+function expenseDialog(id){let e=D.expenses.find(x=>x.id===id)||{date:today(),category:"General",note:"",mode:"Cash",amount:0};modal=`<div class="modalbg"><div class="modal"><h2>${id?"Edit":"Add"} expense</h2><div class="row"><div class="field"><label>Date</label><input id="ed" type="date" value="${e.date}"></div><div class="field"><label>Category</label><select id="ec">${["General","Rent","Salary","Travel","Transport","Office","Electricity","Marketing","Repairs","Other"].map(c=>`<option ${e.category===c?"selected":""}>${c}</option>`).join("")}</select></div></div><div class="field"><label>Note</label><input id="en" value="${esc(e.note)}"></div><div class="row"><div class="field"><label>Mode</label><select id="em"><option>Cash</option><option>Bank transfer</option><option>UPI</option><option>Cheque</option></select></div><div class="field"><label>Amount</label><input id="ea" type="number" value="${e.amount}"></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveExpense('${id||""}')">Save</button></div></div></div>`;render()}
+function saveExpense(id){let e={id:id||uid(),date:$("ed").value,category:$("ec").value,note:$("en").value,mode:$("em").value,amount:+$("ea").value||0,number:id?(D.expenses.find(x=>x.id===id)?.number):no("expense")};if(!e.amount)return alert("Enter amount.");if(id)D.expenses=D.expenses.map(x=>x.id===id?e:x);else D.expenses.push(e);modal="";save()}
+function editExpense(id){expenseDialog(id)}function deleteExpense(id){if(confirm("Delete expense?")){D.expenses=D.expenses.filter(x=>x.id!==id);save()}}
+
+function reports(){let s=totals();return header("Profit & Loss / GST","Business performance and tax summary.")+`<div class="cards">${[["Sales",s.sales],["Purchases",s.purchases],["Expenses",s.expenses],["Net Profit / Loss",s.profit],["Output GST",D.tx.filter(x=>x.type==="sales"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0)],["Input GST",D.tx.filter(x=>x.type==="purchase"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0)],["Net GST",s.gst]].map(x=>`<div class="card"><small>${x[0]}</small><div class="money">${money(x[1])}</div></div>`).join("")}</div><div class="grid2" style="margin-top:15px"><div class="panel"><h3>Profit & Loss</h3>${table(["Particular","Amount"],[["Sales",money(s.sales)],["Less: Purchases",money(s.purchases)],["Less: Expenses",money(s.expenses)],["Net Profit / Loss",`<b>${money(s.profit)}</b>`]])}</div><div class="panel"><h3>GST summary</h3>${table(["Particular","Amount"],[["Output GST (sales)",money(D.tx.filter(x=>x.type==="sales"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0))],["Input GST (purchases)",money(D.tx.filter(x=>x.type==="purchase"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0))],["Net GST",`<b>${money(s.gst)}</b>`]])}</div></div>`}
+
+function searchPage(){let q=searchTerm.toLowerCase();let tx=D.tx.filter(x=>(x.number+" "+x.type+" "+pname(x.partyId)).toLowerCase().includes(q));let it=D.items.filter(x=>(x.name+" "+x.hsn).toLowerCase().includes(q));let pa=D.parties.filter(x=>(x.name+" "+x.phone+" "+x.gstin).toLowerCase().includes(q));return header("Global search","Search invoices, transactions, parties and items.")+`<div class="actions"><input class="search" autofocus value="${esc(searchTerm)}" placeholder="Search anything..." oninput="searchTerm=this.value;render()"></div><h3>Transactions</h3>${tx.length?table(["No.","Date","Type","Party","Amount",""],tx.map(x=>[x.number,x.date,x.type,pname(x.partyId),money(x.total??x.amount),`<button class="secondary" onclick="editTx('${x.id}')">Edit</button>`])):empty("No matching transactions.")}<h3 style="margin-top:20px">Parties & items</h3>${table(["Category","Name","Details"],[...pa.map(x=>["Party",esc(x.name),x.phone||x.gstin||""]),...it.map(x=>["Item",esc(x.name),x.hsn||""])])}`}
+
+function settings(){
+ensureInvoiceSettings();
+let c=D.company;return header("Company & security","Branding, invoice details, backup and PIN lock.")+`<div class="panel"><div class="row"><div class="field"><label>Company name</label><input id="cn" value="${esc(c.name)}"></div><div class="field"><label>Company Logo</label><input id="cl" type="file" accept="image/*" onchange="logoPreview(this)"><div id="lp" style="margin-top:8px">${c.logo?`<img class="logoPreview" src="${c.logo}" alt="Company Logo">`:`<span class="muted">No logo added</span>`}</div><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="secondary" onclick="document.getElementById("cl").click()">➕ Add / Change Logo</button><button type="button" class="dangerbtn" onclick="removeCompanyLogo()" ${c.logo?"":"disabled"}>🗑️ Delete Logo</button></div></div><div class="field"><label>Company QR / UPI QR</label><input id="cq" type="file" accept="image/*" onchange="qrPreview(this)"><div id="qp" style="margin-top:8px">${c.qr?`<img class="logoPreview" src="${c.qr}" alt="Company QR">`:`<span class="muted">No QR added</span>`}</div><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="secondary" onclick="document.getElementById('cq').click()">🔄 Change QR</button><button type="button" class="dangerbtn" onclick="removeCompanyQR()" ${c.qr?"":"disabled"}>🗑️ Delete QR</button></div></div><div class="field"><label>UPI ID for automatic payment QR</label><input id="cupi" value="${esc(c.upiId||"")}" placeholder="example@upi"><small class="muted">If filled, the invoice QR will open UPI payment with the exact invoice amount.</small></div><div class="field"><label>GSTIN</label><input id="cg" value="${esc(c.gstin)}"></div></div><div class="field"><label>Address</label><textarea id="ca">${esc(c.address)}</textarea></div><div class="row"><div class="field"><label>Phone</label><input id="cp" value="${esc(c.phone)}"></div><div class="field"><label>Email</label><input id="ce" value="${esc(c.email)}"></div></div><div class="row"><div class="field"><label>Bank</label><input id="cb" value="${esc(c.bank)}"></div><div class="field"><label>Account</label><input id="cba" value="${esc(c.account)}"></div><div class="field"><label>IFSC</label><input id="ci" value="${esc(c.ifsc)}"></div></div><div class="row"><div class="field"><label>Sales Invoice Prefix</label><input id="cip" value="${esc(c.invoicePrefix||"INV/TT")}" placeholder="e.g. CLS/TT"></div><div class="field"><label>Purchase Invoice Prefix</label><input id="cipu" value="${esc(c.purchasePrefix||"PUR/TT")}" placeholder="e.g. PUR/TT"></div></div><div class="field"><label><input id="autoInvoiceQR" type="checkbox" ${c.autoInvoiceQR!==false?"checked":""} style="width:auto;margin-right:6px"> Automatically generate QR on every invoice</label><small class="muted">The QR uses the invoice number, date, party and amount. If a UPI ID is saved above, it becomes a payment QR.</small></div><div class="field"><label>Invoice terms</label><textarea id="ct" rows="3">${esc(c.terms)}</textarea></div><button class="primary" onclick="saveSettings()">Save company settings</button></div><br><div class="actions"><button class="secondary" onclick="backup()">Export backup</button><button class="secondary" onclick="restore()">Import backup</button><button class="secondary" onclick="setPin()">Set / change PIN</button><button class="dangerbtn" onclick="removePin()">Remove PIN</button></div>
+${invoiceDesigner()}
+`}
+function logoPreview(i){let f=i.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{D.company.logo=r.result;save();$("lp").innerHTML=`<img class="logoPreview" src="${r.result}" alt="Company Logo">`;render()};r.readAsDataURL(f)}
+function removeCompanyLogo(){if(!D.company)return;D.company.logo="";save();render();toast("Company logo deleted")}
+function qrPreview(i){let f=i.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{D.company.qr=r.result;save();$("qp").innerHTML=`<img class="logoPreview" src="${r.result}" alt="Company QR">`;render();toast("Company QR changed")};r.readAsDataURL(f)}
+function removeCompanyQR(){if(!D.company)return;D.company.qr="";save();render();toast("Company QR deleted")}
+function saveSettings(){const old=D.company||{};D.company={name:$("cn").value,logo:old.logo||"",address:$("ca").value,gstin:$("cg").value,phone:$("cp").value,email:$("ce").value,bank:$("cb").value,account:$("cba").value,ifsc:$("ci").value,terms:$("ct").value,invoicePrefix:$("cip").value.trim()||"INV/TT",purchasePrefix:$("cipu").value.trim()||"PUR/TT",invoiceSettings:old.invoiceSettings||{},qr:old.qr||"",upiId:$("cupi").value.trim(),autoInvoiceQR:$("autoInvoiceQR").checked};save();toast("Company settings saved")}
+function backup(){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:"application/json"}));a.download="mbizaccount-v2-backup.json";a.click()}
+function restore(){let i=document.createElement("input");i.type="file";i.accept=".json";i.onchange=()=>{let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.company||!x.tx)throw 0;D=x;save();toast("Backup restored")}catch(e){alert("Invalid M.BizAccount backup")}};r.readAsText(i.files[0])};i.click()}
+function setPin(){let p=prompt("Set a 4-6 digit PIN:");if(p&&/^\\d{4,6}$/.test(p)){D.pin=p;save();toast("PIN lock enabled")}else if(p)alert("PIN must be 4-6 digits.")}
+function removePin(){if(!D.pin)return alert("PIN lock is not enabled.");let p=prompt("Enter current PIN:");if(p===D.pin){D.pin="";save();toast("PIN lock removed")}else alert("Wrong PIN.")}
+
+function editTx(id){let v=D.tx.find(x=>x.id===id);if(!v)return;if(v.type==="sales"||v.type==="purchase"){invoiceLines=v.lines.map(x=>({...x}));modal=`<div class="modalbg"><div class="modal"><h2>Edit ${v.type} invoice</h2><div class="row"><div class="field"><label>Date</label><input id="vd" type="date" value="${v.date}"></div><div class="field"><label>Party</label><select id="vp">${D.parties.map(p=>`<option value="${p.id}" ${p.id===v.partyId?"selected":""}>${esc(p.name)}</option>`).join("")}</select></div><div class="field"><label>Mode</label><select id="vm">${["Cash","Bank transfer","UPI","Cheque","Credit"].map(m=>`<option ${v.mode===m?"selected":""}>${m}</option>`).join("")}</select></div></div><div id="lines"></div><button class="secondary" onclick="addLine()">+ Add line</button><div id="tot"></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="updateInvoice('${id}')">Update invoice</button></div></div></div>`;render();drawLines()}else{modal=`<div class="modalbg"><div class="modal"><h2>Edit ${v.type}</h2><div class="row"><div class="field"><label>Date</label><input id="md" type="date" value="${v.date}"></div><div class="field"><label>Party</label><select id="mp">${D.parties.map(p=>`<option value="${p.id}" ${p.id===v.partyId?"selected":""}>${esc(p.name)}</option>`).join("")}</select></div></div><div class="row"><div class="field"><label>Amount</label><input id="ma" type="number" value="${v.amount}"></div><div class="field"><label>Mode</label><select id="mm">${["Cash","Bank transfer","UPI","Cheque"].map(m=>`<option ${v.mode===m?"selected":""}>${m}</option>`).join("")}</select></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="updateMoney('${id}')">Update</button></div></div></div>`;render()}}
+function updateInvoice(id){let v=D.tx.find(x=>x.id===id),old=v.lines||[];old.forEach(l=>{let x=D.items.find(i=>i.id===l.item);if(x)x.stock+=v.type==="sales"?l.qty:-l.qty});let sub=invoiceLines.reduce((a,l)=>a+l.qty*l.rate,0),gst=invoiceLines.reduce((a,l)=>a+l.qty*l.rate*l.gst/100,0);v.date=$("vd").value;v.partyId=$("vp").value;v.mode=$("vm").value;v.lines=invoiceLines.map(x=>({...x}));v.subtotal=sub;v.gst=gst;v.total=sub+gst;invoiceLines.forEach(l=>{let x=D.items.find(i=>i.id===l.item);if(x)x.stock+=v.type==="sales"?-l.qty:l.qty});modal="";save();toast("Invoice updated")}
+function updateMoney(id){let v=D.tx.find(x=>x.id===id);v.date=$("md").value;v.partyId=$("mp").value;v.amount=+$("ma").value||0;v.mode=$("mm").value;modal="";save();toast("Transaction updated")}
+function cancelBill(id){let v=D.tx.find(x=>x.id===id);if(!v||v.cancelled)return;if(v.type!=="sales"&&v.type!=="purchase")return;if(!confirm("Cancel this bill? The invoice number will remain in the register and the bill will be marked CANCELLED."))return;let reason=prompt("Cancellation reason (optional):","");if(reason===null)return;
+v.cancelled=true;v.cancelledAt=new Date().toISOString();v.cancelReason=reason.trim();
+(v.lines||[]).forEach(l=>{let x=D.items.find(i=>i.id===l.item);if(x)x.stock+=v.type==="sales"?l.qty:-l.qty});save();toast("Bill cancelled")}
+
+function deleteTx(id){if(confirm("Delete transaction? Stock will be restored for invoices.")){let v=D.tx.find(x=>x.id===id);if(v&&!v.cancelled&&(v.type==="sales"||v.type==="purchase"))(v.lines||[]).forEach(l=>{let x=D.items.find(i=>i.id===l.item);if(x)x.stock+=v.type==="sales"?l.qty:-l.qty});D.tx=D.tx.filter(x=>x.id!==id);save();toast("Transaction deleted")}}
+
+function invoiceQRData(v){
+  const c=D.company||{}, total=Number(v.total||0).toFixed(2);
+  const upi=String(c.upiId||'').trim();
+  if(upi){
+    const pn=encodeURIComponent(c.name||'M.BizAccount');
+    const tn=encodeURIComponent('Invoice '+(v.number||''));
+    return `upi://pay?pa=${encodeURIComponent(upi)}&pn=${pn}&am=${total}&cu=INR&tn=${tn}`;
+  }
+  return `Invoice: ${v.number||''} | Date: ${v.date||''} | Party: ${pname(v.partyId)} | Amount: INR ${total} | GSTIN: ${c.gstin||''}`;
+}
+function invoiceQRImage(v){
+  const data=encodeURIComponent(invoiceQRData(v));
+  return `<img class="tallyref-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=4&data=${data}" alt="Automatically generated invoice QR" title="Automatically generated invoice QR">`;
+}
+
+function invoiceHTMLSingle(v, copyLabel="Original for Recipient"){
+  const c=D.company||{}, p=D.parties.find(x=>x.id===v.partyId)||{};
+  const lines=v.lines||[];
+  const taxable=lines.reduce((a,l)=>{
+    const base=(+l.qty||0)*(+l.rate||0), disc=base*(+l.discount||0)/100;
+    return a+base-disc;
+  },0);
+  const gst=lines.reduce((a,l)=>{
+    const base=(+l.qty||0)*(+l.rate||0), disc=base*(+l.discount||0)/100;
+    return a+(base-disc)*(+l.gst||0)/100;
+  },0);
+  const total=taxable+gst;
+  const sellerState=(c.state||"").trim(), buyerState=(p.state||v.placeOfSupply||"").trim();
+  const interstate=!!(sellerState&&buyerState&&sellerState.toLowerCase()!==buyerState.toLowerCase());
+  const igst=interstate?gst:0, cgst=interstate?0:gst/2, sgst=interstate?0:gst/2;
+  const ratePct=taxable?gst/taxable*100:0;
+  const logo=c.logo?`<img class="tallyref-logo" src="${c.logo}" alt="Company Logo">`:`<div class="tallyref-logo-placeholder">LOGO</div>`;
+  const qr=(c.autoInvoiceQR!==false)?invoiceQRImage(v):(c.qr?`<img class="tallyref-qr" src="${c.qr}" alt="Company QR">`:`<div class="tallyref-qrbox"></div>`);
+
+  const grouped={};
+  lines.forEach(l=>{
+    const x=D.items.find(a=>a.id===l.item)||{};
+    const hsn=x.hsn||"";
+    const base=(+l.qty||0)*(+l.rate||0)*(1-(+l.discount||0)/100);
+    const tax=base*(+l.gst||0)/100;
+    if(!grouped[hsn]) grouped[hsn]={taxable:0,tax:0,rate:+l.gst||0};
+    grouped[hsn].taxable+=base; grouped[hsn].tax+=tax;
+  });
+  const taxRows=Object.entries(grouped).map(([hsn,g])=>{
+    const r=+g.rate||0;
+    return interstate
+      ? `<tr><td>${esc(hsn)}</td><td class="n">${money(g.taxable)}</td><td class="n">${r.toFixed(2)}%</td><td class="n">-</td><td class="n">-</td><td class="n">${money(g.tax)}</td></tr>`
+      : `<tr><td>${esc(hsn)}</td><td class="n">${money(g.taxable)}</td><td class="n">${(r/2).toFixed(2)}%</td><td class="n">${money(g.tax/2)}</td><td class="n">${(r/2).toFixed(2)}%</td><td class="n">${money(g.tax/2)}</td><td class="n">${money(g.tax)}</td></tr>`;
+  }).join("");
+  const taxTotal=interstate
+    ? `<tr><th>Total</th><th class="n">${money(taxable)}</th><th></th><th></th><th></th><th class="n">${money(igst)}</th></tr>`
+    : `<tr><th>Total</th><th class="n">${money(taxable)}</th><th></th><th class="n">${money(cgst)}</th><th></th><th class="n">${money(sgst)}</th><th class="n">${money(gst)}</th></tr>`;
+
+  let rows=lines.map((l,i)=>{
+    const x=D.items.find(a=>a.id===l.item)||{};
+    const base=(+l.qty||0)*(+l.rate||0), disc=base*(+l.discount||0)/100, line=base-disc;
+    return `<tr><td class="c">${i+1}</td><td>${esc(x.name||"")}</td><td class="c">${esc(x.hsn||"")}</td><td class="n">${esc(x.mrp||"")}</td><td class="c">${l.qty||0} ${esc(x.unit||"nos")}</td><td class="n">${money(l.rate)}</td><td class="c">${esc(x.unit||"nos")}</td><td class="n">${money(line)}</td></tr>`;
+  }).join("");
+  rows+=Array.from({length:Math.max(0,10-lines.length)},()=>'<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>').join("");
+
+  const buyerAddress=esc(p.address||"").replace(/\n/g,"<br>");
+  const sellerAddress=esc(c.address||"").replace(/\n/g,"<br>");
+  const stateLine=(state,code)=>state?`State Name : ${esc(state)}${code?` &nbsp; Code : ${esc(code)}`:""}`:"";
+  const rounded=(v.roundedOff!==undefined)?+v.roundedOff:(total-Math.round(total));
+  const quantityTotal=lines.reduce((a,l)=>a+(+l.qty||0),0);
+  const unitTotal=esc((D.items.find(i=>i.id===lines[0]?.item)||{}).unit||"nos");
+
+  return `<div class="tallyref-page ref-copy">
+    <div class="tallyref-copy">(${esc(copyLabel.toUpperCase())})</div>
+    <div class="tallyref-heading">GST TAX INVOICE (TT)</div>
+    ${v.cancelled?`<div class="invoice-status">CANCELLED BILL${v.cancelReason?" — "+esc(v.cancelReason):""}</div>`:""}
+
+    <div class="tallyref-head">
+      <div class="tallyref-company">
+        ${logo}
+        <div class="tallyref-companytext">
+          <div class="tallyref-companyname">${esc(c.name||"M.BizAccount").toUpperCase()}</div>
+          <div>${sellerAddress}</div>
+          ${c.phone?`<div>☎ Contact: ${esc(c.phone)}</div>`:""}
+          ${c.email?`<div>✉ E-Mail: ${esc(c.email)}</div>`:""}
+          ${c.gstin?`<div>GSTIN/UIN: ${esc(c.gstin)}</div>`:""}
+          ${sellerState?`<div>${stateLine(sellerState,c.stateCode)}</div>`:""}
+        </div>
+      </div>
+      <div class="tallyref-invoicemeta">
+        <div><b>Invoice No.:</b> ${esc(v.number||"")}</div>
+        <div><b>Dated:</b> ${esc(v.date||"")}</div>
+        <div><b>Mode/Terms of Payment:</b> ${esc(v.paymentTerms||v.mode||"")}</div>
+      </div>
+    </div>
+
+    <div class="tallyref-buyer">
+      <b>Buyer (Bill to)</b><br>
+      <b>${esc(p.name||"")}</b><br>
+      ${buyerAddress}
+      ${p.gstin?`<br>GSTIN/UIN: ${esc(p.gstin)}`:""}
+      ${buyerState?`<br>${stateLine(buyerState,p.stateCode)}`:""}
+      ${p.contactPerson?`<br>Contact person: ${esc(p.contactPerson)}`:""}
+      ${p.phone?`<br>Contact: ${esc(p.phone)}`:""}
+      ${v.placeOfSupply?`<br>Place of Supply: ${esc(v.placeOfSupply)}`:""}
+    </div>
+
+    <div class="tallyref-order">
+      <div><b>Buyer’s Order No.:</b> ${esc(v.orderNo||"")}</div>
+      <div><b>Dated:</b> ${esc(v.orderDate||"")}</div>
+    </div>
+
+    <div class="tallyref-einv">
+      <div class="tallyref-einfo">
+        <div class="tallyref-e-label">e-Invoice</div>
+        <div><b>IRN:</b> ${esc(v.irn||"")}</div>
+        <div><b>Ack No.:</b> ${esc(v.ackNo||"")}</div>
+        <div><b>Ack Date:</b> ${esc(v.ackDate||"")}</div>
+      </div>
+      <div class="tallyref-qrcell"><div style="text-align:center"><div style="font-size:7px;font-weight:700;margin-bottom:1mm">SCAN TO PAY / VERIFY</div>${qr}</div></div>
+    </div>
+
+    <table class="tallyref-items">
+      <thead><tr>
+        <th>Sl<br>No.</th><th>Description of Goods</th><th>HSN/SAC</th><th>MRP/<br>Marginal</th>
+        <th>Quantity</th><th>Rate<br>(Incl. of Tax)</th><th>Rate<br>per</th><th>Amount</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr>
+        <td colspan="4"></td><td class="c">${quantityTotal} ${unitTotal}</td><td></td><td></td><td class="n"><b>${money(total)}</b></td>
+      </tr></tfoot>
+    </table>
+
+    <div class="tallyref-summary">
+      <div class="tallyref-words"><b>Amount Chargeable (in words):</b><br><b>${amountWords(total)}</b> <span>E. & O.E</span></div>
+      <div class="tallyref-totalbox">
+        <div><span>Taxable Value</span><b>${money(taxable)}</b></div>
+        ${igst?`<div><span>IGST</span><b>${money(igst)}</b></div>`:`<div><span>CGST</span><b>${money(cgst)}</b></div><div><span>SGST</span><b>${money(sgst)}</b></div>`}
+        <div><span>Rounded Off (+/-)</span><b>${money(rounded)}</b></div>
+        <div class="grand"><span>Total</span><b>${money(total)}</b></div>
+      </div>
+    </div>
+
+    <div class="tallyref-analysis">
+      <table class="tallyref-tax">
+        <thead><tr><th>HSN/SAC</th><th>Taxable<br>Value</th><th>CGST<br>Rate</th><th>CGST<br>Amount</th><th>SGST/UTGST<br>Rate</th><th>SGST<br>Amount</th><th>Total<br>Tax Amount</th></tr></thead>
+        <tbody>${taxRows||`<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`}${taxTotal}</tbody>
+      </table>
+      <div class="tallyref-taxwords"><b>Tax Amount (in words):</b> ${amountWords(gst)}</div>
+    </div>
+
+    <div class="tallyref-bottom">
+      <div class="tallyref-declare">
+        <b>Declaration</b><br>
+        ${esc(v.narration||c.declaration||"We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.")}
+        <br><br><b>Customer’s Seal and Signature</b>
+      </div>
+      <div class="tallyref-sign">
+        <div><b>for ${esc(c.name||"M.BizAccount")}</b></div>
+        <div><b>Authorised Signatory</b></div>
+      </div>
+    </div>
+    <div class="tallyref-footer"><b>${esc(c.jurisdiction||"SUBJECT TO LOCAL JURISDICTION")}</b><br>This is a Computer Generated Invoice</div>
+  </div>`;
+}
+
+function hashCode(str){let h=0;for(let i=0;i<str.length;i++)h=((h<<5)-h)+str.charCodeAt(i)|0;return h}
+function amountWords(n){n=Math.round(Number(n)||0);if(n===0)return "Indian Rupee Zero Only";const o=["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"],t=["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];function w(x){if(x<20)return o[x];if(x<100)return t[Math.floor(x/10)]+(x%10?" "+o[x%10]:"");if(x<1000)return o[Math.floor(x/100)]+" Hundred"+(x%100?" "+w(x%100):"");if(x<100000)return w(Math.floor(x/1000))+" Thousand"+(x%1000?" "+w(x%1000):"");if(x<10000000)return w(Math.floor(x/100000))+" Lakh"+(x%100000?" "+w(x%100000):"");return w(Math.floor(x/10000000))+" Crore"+(x%10000000?" "+w(x%10000000):"")}return "Indian Rupee "+w(n)+" Only"}
+
+function companyLogoHTML(){
+  const logo = D.company && D.company.logo ? D.company.logo : "";
+  return logo
+    ? `<img class="company-logo" src="${logo}" alt="Company Logo">`
+    : `<div class="company-logo-placeholder">COMPANY LOGO</div>`;
+}
+
+function printInvoice(id){
+  let v=D.tx.find(x=>x.id===id);
+  if(!v)return;
+  document.body.innerHTML=invoiceHTML(v);
+}
+function invoiceHTML(v){
+  return `<div class="invoice-dual">
+    ${invoiceHTMLSingle(v,"Original for Recipient")}
+    ${invoiceHTMLSingle(v,"Duplicate for Transporter")}
+  </div>`;
+}
+function shareWhatsApp(id){let v=D.tx.find(x=>x.id===id);if(!v)return;let p=pname(v.partyId),text=`${D.company.name||"M.BizAccount"}\\nInvoice: ${v.number}\\nDate: ${v.date}\\nParty: ${p}\\nTotal: ${money(v.total??v.amount)}\\nThank you.`;window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}
+
+function empty(x){return `<div class="empty">${x}</div>`}
+function page(){if(tab==="gateway")return gateway();if(tab==="dashboard")return dashboard();if(tab==="parties")return activeParty?ledger():parties();if(tab==="items")return items();if(tab==="invoices")return invoices();if(tab==="payments")return payments();if(tab==="expenses")return expenses();if(tab==="reports")return reports();if(tab==="search")return searchPage();return settings()}
+function render(){if($("app")){$("app").innerHTML=`<div class="app"><aside class="side"><div class="brand"><div class="brandbox">${D.company.logo?`<img class="brandlogo" src="${D.company.logo}">`:""}<div><b>M.<i>BizAccount</i></b><small>Business accounts</small></div></div></div><div class="nav">${[["gateway","⌂","Gateway"],["dashboard","▣","Dashboard"],["parties","♟","Customers / Suppliers"],["items","▦","Inventory"],["invoices","▤","Invoices"],["payments","₹","Payments"],["expenses","◈","Expenses"],["reports","▤","P&L / GST"],["search","⌕","Global Search"],["settings","⚙","Settings"]].map(x=>`<button class="${tab===x[0]?'on':''}" onclick="tab='${x[0]}';activeParty=null;searchTerm='';render()"><span class="ico">${x[1]}</span><span>${x[2]}</span></button>`).join("")}</div></aside><main class="main">${page()}</main></div>${modal}`;if(tab==="parties"&&!activeParty)renderParties();if(tab==="items")renderItems();if(tab==="dashboard")drawChart();}}
+function drawChart(){let c=$("chart");if(!c)return;let ctx=c.getContext("2d"),w=c.width=c.clientWidth*2,h=c.height=c.clientHeight*2;ctx.scale(2,2);w/=2;h/=2;let s=totals(),vals=[s.sales,s.purchases,s.expenses],labels=["Sales","Purchases","Expenses"],max=Math.max(...vals,1),bw=Math.min(75,w/5);ctx.font="12px Arial";vals.forEach((v,i)=>{let x=w/2-bw*1.8+i*bw*1.8,y=h-35-(v/max)*(h-65);ctx.fillStyle="#28563f";ctx.fillRect(x,y,bw,(v/max)*(h-65));ctx.fillStyle="#1e2b24";ctx.textAlign="center";ctx.fillText(labels[i],x+bw/2,h-15);ctx.fillText(money(v),x+bw/2,Math.max(14,y-6))})}
+function lockScreen(){if(!D.pin)return;let l=document.createElement("div");l.className="lock";l.id="lock";l.innerHTML=`<div class="lockbox"><h2>🔐 M.BizAccount Locked</h2><p>Enter your PIN to continue.</p><input id="pinInput" type="password" inputmode="numeric" maxlength="6" placeholder="PIN"><br><br><button class="primary" onclick="unlock()">Unlock</button></div>`;document.body.appendChild(l)}
+function unlock(){if($("pinInput").value===D.pin){$("lock").remove()}else alert("Wrong PIN.")}
+document.addEventListener("keydown",function(e){
+  const gatewayEl=document.querySelector(".classic-gateway");
+  if(gatewayEl && !modal && (tab==="gateway")){
+    const items=[...document.querySelectorAll(".cg-item[data-gindex]")];
+    if(e.key==="ArrowDown"||e.key==="ArrowRight"){
+      e.preventDefault();gatewayMenuIndex=(gatewayMenuIndex+1)%items.length;render();setTimeout(()=>document.querySelector(`[data-gindex="${gatewayMenuIndex}"]`)?.focus(),0);return;
+    }
+    if(e.key==="ArrowUp"||e.key==="ArrowLeft"){
+      e.preventDefault();gatewayMenuIndex=(gatewayMenuIndex-1+items.length)%items.length;render();setTimeout(()=>document.querySelector(`[data-gindex="${gatewayMenuIndex}"]`)?.focus(),0);return;
+    }
+    if(e.key==="Home"){e.preventDefault();gatewayMenuIndex=0;render();return}
+    if(e.key==="End"){e.preventDefault();gatewayMenuIndex=items.length-1;render();return}
+    if(e.key==="Enter"){
+      const el=document.querySelector(`[data-gindex="${gatewayMenuIndex}"]`);
+      if(el){e.preventDefault();el.click();return}
+    }
+  }
+
+  if(e.key==="F1"){e.preventDefault();alert("M.BizAccount V10\nReactive, Enter-first accounting workflow\nF2 Date • F3 Company • F5 Payment • F6 Receipt • F7 Journal • F8 Sales • F9 Purchase • F10 Vouchers • F11 Features • F12 Configure");return;}
+  if(e.key==="F2"){e.preventDefault();dateDialog();return}
+  if(e.key==="F3"){e.preventDefault();tab="settings";render();return}
+  if(e.key==="F4"){e.preventDefault();contraDialog();return}
+  if(e.key==="F5"){e.preventDefault();if(D.parties.length)moneyDialog("payment");return}
+  if(e.key==="F6"){e.preventDefault();if(D.parties.length)moneyDialog("receipt");return}
+  if(e.key==="F7"){e.preventDefault();journalDialog();return}
+  if(e.key==="F8"){e.preventDefault();if(D.parties.length&&D.items.length)invoiceDialog("sales");return}
+  if(e.key==="F9"){e.preventDefault();if(D.parties.length&&D.items.length)invoiceDialog("purchase");return}
+  if(e.key==="F10"){e.preventDefault();voucherMenu();return}
+  if(e.key==="F11"){e.preventDefault();tab="settings";render();return}
+  if(e.key==="F12"){e.preventDefault();tab="settings";render();return}
+  if(e.altKey&&e.key.toLowerCase()==="f"){e.preventDefault();tab="search";render();return}
+  if(e.ctrlKey&&e.key.toLowerCase()==="q"){e.preventDefault();tab="gateway";modal="";render();return}
+  if(e.ctrlKey&&e.key.toLowerCase()==="p"&&modal){e.preventDefault();window.print();return}
+  if(e.key==="Escape"&&modal){e.preventDefault();modal="";render();return}
+  if(e.key==="Enter"&&!modal){
+    let el=document.activeElement;
+    if(el&&el.classList.contains("cg-item")){e.preventDefault();el.click();return}
+    let selected=document.querySelector(".cg-item.selected");
+    if(selected&&(!el||el===document.body)){e.preventDefault();selected.click();return}
+  }
+});
+
+render();lockScreen();
+
+function handleCompanyLogo(e){
+  const file=e.target.files && e.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(){
+    D.company.logo=reader.result;
+    save();
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+function removeCompanyLogo(){
+  if(D.company) delete D.company.logo;
+  save();
+  render();
+}
+
+
+const INVOICE_FORMATS = {
+  classic: {name:"Classic GST (A4)", paper:"A4", logo:"left", title:"Tax Invoice"},
+  professional: {name:"Modern Professional (A4)", paper:"A4", logo:"left", title:"Tax Invoice"},
+  simple: {name:"Simple Invoice (A4)", paper:"A4", logo:"center", title:"Invoice"},
+  a5: {name:"Compact A5", paper:"A5", logo:"left", title:"Tax Invoice"},
+  thermal80: {name:"Thermal 80mm", paper:"80mm", logo:"center", title:"Tax Invoice"},
+  thermal58: {name:"Thermal 58mm", paper:"58mm", logo:"center", title:"Invoice"}
+};
+
+function ensureInvoiceSettings(){
+  if(!D.company) D.company={};
+  if(!D.company.invoiceSettings) D.company.invoiceSettings={};
+  const x=D.company.invoiceSettings;
+  if(!x.format) x.format="classic";
+  if(!x.logoPosition) x.logoPosition="left";
+  if(x.showHSNSAC===undefined) x.showHSNSAC=true;
+  if(x.showGST===undefined) x.showGST=true;
+  if(x.showDiscount===undefined) x.showDiscount=true;
+  if(x.showDeclaration===undefined) x.showDeclaration=true;
+  if(x.showSignature===undefined) x.showSignature=true;
+  if(x.declaration===undefined) x.declaration="We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct.";
+  if(D.company.autoInvoiceQR===undefined) D.company.autoInvoiceQR=true;
+  if(D.company.upiId===undefined) D.company.upiId="";
+}
+ensureInvoiceSettings();
+
+function setInvoiceSetting(key,value){
+  ensureInvoiceSettings();
+  D.company.invoiceSettings[key]=value;
+  save();
+  render();
+}
+function saveInvoiceDesigner(){
+  ensureInvoiceSettings();
+  const ids=["invoiceFormat","invoicePaper","invoiceLogoPosition","invoiceTitle","showHSNSAC","showGST","showDiscount","showDeclaration","showSignature","invoiceDeclaration"];
+  const x=D.company.invoiceSettings;
+  x.format=document.getElementById("invoiceFormat")?.value || x.format;
+  x.paper=document.getElementById("invoicePaper")?.value || x.paper;
+  x.logoPosition=document.getElementById("invoiceLogoPosition")?.value || x.logoPosition;
+  x.title=document.getElementById("invoiceTitle")?.value || x.title;
+  x.showHSNSAC=!!document.getElementById("showHSNSAC")?.checked;
+  x.showGST=!!document.getElementById("showGST")?.checked;
+  x.showDiscount=!!document.getElementById("showDiscount")?.checked;
+  x.showDeclaration=!!document.getElementById("showDeclaration")?.checked;
+  x.showSignature=!!document.getElementById("showSignature")?.checked;
+  x.declaration=document.getElementById("invoiceDeclaration")?.value || "";
+  save();
+  alert("Invoice format saved.");
+}
+function resetInvoiceDesigner(){
+  D.company.invoiceSettings={format:"classic",paper:"A4",logoPosition:"left",title:"Tax Invoice",showHSNSAC:true,showGST:true,showDiscount:true,showDeclaration:true,showSignature:true,declaration:"We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct."};
+  save(); render();
+}
+function invoiceDesigner(){
+  ensureInvoiceSettings();
+  const x=D.company.invoiceSettings;
+  return `<div class="format-panel">
+    <h3>Invoice Format Designer</h3>
+    <div class="format-grid">
+      <label>Invoice Format
+        <select id="invoiceFormat">
+          ${Object.entries(INVOICE_FORMATS).map(([k,v])=>`<option value="${k}" ${x.format===k?"selected":""}>${v.name}</option>`).join("")}
+        </select>
+      </label>
+      <label>Paper Size
+        <select id="invoicePaper">
+          ${["A4","A5","80mm","58mm"].map(v=>`<option ${x.paper===v?"selected":""}>${v}</option>`).join("")}
+        </select>
+      </label>
+      <label>Logo Position
+        <select id="invoiceLogoPosition">
+          ${["left","center","right"].map(v=>`<option value="${v}" ${x.logoPosition===v?"selected":""}>${v[0].toUpperCase()+v.slice(1)}</option>`).join("")}
+        </select>
+      </label>
+      <label>Invoice Title
+        <input id="invoiceTitle" type="text" value="${esc(x.title||"Tax Invoice")}">
+      </label>
+      <label>Declaration Text
+        <textarea id="invoiceDeclaration">${esc(x.declaration||"")}</textarea>
+      </label>
+    </div>
+    <div class="format-checks">
+      <label><input id="showHSNSAC" type="checkbox" ${x.showHSNSAC?"checked":""}> HSN/SAC</label>
+      <label><input id="showGST" type="checkbox" ${x.showGST?"checked":""}> GST</label>
+      <label><input id="showDiscount" type="checkbox" ${x.showDiscount?"checked":""}> Discount</label>
+      <label><input id="showDeclaration" type="checkbox" ${x.showDeclaration?"checked":""}> Declaration</label>
+      <label><input id="showSignature" type="checkbox" ${x.showSignature?"checked":""}> Signature</label>
+    </div>
+    <div class="format-actions">
+      <button class="primary" onclick="saveInvoiceDesigner()">Save Format</button>
+      <button onclick="invoicePreview()">Preview Invoice</button>
+      <button onclick="resetInvoiceDesigner()">Reset</button>
+    </div>
+  </div>`;
+}
+function invoicePreview(){
+  if(typeof invoiceDialog==="function"){
+    invoiceDialog("sales");
+  }else{
+    alert("Open a Sales invoice to preview the selected format.");
+  }
+}
+
 </script>
-<style>
-html.keyboard-v2{--kbv2-ring:#0b63ce}button,a[href],input,select,textarea,[tabindex]{outline:none}.kbv2-focus:focus{outline:3px solid var(--kbv2-ring)!important;outline-offset:2px;box-shadow:0 0 0 2px rgba(11,99,206,.18)}
-</style>
 </body>
 </html>
