@@ -1,2 +1,36 @@
 <!doctype html>
-<html><head><meta charset="utf-8"></head><body><script>/* Restored source is too large for safe connector patching in this turn. */</script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M.BizAccount V19</title>
+</head>
+<body>
+<div class="website-bar"><div>M.BizAccount</div><button type="button" onclick="window.print()">Print</button></div>
+<div id="app"></div><div id="toast"></div>
+<script>
+const KEY="mbizaccount_v3_data";
+const blank=()=>({company:{name:"M.BizAccount"},parties:[],items:[],tx:[],expenses:[],counter:{sales:1,purchase:1,receipt:1,payment:1,expense:1},pin:""});
+let D=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){return blank()}})();
+D.company=D.company||{};D.parties=D.parties||[];D.items=D.items||[];D.tx=D.tx||[];D.expenses=D.expenses||[];D.counter=D.counter||blank().counter;
+let tab="gateway",modal="",activeParty=null;
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(D));render()}
+function render(){const app=$("app"); if(!app)return; app.innerHTML=`<main tabindex="-1"><h1>${D.company.name||"M.BizAccount"}</h1><p>Keyboard System V2 enabled.</p><button type="button" onclick="tab='dashboard';render()">Dashboard</button><button type="button" onclick="tab='settings';render()">Settings</button></main>`}
+function isEditableTarget(el){if(!el)return false;const tag=el.tagName;return tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT"||el.isContentEditable}
+function isDisabled(el){return !!(el&&('disabled' in el&&el.disabled || el.getAttribute&&el.getAttribute('aria-disabled')==='true'))}
+function isVisible(el){return !!el && el.getClientRects().length>0 && getComputedStyle(el).visibility!=="hidden" && getComputedStyle(el).display!=="none"}
+function getInteractive(root=document){return [...root.querySelectorAll('button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>isVisible(el)&&!isDisabled(el)&&el.getAttribute('aria-hidden')!=="true")}
+function focusRing(el){if(!el)return;el.classList.add('kbv2-focus');el.scrollIntoView({block:'nearest',inline:'nearest'})}
+function triggerFocusedAction(){const el=document.activeElement;if(!el||isDisabled(el))return false;if(el.matches('button,a[href],[role="button"],[role="menuitem"],[role="option"],[role="tab"]')){el.click();return true}if(el.matches('[role="listitem"],.card,.cg-item,[data-key-action]')){el.click();return true}return false}
+function closeTopOverlay(){const dialogs=[...document.querySelectorAll('.modalbg,[role="dialog"],[aria-modal="true"]')].filter(isVisible);if(dialogs.length){const top=dialogs[dialogs.length-1];const close=top.querySelector('[data-close],.modal .secondary,button[aria-label*="close" i]');if(close&&!isDisabled(close)){close.click();return true}if(typeof modal!=="undefined'&&modal){modal="";render();return true}}if(typeof modal!=="undefined'&&modal){modal="";render();return true}return false}
+function enterAction(e){const el=document.activeElement;if(isDisabled(el))return true;if(isEditableTarget(el)){if(el.matches('input[type="search"],input.search,[data-enter="search"]')){el.dispatchEvent(new Event('change',{bubbles:true}));return true}if(el.closest('form')){const form=el.closest('form');const submit=form.querySelector('button[type="submit"],input[type="submit"]');if(submit&&!isDisabled(submit)){submit.click();}return true}return false}return triggerFocusedAction()}
+function moveContext(delta){const active=document.activeElement;let scope=active?.closest('.cg-box,[role="menu"],[role="listbox"],[role="tablist"],[data-key-nav]')||document;let items=getInteractive(scope).filter(el=>!isEditableTarget(el));if(!items.length)return false;let i=items.indexOf(active);if(i<0)i=delta>0?-1:0;let n=(i+delta+items.length)%items.length;focusRing(items[n]);return true}
+function setupKeyboardV2(){if(window.__KBV2_INSTALLED__)return;window.__KBV2_INSTALLED__=true;document.documentElement.classList.add('keyboard-v2');document.addEventListener('keydown',function(e){if(e.defaultPrevented)return;const t=e.target||document.activeElement;if(e.key==="Escape"){if(closeTopOverlay()){e.preventDefault();return}if(isEditableTarget(t))return;return}if(e.key==="Enter"){if(enterAction(e)){if(!isEditableTarget(t)||t.matches('input[type="search"],input.search,[data-enter="search"]'))e.preventDefault();return}}if(e.key==="ArrowDown"||e.key==="ArrowUp"){if(isEditableTarget(t)&&!t.matches('select'))return;if(moveContext(e.key==="ArrowDown"?1:-1))e.preventDefault();return}if(e.key==="ArrowRight"||e.key==="ArrowLeft"){if(isEditableTarget(t)&&!t.matches('select'))return;const tabs=t.closest('[role="tablist"]');if(tabs){const items=getInteractive(tabs);let i=items.indexOf(t);if(i>=0){const n=(i+(e.key==="ArrowRight"?1:-1)+items.length)%items.length;focusRing(items[n]);e.preventDefault()}}return}},true);document.addEventListener('focusin',e=>{const el=e.target;if(el.matches('button,a[href],[role="button"],[role="menuitem"],[role="option"],[role="tab"],input,select,textarea,[tabindex]'))el.classList.add('kbv2-focus')},true)}
+setupKeyboardV2();render();
+</script>
+<style>
+html.keyboard-v2{--kbv2-ring:#0b63ce}button,a[href],input,select,textarea,[tabindex]{outline:none}.kbv2-focus:focus{outline:3px solid var(--kbv2-ring)!important;outline-offset:2px;box-shadow:0 0 0 2px rgba(11,99,206,.18)}
+</style>
+</body>
+</html>
