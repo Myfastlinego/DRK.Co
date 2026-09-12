@@ -14,6 +14,10 @@
         throw new Error('Supabase library is not loaded.');
       }
       return window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    },
+    async signOut(client) {
+      if (!client) throw new Error('Supabase client is missing.');
+      return client.auth.signOut();
     }
   };
 })();
