@@ -90,6 +90,23 @@ input:focus,select:focus,textarea:focus{
   }
 }
 
+
+/* ===== Keyboard System V2 focus ===== */
+:focus-visible{
+  outline:3px solid #2f80ed!important;
+  outline-offset:2px!important;
+  box-shadow:0 0 0 4px rgba(47,128,237,.16)!important;
+}
+button:disabled,[aria-disabled="true"]{
+  cursor:not-allowed;
+}
+[role="option"]:focus-visible,[role="menuitem"]:focus-visible,
+[role="tab"]:focus-visible,.cg-item:focus-visible,
+.v4-f10 button:focus-visible{
+  background:#f7c62b!important;
+  color:#111!important;
+}
+
 </style>
 <script>window.V21_FEATURES={voucherTypes:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],gstModes:["Local (CGST + SGST/UTGST)","Interstate (IGST)","Exempt","Nil Rated"],units:["NOS","KG","LTR","BOX","MTR","SET"]};function v21VoucherMenu(){return `<div class="v21-section"><div class="v21-card"><h3>Voucher Types</h3><div class="v21-shortcuts">${V21_FEATURES.voucherTypes.map((x,i)=>`<span>${i+1}. ${x}</span>`).join("")}</div><div class="v21-help" style="margin-top:8px">Use the existing voucher screens to record transactions. This layer keeps the Tally-style terminology while preserving your current M.BizAccount data.</div></div></div>`}function v21GstSummary(){const tx=(window.D&&Array.isArray(D.tx))?D.tx:[];let sales=0,purchase=0;tx.filter(x=>!x.cancelled).forEach(x=>{const t=String(x.type||"").toLowerCase();const total=Number(x.total||x.amount||0);if(t.includes("sales"))sales+=total;if(t.includes("purchase"))purchase+=total});return `<div class="v21-section"><div class="v21-grid"><div class="v21-card"><div class="v21-help">Sales</div><div class="v21-kpi">${typeof money==="function"?money(sales):sales.toFixed(2)}</div></div><div class="v21-card"><div class="v21-help">Purchase</div><div class="v21-kpi">${typeof money==="function"?money(purchase):purchase.toFixed(2)}</div></div></div></div>`}</script>
 <script id="v22-accounting-layer">window.MBizV22={vouchers:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],reports:["Day Book","Trial Balance","Profit & Loss","Balance Sheet","Outstanding","Stock Summary","GST Summary","HSN/SAC Summary"],shortcuts:["F2 Date","F4 Contra","F5 Payment","F6 Receipt","F7 Journal","F8 Sales","F9 Purchase"]};function mbizV22Open(tabName){if(typeof window.tab!=="undefined"){window.tab=tabName;if(typeof render==="function")render()}}function mbizV22Panel(){const sales=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("sales")).length:0;const purchase=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("purchase")).length:0;return `<section class="v22-gateway"><div class="v22-head"><div><div class="v22-brand">M.BizAccount</div><div class="v22-sub">Accounting & GST Edition</div></div><div class="v22-sub">Tally-style workflow • Original M.BizAccount interface</div></div><div class="v22-grid"><nav class="v22-nav"><button onclick="mbizV22Open('dashboard')">🏠 Gateway / Dashboard</button><button onclick="mbizV22Open('parties')">📒 Ledgers / Accounts</button><button onclick="mbizV22Open('items')">📦 Inventory</button><button onclick="mbizV22Open('voucher')">🧾 Vouchers</button><button onclick="mbizV22Open('payments')">📅 Day Book</button><button onclick="mbizV22Open('expenses')">💳 Expenses</button><button onclick="mbizV22Open('reports')">📊 Reports / GST</button><button onclick="mbizV22Open('settings')">⚙️ Company / Settings</button></nav><main class="v22-main"><div class="v22-cards"><div class="v22-card"><div class="v22-label">Sales Vouchers</div><div class="v22-value">${sales}</div></div><div class="v22-card"><div class="v22-label">Purchase Vouchers</div><div class="v22-value">${purchase}</div></div><div class="v22-card"><div class="v22-label">Ledgers</div><div class="v22-value">${window.D?D.parties.length:0}</div></div><div class="v22-card"><div class="v22-label">Stock Items</div><div class="v22-value">${window.D?D.items.length:0}</div></div></div><div class="v22-short">${MBizV22.vouchers.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div><div class="v22-short">${MBizV22.shortcuts.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div></main></div></section>`}</script>
@@ -220,7 +237,172 @@ function render(){if($("app")){$("app").innerHTML=`<div class="app"><aside class
 function drawChart(){let c=$("chart");if(!c)return;let ctx=c.getContext("2d"),w=c.width=c.clientWidth*2,h=c.height=c.clientHeight*2;ctx.scale(2,2);w/=2;h/=2;let s=totals(),vals=[s.sales,s.purchases,s.expenses],labels=["Sales","Purchases","Expenses"],max=Math.max(...vals,1),bw=Math.min(75,w/5);ctx.font="12px Arial";vals.forEach((v,i)=>{let x=w/2-bw*1.8+i*bw*1.8,y=h-35-(v/max)*(h-65);ctx.fillStyle="#28563f";ctx.fillRect(x,y,bw,(v/max)*(h-65));ctx.fillStyle="#1e2b24";ctx.textAlign="center";ctx.fillText(labels[i],x+bw/2,h-15);ctx.fillText(money(v),x+bw/2,Math.max(14,y-6))})}
 function lockScreen(){if(!D.pin)return;let l=document.createElement("div");l.className="lock";l.id="lock";l.innerHTML=`<div class="lockbox"><h2>🔐 M.BizAccount Locked</h2><p>Enter your PIN to continue.</p><input id="pinInput" type="password" inputmode="numeric" maxlength="6" placeholder="PIN"><br><br><button class="primary" onclick="unlock()">Unlock</button></div>`;document.body.appendChild(l)}
 function unlock(){if($("pinInput").value===D.pin){$("lock").remove()}else alert("Wrong PIN.")}
-document.addEventListener("keydown",function(e){const gatewayEl=document.querySelector(".classic-gateway");if(gatewayEl&&!modal&&(tab==="gateway")){const items=[...document.querySelectorAll(".cg-item[data-gindex]")];if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault();gatewayMenuIndex=(gatewayMenuIndex+1)%items.length;render();setTimeout(()=>document.querySelector(`[data-gindex="${gatewayMenuIndex}"]`)?.focus(),0);return}if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault();gatewayMenuIndex=(gatewayMenuIndex-1+items.length)%items.length;render();setTimeout(()=>document.querySelector(`[data-gindex="${gatewayMenuIndex}"]`)?.focus(),0);return}if(e.key==="Home"){e.preventDefault();gatewayMenuIndex=0;render();return}if(e.key==="End"){e.preventDefault();gatewayMenuIndex=items.length-1;render();return}if(e.key==="Enter"){const el=document.querySelector(`[data-gindex="${gatewayMenuIndex}"]`);if(el){e.preventDefault();el.click();return}}}if(e.key==="F1"){e.preventDefault();alert("M.BizAccount V10\nReactive, Enter-first accounting workflow\nF2 Date • F3 Company • F5 Payment • F6 Receipt • F7 Journal • F8 Sales • F9 Purchase • F10 Vouchers • F11 Features • F12 Configure");return}if(e.key==="F2"){e.preventDefault();dateDialog();return}if(e.key==="F3"){e.preventDefault();tab="settings";render();return}if(e.key==="F4"){e.preventDefault();contraDialog();return}if(e.key==="F5"){e.preventDefault();if(D.parties.length)moneyDialog("payment");return}if(e.key==="F6"){e.preventDefault();if(D.parties.length)moneyDialog("receipt");return}if(e.key==="F7"){e.preventDefault();journalDialog();return}if(e.key==="F8"){e.preventDefault();if(D.parties.length&&D.items.length)invoiceDialog("sales");return}if(e.key==="F9"){e.preventDefault();if(D.parties.length&&D.items.length)invoiceDialog("purchase");return}if(e.key==="F10"){e.preventDefault();voucherMenu();return}if(e.key==="F11"){e.preventDefault();tab="settings";render();return}if(e.key==="F12"){e.preventDefault();tab="settings";render();return}if(e.altKey&&e.key.toLowerCase()==="f"){e.preventDefault();tab="search";render();return}if(e.ctrlKey&&e.key.toLowerCase()==="q"){e.preventDefault();tab="gateway";modal="";render();return}if(e.ctrlKey&&e.key.toLowerCase()==="p"&&modal){e.preventDefault();window.print();return}if(e.key==="Escape"&&modal){e.preventDefault();modal="";render();return}if(e.key==="Enter"&&!modal){let el=document.activeElement;if(el&&el.classList.contains("cg-item")){e.preventDefault();el.click();return}let selected=document.querySelector(".cg-item.selected");if(selected&&(!el||el===document.body)){e.preventDefault();selected.click();return}}});
+const KeyboardV2=(()=>{
+  const isField=el=>!!el&&(
+    /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)||
+    el.isContentEditable
+  );
+
+  const isDisabled=el=>!!el&&(el.disabled||el.getAttribute("aria-disabled")==="true");
+
+  const closeTopOverlay=()=>{
+    if(modal){
+      modal="";
+      render();
+      return true;
+    }
+    const overlays=[...document.querySelectorAll(
+      ".modalbg,[role=\"dialog\"],[aria-modal=\"true\"]"
+    )].filter(x=>getComputedStyle(x).display!=="none");
+    if(overlays.length){
+      const top=overlays[overlays.length-1];
+      const close=top.querySelector(
+        "[data-close],.close,[aria-label*=\"close\" i],[aria-label*=\"cancel\" i]"
+      );
+      if(close&&!isDisabled(close)) close.click();
+      else if(typeof modal!=="undefined"){modal="";render();}
+      return true;
+    }
+    return false;
+  };
+
+  const activate=el=>{
+    if(!el||isDisabled(el))return false;
+    if(typeof el.click==="function"){el.click();return true;}
+    return false;
+  };
+
+  const gatewayMove=dir=>{
+    const items=[...document.querySelectorAll(".cg-item[data-gindex]")]
+      .filter(x=>!isDisabled(x));
+    if(!items.length)return false;
+    gatewayMenuIndex=(gatewayMenuIndex+dir+items.length)%items.length;
+    render();
+    setTimeout(()=>{
+      document.querySelector(
+        `[data-gindex="${gatewayMenuIndex}"]`
+      )?.focus();
+    },0);
+    return true;
+  };
+
+  const listMove=dir=>{
+    const active=document.activeElement;
+    const items=[...document.querySelectorAll(
+      '[role="option"],[role="menuitem"],[role="tab"],.cg-item,.v4-f10 button'
+    )].filter(x=>!isDisabled(x)&&x.offsetParent!==null);
+    if(!items.length)return false;
+    let i=items.indexOf(active);
+    if(i<0)i=dir>0?0:items.length-1;
+    else i=(i+dir+items.length)%items.length;
+    items[i].focus();
+    items[i].scrollIntoView({block:"nearest",inline:"nearest"});
+    return true;
+  };
+
+  const enter=e=>{
+    const el=document.activeElement;
+    if(isDisabled(el))return;
+    if(isField(el)){
+      if(el.tagName==="INPUT"&&el.type==="search"){
+        e.preventDefault();
+        el.dispatchEvent(new Event("change",{bubbles:true}));
+      }
+      return;
+    }
+    if(el&&(
+      el.matches("button,a,[role=\"button\"],[role=\"menuitem\"],[role=\"option\"],[role=\"tab\"],.card,[data-action]")
+    )){
+      e.preventDefault();
+      activate(el);
+      return;
+    }
+    if(!modal&&tab==="gateway"){
+      const selected=document.querySelector(".cg-item.selected");
+      if(selected){e.preventDefault();activate(selected);}
+    }
+  };
+
+  const arrows=e=>{
+    if(isField(document.activeElement))return false;
+    const gatewayEl=document.querySelector(".classic-gateway");
+    if(gatewayEl&&!modal&&tab==="gateway"){
+      if(e.key==="ArrowDown"||e.key==="ArrowRight")
+        return gatewayMove(1);
+      if(e.key==="ArrowUp"||e.key==="ArrowLeft")
+        return gatewayMove(-1);
+    }
+    if(e.key==="ArrowDown")return listMove(1);
+    if(e.key==="ArrowUp")return listMove(-1);
+    return false;
+  };
+
+  const onKeyDown=e=>{
+    const key=e.key;
+    const field=isField(e.target);
+
+    if(key==="Escape"){
+      if(field&&e.target.value&&e.target===document.activeElement)return;
+      if(closeTopOverlay()){e.preventDefault();return;}
+      return;
+    }
+
+    if(key==="Enter"){
+      if(e.isComposing)return;
+      enter(e);
+      return;
+    }
+
+    if(key==="ArrowDown"||key==="ArrowUp"||
+       key==="ArrowLeft"||key==="ArrowRight"){
+      if(arrows(e)){e.preventDefault();return;}
+    }
+
+    if(key==="Home"||key==="End"){
+      if(field)return;
+      const items=[...document.querySelectorAll(
+        '[role="option"],[role="menuitem"],[role="tab"],.cg-item,.v4-f10 button'
+      )].filter(x=>!isDisabled(x)&&x.offsetParent!==null);
+      if(items.length){
+        e.preventDefault();
+        items[key==="Home"?0:items.length-1].focus();
+      }
+      return;
+    }
+
+    if(key==="F1"){
+      e.preventDefault();
+      alert("M.BizAccount V10\nKeyboard System V2\nF2 Date • F3 Company • F4 Contra • F5 Payment • F6 Receipt • F7 Journal • F8 Sales • F9 Purchase • F10 Vouchers • F11 Features • F12 Configure");
+      return;
+    }
+    if(key==="F2"){e.preventDefault();dateDialog();return;}
+    if(key==="F3"){e.preventDefault();tab="settings";render();return;}
+    if(key==="F4"){e.preventDefault();contraDialog();return;}
+    if(key==="F5"){e.preventDefault();if(D.parties.length)moneyDialog("payment");return;}
+    if(key==="F6"){e.preventDefault();if(D.parties.length)moneyDialog("receipt");return;}
+    if(key==="F7"){e.preventDefault();journalDialog();return;}
+    if(key==="F8"){e.preventDefault();if(D.parties.length&&D.items.length)invoiceDialog("sales");return;}
+    if(key==="F9"){e.preventDefault();if(D.parties.length&&D.items.length)invoiceDialog("purchase");return;}
+    if(key==="F10"){e.preventDefault();voucherMenu();return;}
+    if(key==="F11"){e.preventDefault();tab="settings";render();return;}
+    if(key==="F12"){e.preventDefault();tab="settings";render();return;}
+
+    if(e.altKey&&key.toLowerCase()==="f"){
+      e.preventDefault();tab="search";render();return;
+    }
+    if(e.ctrlKey&&key.toLowerCase()==="q"){
+      e.preventDefault();tab="gateway";modal="";render();return;
+    }
+    if(e.ctrlKey&&key.toLowerCase()==="p"&&modal){
+      e.preventDefault();window.print();return;
+    }
+  };
+
+  document.addEventListener("keydown",onKeyDown,false);
+  return {activate,closeTopOverlay};
+})();
+
+window.KeyboardV2=KeyboardV2;
 const INVOICE_FORMATS={classic:{name:"Classic GST (A4)",paper:"A4",logo:"left",title:"Tax Invoice"},professional:{name:"Modern Professional (A4)",paper:"A4",logo:"left",title:"Tax Invoice"},simple:{name:"Simple Invoice (A4)",paper:"A4",logo:"center",title:"Invoice"},a5:{name:"Compact A5",paper:"A5",logo:"left",title:"Tax Invoice"},thermal80:{name:"Thermal 80mm",paper:"80mm",logo:"center",title:"Tax Invoice"},thermal58:{name:"Thermal 58mm",paper:"58mm",logo:"center",title:"Invoice"}};
 function handleCompanyLogo(e){const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(){D.company.logo=reader.result;save();render()};reader.readAsDataURL(file)}
 function removeCompanyLogoLegacy(){if(D.company)delete D.company.logo;save();render()}
