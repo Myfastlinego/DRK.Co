@@ -104,7 +104,23 @@ function removeCompanyLogo(){if(!D.company)return;D.company.logo="";save();rende
 function qrPreview(i){let f=i.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{D.company.qr=r.result;save();$("qp").innerHTML=`<img class="logoPreview" src="${r.result}" alt="Company QR">`;render();toast("Company QR changed")};r.readAsDataURL(f)}
 function removeCompanyQR(){if(!D.company)return;D.company.qr="";save();render();toast("Company QR deleted")}
 function saveSettings(){const old=D.company||{};D.company={name:$("cn").value,logo:old.logo||"",address:$("ca").value,gstin:$("cg").value,phone:$("cp").value,email:$("ce").value,bank:$("cb").value,account:$("cba").value,ifsc:$("ci").value,terms:$("ct").value,invoicePrefix:$("cip").value.trim()||"INV/TT",purchasePrefix:$("cipu").value.trim()||"PUR/TT",invoiceSettings:old.invoiceSettings||{},qr:old.qr||"",upiId:$("cupi").value.trim(),autoInvoiceQR:$("autoInvoiceQR").checked};save();toast("Company settings saved")}
-function backup(){try{const payload={app:"DRK.Co",version:2,createdAt:new Date().toISOString(),data:D};let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));a.download=`DRK-Co-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast("Backup exported successfully")}catch(e){alert("Backup export failed")}}
+function backup(){
+try{
+const json=JSON.stringify(D,null,2);
+const blob=new Blob([json],{type:"application/json;charset=utf-8"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="DRK-Co-backup-"+new Date().toISOString().slice(0,10)+".json";
+document.body.appendChild(a);
+a.click();
+a.remove();
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+}catch(e){
+console.error("Backup export failed:",e);
+alert("Backup export failed. Please try again.");
+}
+}
 function restore(){let i=document.createElement("input");i.type="file";i.accept=".json";i.onchange=()=>{let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);let data=x.data||x;if(!data.company||!data.tx)throw 0;if(!confirm("Restore this backup? Current data will be replaced."))return;D=data;save();toast("Backup restored successfully");render()}catch(e){alert("Invalid DRK.Co backup file")}};if(i.files[0])r.readAsText(i.files[0])};i.click()}
 function setPin(){let p=prompt("Set a 4-6 digit PIN:");if(p&&/^\d{4,6}$/.test(p)){D.pin=p;save();toast("PIN lock enabled")}else if(p)alert("PIN must be 4-6 digits.")}
 function removePin(){if(!D.pin)return alert("PIN lock is not enabled.");let p=prompt("Enter current PIN:");if(p===D.pin){D.pin="";save();toast("PIN lock removed")}else alert("Wrong PIN.")}
