@@ -698,7 +698,7 @@ const KEY="mbizaccount_v3_data";
 const blank=()=>({company:{name:"M.BizAccount",logo:"",address:"",gstin:"",phone:"",email:"",bank:"",account:"",ifsc:"",terms:"Goods once sold will not be taken back.\nSubject to local jurisdiction."},parties:[],items:[],tx:[],expenses:[],counter:{sales:1,purchase:1,receipt:1,payment:1,expense:1},pin:""});
 let D=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){return blank()}})();
 D.company=D.company||blank().company;D.parties=D.parties||[];D.items=D.items||[];D.tx=D.tx||D.vouchers||[];D.expenses=D.expenses||[];D.counter=D.counter||blank().counter;
-let tab="gateway",activeParty=null,modal="",editing=null,invoiceLines=[],searchTerm="",gatewayMenuIndex=0;
+let tab="dashboard",activeParty=null,modal="",editing=null,invoiceLines=[],searchTerm="",gatewayMenuIndex=0;
 const uid=()=>Math.random().toString(36).slice(2,10), today=()=>new Date().toISOString().slice(0,10);
 const money=n=>"₹"+(Number(n)||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
