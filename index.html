@@ -140,6 +140,124 @@ function invoicePrefix(){return (D.company.invoicePrefix||"INV/TT").trim().repla
 function invoiceNo(type,dateStr,consume=false){let n=D.counter[type]||1;if(consume)D.counter[type]=n+1;const prefix=type==="sales"?invoicePrefix():((D.company.purchasePrefix||"PUR/TT").trim().replace(/\s+/g,""));return prefix+"/"+fyShort(dateStr)+"/"+String(n).padStart(6,"0")}
 function pname(id){return D.parties.find(p=>p.id===id)?.name||"Cash / Walk-in"}
 function txEffect(v){if(v.type==="sales")return +(v.total||0);if(v.type==="purchase")return -(v.total||0);if(v.type==="receipt")return -(v.amount||0);if(v.type==="payment")return +(v.amount||0);return 0}
+/* DRK ACCOUNTING ENGINE V1 */
+const DRK_ACCOUNTS={
+  CASH:"Cash",
+  BANK:"Bank",
+  SALES:"Sales",
+  PURCHASE:"Purchase",
+  GST_OUT:"Output GST",
+  GST_IN:"Input GST",
+  EXPENSE:"Expenses",
+  CAPITAL:"Capital"
+};
+
+function drkAccountName(id,type){
+  if(id){
+    const p=D.parties.find(x=>x.id===id);
+    if(p)return p.name;
+  }
+  if(type==="sales"||type==="receipt")return DRK_ACCOUNTS.CASH;
+  if(type==="purchase"||type==="payment")return DRK_ACCOUNTS.CASH;
+  return "General";
+}
+
+function drkPosting(v){
+  if(!v||v.cancelled)return [];
+  const total=Number(v.total||v.amount||0);
+  const gst=Number(v.gst||0);
+  if(total<=0)return [];
+
+  const rows=[];
+  const party=drkAccountName(v.partyId,v.type);
+
+  if(v.type==="sales"){
+    const net=Math.max(0,total-gst);
+    rows.push({account: v.mode==="Cash"?DRK_ACCOUNTS.CASH:party,dr:total,cr:0});
+    if(net)rows.push({account:DRK_ACCOUNTS.SALES,dr:0,cr:net});
+    if(gst)rows.push({account:DRK_ACCOUNTS.GST_OUT,dr:0,cr:gst});
+  }else if(v.type==="purchase"){
+    const net=Math.max(0,total-gst);
+    rows.push({account:DRK_ACCOUNTS.PURCHASE,dr:net,cr:0});
+    if(gst)rows.push({account:DRK_ACCOUNTS.GST_IN,dr:gst,cr:0});
+    rows.push({account:v.mode==="Cash"?DRK_ACCOUNTS.CASH:party,dr:0,cr:total});
+  }else if(v.type==="receipt"){
+    rows.push({account:DRK_ACCOUNTS.CASH,dr:total,cr:0});
+    rows.push({account:party,dr:0,cr:total});
+  }else if(v.type==="payment"){
+    rows.push({account:party,dr:total,cr:0});
+    rows.push({account:DRK_ACCOUNTS.CASH,dr:0,cr:total});
+  }else if(v.type==="expense"){
+    rows.push({account:v.category||DRK_ACCOUNTS.EXPENSE,dr:total,cr:0});
+    rows.push({account:DRK_ACCOUNTS.CASH,dr:0,cr:total});
+  }else if(v.type==="contra"){
+    const from=v.from||DRK_ACCOUNTS.CASH;
+    const to=v.to||DRK_ACCOUNTS.BANK;
+    rows.push({account:to,dr:total,cr:0});
+    rows.push({account:from,dr:0,cr:total});
+  }else if(v.type==="journal"){
+    const debitAccount=String(v.debitAccount||"").trim();
+    const creditAccount=String(v.creditAccount||"").trim();
+    const debit=Number(v.debit||0);
+    const credit=Number(v.credit||0);
+
+    if(debitAccount&&debit>0)
+      rows.push({account:debitAccount,dr:debit,cr:0});
+
+    if(creditAccount&&credit>0)
+      rows.push({account:creditAccount,dr:0,cr:credit});
+  }
+
+  return rows.filter(x=>x.dr||x.cr);
+}
+
+function drkLedger(){
+  const out={};
+  const add=(name,dr,cr,date,no,type)=>{
+    if(!name)return;
+    if(!out[name])out[name]={account:name,dr:0,cr:0,entries:[]};
+    out[name].dr+=dr;
+    out[name].cr+=cr;
+    out[name].entries.push({date,no,type,dr,cr});
+  };
+
+  D.tx.filter(v=>!v.cancelled).forEach(v=>{
+    drkPosting(v).forEach(x=>add(x.account,x.dr,x.cr,v.date,v.number||"",v.type));
+  });
+
+  D.expenses.forEach(e=>{
+    if(Number(e.amount)>0){
+      drkPosting({...e,type:"expense",total:e.amount}).forEach(x=>
+        add(x.account,x.dr,x.cr,e.date,e.number||"",e.type)
+      );
+    }
+  });
+
+  return Object.values(out);
+}
+
+function drkTrialBalance(){
+  return drkLedger().map(a=>({
+    account:a.account,
+    debit:a.dr,
+    credit:a.cr,
+    balance:a.dr-a.cr
+  })).filter(a=>a.debit||a.credit);
+}
+
+function drkAccountingCheck(){
+  const tb=drkTrialBalance();
+  const debit=tb.reduce((a,x)=>a+x.debit,0);
+  const credit=tb.reduce((a,x)=>a+x.credit,0);
+  return {
+    debit,
+    credit,
+    difference:debit-credit,
+    balanced:Math.abs(debit-credit)<0.005
+  };
+}
+/* END DRK ACCOUNTING ENGINE V1 */
+
 function totals(){let sales=0,purchases=0,gst=0,cash=0,expenses=0;D.tx.filter(v=>!v.cancelled).forEach(v=>{if(v.type==="sales"){sales+=+v.total||0;gst+=+v.gst||0;if(v.mode==="Cash")cash+=+v.total||0}if(v.type==="purchase"){purchases+=+v.total||0;gst-=+v.gst||0;if(v.mode==="Cash")cash-=+v.total||0}if(v.type==="receipt")cash+=+v.amount||0;if(v.type==="payment")cash-=+v.amount||0});D.expenses.forEach(e=>{expenses+=+e.amount||0;cash-=+e.amount||0});let rec=0,pay=0;D.parties.forEach(p=>{let b=D.tx.filter(v=>v.partyId===p.id&&!v.cancelled).reduce((a,v)=>a+txEffect(v),0);if(p.type==="customer")rec+=Math.max(0,b);else pay+=Math.max(0,-b)});let stock=D.items.reduce((a,i)=>a+(+i.stock||0)*(+i.rate||0),0);return{sales,purchases,gst,cash,expenses,rec,pay,stock,profit:sales-purchases-expenses}}
 function header(title,sub){return `<div class="topbar"><div><h1>${title}</h1><div class="sub">${sub||""}</div></div><span class="badge">${new Date().toLocaleDateString("en-IN")}</span></div>`}
 function table(head,rows){return `<div class="tablewrap"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((x,i)=>`<td class="${i===r.length-1?'r':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
@@ -148,6 +266,78 @@ function gatewayActivate(i){gatewayMenuIndex=i;const actions=[()=>{tab="parties"
 function dateDialog(){modal=`<div class="modalbg"><div class="modal"><h2>Change Date — F2</h2><div class="field"><label>Current date</label><input id="dateValue" type="date" value="${today()}"></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="setWorkingDate()">Accept</button></div></div></div>`;render();setTimeout(()=>$("dateValue")?.focus(),0)}
 function setWorkingDate(){D.workingDate=$("dateValue").value||today();save();toast("Date changed")}
 function contraDialog(){if(!D.parties.length)return alert("Add a party first.");modal=`<div class="modalbg"><div class="modal"><h2>Contra Voucher — F4</h2><div class="v4-help">Use this for cash/bank transfers.</div><div class="row"><div class="field"><label>Date</label><input id="cd" type="date" value="${today()}"></div><div class="field"><label>Amount</label><input id="ca2" type="number" min="0"></div></div><div class="row"><div class="field"><label>From</label><select id="cf"><option>Cash</option><option>Bank</option></select></div><div class="field"><label>To</label><select id="ct2"><option>Bank</option><option>Cash</option></select></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveContra()">Accept</button></div></div></div>`;render()}
+
+/* DRK JOURNAL V1 */
+let journalLines=[];
+
+function journalDialog(){
+  journalLines=[];
+  modal=`<div class="modalbg"><div class="modal">
+    <h2>Journal Voucher — F7</h2>
+    <div class="v4-help">Enter at least one Debit and one Credit entry. Total Debit must equal Total Credit.</div>
+    <div class="grid2">
+      <div><label>Date</label><input id="jd" type="date" value="${today()}"></div>
+      <div><label>Narration</label><input id="jn" placeholder="Journal narration"></div>
+    </div>
+    <br>
+    <div class="grid2">
+      <div>
+        <h3>Debit Account</h3>
+        <input id="jda" placeholder="Account name">
+        <input id="jdamt" type="number" step="0.01" min="0" placeholder="Debit amount">
+      </div>
+      <div>
+        <h3>Credit Account</h3>
+        <input id="jca" placeholder="Account name">
+        <input id="jcamt" type="number" step="0.01" min="0" placeholder="Credit amount">
+      </div>
+    </div>
+    <br>
+    <div class="foot">
+      <button class="primary" onclick="saveJournal()">Save Journal</button>
+      <button class="secondary" onclick="modal='';render()">Cancel</button>
+    </div>
+  </div></div>`;
+  render();
+}
+
+function saveJournal(){
+  const date=$("jd")?.value||today();
+  const narration=$("jn")?.value||"";
+  const debitAccount=($("jda")?.value||"").trim();
+  const creditAccount=($("jca")?.value||"").trim();
+  const debit=Number($("jdamt")?.value||0);
+  const credit=Number($("jcamt")?.value||0);
+
+  if(!debitAccount||!creditAccount)
+    return alert("Enter both Debit and Credit accounts.");
+
+  if(debit<=0||credit<=0)
+    return alert("Enter valid Debit and Credit amounts.");
+
+  if(Math.abs(debit-credit)>0.005)
+    return alert("Debit and Credit must be equal.");
+
+  D.tx.push({
+    id:uid(),
+    type:"journal",
+    number:no("receipt"),
+    date,
+    amount:debit,
+    total:debit,
+    debitAccount,
+    creditAccount,
+    debit,
+    credit,
+    narration
+  });
+
+  modal="";
+  save();
+  toast("Journal voucher saved");
+}
+/* END DRK JOURNAL V1 */
+
 function saveContra(){const amount=+($("ca2")?.value||0);if(amount<=0)return alert("Enter an amount.");D.tx.push({id:uid(),type:"contra",number:no("receipt"),date:$("cd").value||today(),amount,from:$("cf").value,to:$("ct2").value,total:amount});modal="";save();toast("Contra voucher saved")}
 function voucherMenu(){modal=`<div class="modalbg"><div class="modal"><h2>Voucher Types — F10</h2><div class="v4-help">Select a voucher type and press Enter.</div><div class="v4-f10"><button onclick="modal='';invoiceDialog('sales')"><b>F8</b> Sales</button><button onclick="modal='';invoiceDialog('purchase')"><b>F9</b> Purchase</button><button onclick="modal='';moneyDialog('payment')"><b>F5</b> Payment</button><button onclick="modal='';moneyDialog('receipt')"><b>F6</b> Receipt</button><button onclick="modal='';journalDialog()"><b>F7</b> Journal</button><button onclick="modal='';tab='invoices';render()"><b>Alt+F6</b> Credit Note / Sales Returns</button><button onclick="modal='';tab='invoices';render()"><b>Alt+F5</b> Debit Note / Purchase Returns</button><button onclick="modal='';stockJournalDialog()"><b>Alt+F7</b> Stock Journal</button><button onclick="modal='';tab='items';render()"><b>Ctrl+F7</b> Physical Stock</button><button onclick="modal='';tab='invoices';render()"><b>Alt+F8</b> Delivery Note</button><button onclick="modal='';tab='invoices';render()"><b>Ctrl+F8</b> Sales Order</button><button onclick="modal='';tab='invoices';render()"><b>Ctrl+F9</b> Purchase Order</button></div><div class="foot"><button class="secondary" onclick="modal='';render()">Close</button></div></div></div>`;render()}
 function dashboard(){let s=totals(),recent=[...D.tx,...D.expenses.map(e=>({...e,type:"expense"}))].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,8);return header("Dashboard","Your complete business overview.")+`<div class="cards">${[["Sales",s.sales],["Purchases",s.purchases],["Receivable",s.rec],["Payable",s.pay],["Cash & bank",s.cash],["Stock value",s.stock],["Expenses",s.expenses],["Profit / Loss",s.profit]].map(x=>`<div class="card"><small>${x[0]}</small><div class="money">${money(x[1])}</div></div>`).join("")}</div><div class="grid2" style="margin-top:15px"><div class="panel"><h3>Sales vs purchases</h3><canvas id="chart" class="chart"></canvas></div><div class="panel"><h3>Quick actions</h3><div class="actions"><button class="primary" onclick="invoiceDialog('sales')">+ Sales invoice</button><button class="secondary" onclick="invoiceDialog('purchase')">+ Purchase</button><button class="secondary" onclick="expenseDialog()">+ Expense</button><button class="secondary" onclick="moneyDialog('receipt')">+ Receipt</button></div></div></div><br><h3>Recent activity</h3>${recent.length?table(["No.","Date","Type","Party / Note","Amount","Actions"],recent.map(x=>[x.number||"—",x.date,x.type,pname(x.partyId)||esc(x.note),money(x.total??x.amount),x.id?`<button class="secondary" onclick="editTx('${x.id}')">Edit</button> <button class="dangerbtn" onclick="deleteTx('${x.id}')">Delete</button>`:"—"])):empty("No transactions yet.")}`}
@@ -178,7 +368,75 @@ function expenses(){return header("Expenses","Record operating and business expe
 function expenseDialog(id){let e=D.expenses.find(x=>x.id===id)||{date:today(),category:"General",note:"",mode:"Cash",amount:0};modal=`<div class="modalbg"><div class="modal"><h2>${id?"Edit":"Add"} expense</h2><div class="row"><div class="field"><label>Date</label><input id="ed" type="date" value="${e.date}"></div><div class="field"><label>Category</label><select id="ec">${["General","Rent","Salary","Travel","Transport","Office","Electricity","Marketing","Repairs","Other"].map(c=>`<option ${e.category===c?"selected":""}>${c}</option>`).join("")}</select></div></div><div class="field"><label>Note</label><input id="en" value="${esc(e.note)}"></div><div class="row"><div class="field"><label>Mode</label><select id="em"><option>Cash</option><option>Bank transfer</option><option>UPI</option><option>Cheque</option></select></div><div class="field"><label>Amount</label><input id="ea" type="number" value="${e.amount}"></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveExpense('${id||""}')">Save</button></div></div></div>`;render()}
 function saveExpense(id){let e={id:id||uid(),date:$("ed").value,category:$("ec").value,note:$("en").value,mode:$("em").value,amount:+$("ea").value||0,number:id?(D.expenses.find(x=>x.id===id)?.number):no("expense")};if(!e.amount)return alert("Enter amount.");if(id)D.expenses=D.expenses.map(x=>x.id===id?e:x);else D.expenses.push(e);modal="";save()}
 function editExpense(id){expenseDialog(id)}function deleteExpense(id){if(confirm("Delete expense?")){D.expenses=D.expenses.filter(x=>x.id!==id);save()}}
-function reports(){let s=totals();return header("Profit & Loss / GST","Business performance and tax summary.")+`<div class="cards">${[["Sales",s.sales],["Purchases",s.purchases],["Expenses",s.expenses],["Net Profit / Loss",s.profit],["Output GST",D.tx.filter(x=>x.type==="sales"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0)],["Input GST",D.tx.filter(x=>x.type==="purchase"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0)],["Net GST",s.gst]].map(x=>`<div class="card"><small>${x[0]}</small><div class="money">${money(x[1])}</div></div>`).join("")}</div><div class="grid2" style="margin-top:15px"><div class="panel"><h3>Profit & Loss</h3>${table(["Particular","Amount"],[["Sales",money(s.sales)],["Less: Purchases",money(s.purchases)],["Less: Expenses",money(s.expenses)],["Net Profit / Loss",`<b>${money(s.profit)}</b>`]])}</div><div class="panel"><h3>GST summary</h3>${table(["Particular","Amount"],[["Output GST (sales)",money(D.tx.filter(x=>x.type==="sales"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0))],["Input GST (purchases)",money(D.tx.filter(x=>x.type==="purchase"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0))],["Net GST",`<b>${money(s.gst)}</b>`]])}</div></div>`}
+
+function drkTrialBalancePanel(){
+  const tb=drkTrialBalance();
+  const check=drkAccountingCheck();
+
+  const rows=tb.map(x=>[
+    esc(x.account),
+    money(x.debit),
+    money(x.credit),
+    money(Math.abs(x.balance))+" "+(x.balance>=0?"Dr":"Cr")
+  ]);
+
+  return `<div class="panel" style="margin-top:15px">
+    <h3>Trial Balance</h3>
+    ${table(["Account","Debit","Credit","Balance"],rows)}
+    <div class="foot" style="margin-top:12px">
+      <b>Total Debit:</b> ${money(check.debit)}
+      &nbsp;&nbsp;
+      <b>Total Credit:</b> ${money(check.credit)}
+      &nbsp;&nbsp;
+      <b>Difference:</b> ${money(Math.abs(check.difference))}
+      &nbsp;&nbsp;
+      <b>${check.balanced?"✓ Balanced":"⚠ Not Balanced"}</b>
+    </div>
+  </div>`;
+}
+
+function reports(){
+  let s=totals();
+  let outputGst=D.tx.filter(x=>x.type==="sales"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0);
+  let inputGst=D.tx.filter(x=>x.type==="purchase"&&!x.cancelled).reduce((a,x)=>a+(+x.gst||0),0);
+
+  return header("Profit & Loss / GST","Business performance and tax summary.")
+  +`<div class="cards">
+    ${[
+      ["Sales",s.sales],
+      ["Purchases",s.purchases],
+      ["Expenses",s.expenses],
+      ["Net Profit / Loss",s.profit],
+      ["Output GST",outputGst],
+      ["Input GST",inputGst],
+      ["Net GST",s.gst]
+    ].map(x=>`<div class="card"><small>${x[0]}</small><div class="money">${money(x[1])}</div></div>`).join("")}
+  </div>
+
+  <div class="grid2" style="margin-top:15px">
+    <div class="panel">
+      <h3>Profit & Loss</h3>
+      ${table(["Particular","Amount"],[
+        ["Sales",money(s.sales)],
+        ["Less: Purchases",money(s.purchases)],
+        ["Less: Expenses",money(s.expenses)],
+        ["Net Profit / Loss",`<b>${money(s.profit)}</b>`]
+      ])}
+    </div>
+
+    <div class="panel">
+      <h3>GST summary</h3>
+      ${table(["Particular","Amount"],[
+        ["Output GST (sales)",money(outputGst)],
+        ["Input GST (purchases)",money(inputGst)],
+        ["Net GST",`<b>${money(s.gst)}</b>`]
+      ])}
+    </div>
+  </div>
+
+  ${drkTrialBalancePanel()}`
+}
+
 function searchPage(){let q=searchTerm.toLowerCase();let tx=D.tx.filter(x=>(x.number+" "+x.type+" "+pname(x.partyId)).toLowerCase().includes(q));let it=D.items.filter(x=>(x.name+" "+x.hsn).toLowerCase().includes(q));let pa=D.parties.filter(x=>(x.name+" "+x.phone+" "+x.gstin).toLowerCase().includes(q));return header("Global search","Search invoices, transactions, parties and items.")+`<div class="actions"><input class="search" autofocus value="${esc(searchTerm)}" placeholder="Search anything..." oninput="searchTerm=this.value;render()"></div><h3>Transactions</h3>${tx.length?table(["No.","Date","Type","Party","Amount",""],tx.map(x=>[x.number,x.date,x.type,pname(x.partyId),money(x.total??x.amount),`<button class="secondary" onclick="editTx('${x.id}')">Edit</button>`])):empty("No matching transactions.")}<h3 style="margin-top:20px">Parties & items</h3>${table(["Category","Name","Details"],[...pa.map(x=>["Party",esc(x.name),x.phone||x.gstin||""]),...it.map(x=>["Item",esc(x.name),x.hsn||""])])}`}
 function settings(){ensureInvoiceSettings();let c=D.company;return header("Company & security","Branding, invoice details, backup and PIN lock.")+`<div class="panel"><div class="row"><div class="field"><label>Company name</label><input id="cn" value="${esc(c.name)}"></div><div class="field"><label>Company Logo</label><input id="cl" type="file" accept="image/*" onchange="logoPreview(this)"><div id="lp" style="margin-top:8px">${c.logo?`<img class="logoPreview" src="${c.logo}" alt="Company Logo">`:`<span class="muted">No logo added</span>`}</div><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="secondary" onclick="document.getElementById('cl').click()">➕ Add / Change Logo</button><button type="button" class="dangerbtn" onclick="removeCompanyLogo()" ${c.logo?"":"disabled"}>🗑️ Delete Logo</button></div></div><div class="field"><label>Company QR / UPI QR</label><input id="cq" type="file" accept="image/*" onchange="qrPreview(this)"><div id="qp" style="margin-top:8px">${c.qr?`<img class="logoPreview" src="${c.qr}" alt="Company QR">`:`<span class="muted">No QR added</span>`}</div><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="secondary" onclick="document.getElementById('cq').click()">🔄 Change QR</button><button type="button" class="dangerbtn" onclick="removeCompanyQR()" ${c.qr?"":"disabled"}>🗑️ Delete QR</button></div></div><div class="field"><label>UPI ID for automatic payment QR</label><input id="cupi" value="${esc(c.upiId||"")}" placeholder="example@upi"><small class="muted">If filled, the invoice QR will open UPI payment with the exact invoice amount.</small></div><div class="field"><label>GSTIN</label><input id="cg" value="${esc(c.gstin)}"></div></div><div class="field"><label>Address</label><textarea id="ca">${esc(c.address)}</textarea></div><div class="row"><div class="field"><label>Phone</label><input id="cp" value="${esc(c.phone)}"></div><div class="field"><label>Email</label><input id="ce" value="${esc(c.email)}"></div></div><div class="row"><div class="field"><label>Bank</label><input id="cb" value="${esc(c.bank)}"></div><div class="field"><label>Account</label><input id="cba" value="${esc(c.account)}"></div><div class="field"><label>IFSC</label><input id="ci" value="${esc(c.ifsc)}"></div></div><div class="row"><div class="field"><label>Sales Invoice Prefix</label><input id="cip" value="${esc(c.invoicePrefix||"INV/TT")}" placeholder="e.g. CLS/TT"></div><div class="field"><label>Purchase Invoice Prefix</label><input id="cipu" value="${esc(c.purchasePrefix||"PUR/TT")}" placeholder="e.g. PUR/TT"></div></div><div class="field"><label><input id="autoInvoiceQR" type="checkbox" ${c.autoInvoiceQR!==false?"checked":""} style="width:auto;margin-right:6px"> Automatically generate QR on every invoice</label><small class="muted">The QR uses the invoice number, date, party and amount. If a UPI ID is saved above, it becomes a payment QR.</small></div><div class="field"><label>Invoice terms</label><textarea id="ct" rows="3">${esc(c.terms)}</textarea></div><button class="primary" onclick="saveSettings()">Save company settings</button></div><br><div class="actions"><button class="secondary" onclick="backup()">Export backup</button><button class="secondary" onclick="restore()">Import backup</button><button class="secondary" onclick="setPin()">Set / change PIN</button><button class="dangerbtn" onclick="removePin()">Remove PIN</button></div>${invoiceDesigner()}`}
 function logoPreview(i){let f=i.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{D.company.logo=r.result;save();$("lp").innerHTML=`<img class="logoPreview" src="${r.result}" alt="Company Logo">`;render()};r.readAsDataURL(f)}
