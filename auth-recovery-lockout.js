@@ -1,0 +1,34 @@
+/* M.BizAccount admin recovery + progressive login lockout */
+(function(){
+  const LOCK_KEY='mbizaccount_login_lockouts_v1';
+  const MAX_BACKOFF_MINUTES=60;
+  const state=()=>{try{return JSON.parse(localStorage.getItem(LOCK_KEY)||'{}')}catch(e){return {}}};
+  const save=(x)=>{try{localStorage.setItem(LOCK_KEY,JSON.stringify(x))}catch(e){}};
+  const norm=(v)=>String(v||'').trim().toLowerCase();
+  function get(id){return document.getElementById(id)}
+  function info(email){const s=state(),k=norm(email),x=s[k]||{fails:0,lockedUntil:0}; if(x.lockedUntil&&Date.now()>=x.lockedUntil){x.lockedUntil=0;save(s)} return x}
+  function format(ms){const sec=Math.max(0,Math.ceil(ms/1000));return Math.floor(sec/60)+'m '+String(sec%60).padStart(2,'0')+'s'}
+  function lockMinutes(fails){return Math.min(MAX_BACKOFF_MINUTES,Math.max(1,fails-4));}
+  window.mbizAuthLockState=function(email){return info(email)};
+  window.mbizAuthRegisterFailure=function(email){const s=state(),k=norm(email),x=s[k]||{fails:0,lockedUntil:0};x.fails=(x.fails||0)+1;const mins=lockMinutes(x.fails);x.lockedUntil=Date.now()+mins*60000;s[k]=x;save(s);return {fails:x.fails,minutes:mins,until:x.lockedUntil}};
+  window.mbizAuthClearFailures=function(email){const s=state(),k=norm(email);delete s[k];save(s)};
+  window.mbizAuthRecoveryUI=function(){
+    if(get('authRecovery'))return;
+    const host=document.querySelector('.auth-card'); if(!host)return;
+    const box=document.createElement('div'); box.id='authRecovery'; box.innerHTML=`<div style="display:flex;justify-content:center;gap:14px;margin-top:13px;font-size:12px"><button type="button" class="secondary" onclick="mbizForgotPassword()">Forgot Password?</button><button type="button" class="secondary" onclick="mbizForgotUserId()">Forgot User ID?</button></div>`;
+    host.appendChild(box);
+  };
+  window.mbizForgotPassword=async function(){
+    const email=(get('authEmail')?.value||'').trim();
+    if(!email)return window.mbizAuthError?.('Enter your admin email first.');
+    if(!window.mbizSupabase)return window.mbizAuthError?.('Authentication service is unavailable.');
+    try{const {error}=await window.mbizSupabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(error)throw error; if(get('authStatus'))get('authStatus').textContent='Password reset link sent. Check your email.'; if(get('authError'))get('authError').style.display='none'}catch(e){window.mbizAuthError?.(e?.message||'Unable to send password reset email.')}
+  };
+  window.mbizForgotUserId=function(){
+    const status=get('authStatus'); const email=(get('authEmail')?.value||'').trim();
+    if(status)status.textContent=email?'For security, the login ID is the admin email registered in Supabase. Check your email inbox for the account address.':'Enter the recovery email you used for the admin account.';
+  };
+  window.mbizApplyRecoveryLock=function(email){const x=info(email);const btn=get('authSubmit'); if(x.lockedUntil>Date.now()){if(btn){btn.disabled=true;btn.textContent='Locked '+format(x.lockedUntil-Date.now())}const status=get('authStatus');if(status)status.textContent='Too many failed attempts. Try again in '+format(x.lockedUntil-Date.now())+'.';return false}return true};
+  window.setInterval(function(){const email=(get('authEmail')?.value||'').trim();if(email)window.mbizApplyRecoveryLock(email)},1000);
+  document.addEventListener('DOMContentLoaded',function(){window.mbizAuthRecoveryUI()});
+})();
