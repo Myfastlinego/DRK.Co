@@ -107,6 +107,576 @@ button:disabled,[aria-disabled="true"]{
   color:#111!important;
 }
 
+
+/* ===== MODERN FINANCE DASHBOARD V1 ===== */
+.mf-dashboard{
+  padding:24px;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+.mf-welcome{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.mf-eyebrow{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  opacity:.55;
+  margin-bottom:6px;
+}
+
+.mf-welcome h1{
+  margin:0;
+  font-size:30px;
+  line-height:1.15;
+}
+
+.mf-welcome p{
+  margin:7px 0 0;
+  opacity:.65;
+}
+
+.mf-date{
+  font-size:13px;
+  opacity:.6;
+  white-space:nowrap;
+}
+
+.mf-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.mf-actions button{
+  border:1px solid rgba(127,127,127,.22);
+  background:var(--panel,#fff);
+  border-radius:10px;
+  padding:10px 15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.mf-actions .mf-primary{
+  background:var(--primary,#111827);
+  color:#fff;
+  border-color:transparent;
+}
+
+.mf-kpis{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.mf-kpi,
+.mf-card{
+  background:var(--panel,#fff);
+  border:1px solid rgba(127,127,127,.16);
+  border-radius:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.04);
+}
+
+.mf-kpi{
+  padding:18px;
+}
+
+.mf-kpi-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+  opacity:.7;
+  margin-bottom:12px;
+}
+
+.mf-kpi strong{
+  display:block;
+  font-size:24px;
+  line-height:1.2;
+  margin-bottom:6px;
+}
+
+.mf-kpi small{
+  opacity:.55;
+}
+
+.mf-kpi .positive{
+  color:#16803c;
+}
+
+.mf-kpi .negative{
+  color:#c62828;
+}
+
+.mf-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.mf-card{
+  padding:18px;
+}
+
+.mf-card-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.mf-card-head h3{
+  margin:0 0 4px;
+  font-size:17px;
+}
+
+.mf-card-head span{
+  font-size:12px;
+  opacity:.55;
+}
+
+.mf-badge{
+  padding:6px 9px;
+  border-radius:8px;
+  background:rgba(127,127,127,.08);
+  white-space:nowrap;
+}
+
+.mf-chart{
+  width:100%;
+  min-height:260px;
+}
+
+.mf-summary-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid rgba(127,127,127,.12);
+}
+
+.mf-summary-row:last-child{
+  border-bottom:0;
+}
+
+.mf-summary-row span{
+  opacity:.65;
+}
+
+.mf-summary-row b{
+  font-size:15px;
+}
+
+.mf-link{
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font-weight:700;
+  padding:4px;
+}
+
+.mf-transactions{
+  display:flex;
+  flex-direction:column;
+}
+
+.mf-transaction{
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(127,127,127,.12);
+}
+
+.mf-transaction:last-child{
+  border-bottom:0;
+}
+
+.mf-t-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  background:rgba(127,127,127,.09);
+}
+
+.mf-t-main{
+  min-width:0;
+}
+
+.mf-t-main b,
+.mf-t-main small{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.mf-t-main small{
+  margin-top:3px;
+  opacity:.55;
+}
+
+.mf-t-date{
+  font-size:12px;
+  opacity:.55;
+}
+
+.mf-transaction>strong{
+  text-align:right;
+}
+
+@media(max-width:900px){
+  .mf-kpis{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .mf-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+  .mf-dashboard{
+    padding:15px;
+  }
+
+  .mf-welcome{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .mf-welcome h1{
+    font-size:25px;
+  }
+
+  .mf-kpis{
+    grid-template-columns:1fr;
+  }
+
+  .mf-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mf-actions button{
+    width:100%;
+  }
+
+  .mf-transaction{
+    grid-template-columns:38px minmax(0,1fr) auto;
+  }
+
+  .mf-t-date{
+    display:none;
+  }
+
+  .mf-transaction>strong{
+    font-size:13px;
+  }
+}
+
+
+/* ===== MODERN FINANCE DASHBOARD V1 ===== */
+.mf-dashboard{
+  padding:24px;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+.mf-welcome{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.mf-eyebrow{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  opacity:.55;
+  margin-bottom:6px;
+}
+
+.mf-welcome h1{
+  margin:0;
+  font-size:30px;
+  line-height:1.15;
+}
+
+.mf-welcome p{
+  margin:7px 0 0;
+  opacity:.65;
+}
+
+.mf-date{
+  font-size:13px;
+  opacity:.6;
+  white-space:nowrap;
+}
+
+.mf-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.mf-actions button{
+  border:1px solid rgba(127,127,127,.22);
+  background:var(--panel,#fff);
+  border-radius:10px;
+  padding:10px 15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.mf-actions .mf-primary{
+  background:var(--primary,#111827);
+  color:#fff;
+  border-color:transparent;
+}
+
+.mf-kpis{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.mf-kpi,
+.mf-card{
+  background:var(--panel,#fff);
+  border:1px solid rgba(127,127,127,.16);
+  border-radius:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.04);
+}
+
+.mf-kpi{
+  padding:18px;
+}
+
+.mf-kpi-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+  opacity:.7;
+  margin-bottom:12px;
+}
+
+.mf-kpi strong{
+  display:block;
+  font-size:24px;
+  line-height:1.2;
+  margin-bottom:6px;
+}
+
+.mf-kpi small{
+  opacity:.55;
+}
+
+.mf-kpi .positive{
+  color:#16803c;
+}
+
+.mf-kpi .negative{
+  color:#c62828;
+}
+
+.mf-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.mf-card{
+  padding:18px;
+}
+
+.mf-card-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.mf-card-head h3{
+  margin:0 0 4px;
+  font-size:17px;
+}
+
+.mf-card-head span{
+  font-size:12px;
+  opacity:.55;
+}
+
+.mf-badge{
+  padding:6px 9px;
+  border-radius:8px;
+  background:rgba(127,127,127,.08);
+  white-space:nowrap;
+}
+
+.mf-chart{
+  width:100%;
+  min-height:260px;
+}
+
+.mf-summary-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid rgba(127,127,127,.12);
+}
+
+.mf-summary-row:last-child{
+  border-bottom:0;
+}
+
+.mf-summary-row span{
+  opacity:.65;
+}
+
+.mf-summary-row b{
+  font-size:15px;
+}
+
+.mf-link{
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font-weight:700;
+  padding:4px;
+}
+
+.mf-transactions{
+  display:flex;
+  flex-direction:column;
+}
+
+.mf-transaction{
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(127,127,127,.12);
+}
+
+.mf-transaction:last-child{
+  border-bottom:0;
+}
+
+.mf-t-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  background:rgba(127,127,127,.09);
+}
+
+.mf-t-main{
+  min-width:0;
+}
+
+.mf-t-main b,
+.mf-t-main small{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.mf-t-main small{
+  margin-top:3px;
+  opacity:.55;
+}
+
+.mf-t-date{
+  font-size:12px;
+  opacity:.55;
+}
+
+.mf-transaction>strong{
+  text-align:right;
+}
+
+@media(max-width:900px){
+  .mf-kpis{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .mf-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+  .mf-dashboard{
+    padding:15px;
+  }
+
+  .mf-welcome{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .mf-welcome h1{
+    font-size:25px;
+  }
+
+  .mf-kpis{
+    grid-template-columns:1fr;
+  }
+
+  .mf-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mf-actions button{
+    width:100%;
+  }
+
+  .mf-transaction{
+    grid-template-columns:38px minmax(0,1fr) auto;
+  }
+
+  .mf-t-date{
+    display:none;
+  }
+
+  .mf-transaction>strong{
+    font-size:13px;
+  }
+}
+
 </style>
 <script>window.V21_FEATURES={voucherTypes:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],gstModes:["Local (CGST + SGST/UTGST)","Interstate (IGST)","Exempt","Nil Rated"],units:["NOS","KG","LTR","BOX","MTR","SET"]};function v21VoucherMenu(){return `<div class="v21-section"><div class="v21-card"><h3>Voucher Types</h3><div class="v21-shortcuts">${V21_FEATURES.voucherTypes.map((x,i)=>`<span>${i+1}. ${x}</span>`).join("")}</div><div class="v21-help" style="margin-top:8px">Use the existing voucher screens to record transactions. This layer keeps the Tally-style terminology while preserving your current M.BizAccount data.</div></div></div>`}function v21GstSummary(){const tx=(window.D&&Array.isArray(D.tx))?D.tx:[];let sales=0,purchase=0;tx.filter(x=>!x.cancelled).forEach(x=>{const t=String(x.type||"").toLowerCase();const total=Number(x.total||x.amount||0);if(t.includes("sales"))sales+=total;if(t.includes("purchase"))purchase+=total});return `<div class="v21-section"><div class="v21-grid"><div class="v21-card"><div class="v21-help">Sales</div><div class="v21-kpi">${typeof money==="function"?money(sales):sales.toFixed(2)}</div></div><div class="v21-card"><div class="v21-help">Purchase</div><div class="v21-kpi">${typeof money==="function"?money(purchase):purchase.toFixed(2)}</div></div></div></div>`}</script>
 <script id="v22-accounting-layer">window.MBizV22={vouchers:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],reports:["Day Book","Trial Balance","Profit & Loss","Balance Sheet","Outstanding","Stock Summary","GST Summary","HSN/SAC Summary"],shortcuts:["F2 Date","F4 Contra","F5 Payment","F6 Receipt","F7 Journal","F8 Sales","F9 Purchase"]};function mbizV22Open(tabName){if(typeof window.tab!=="undefined"){window.tab=tabName;if(typeof render==="function")render()}}function mbizV22Panel(){const sales=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("sales")).length:0;const purchase=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("purchase")).length:0;return `<section class="v22-gateway"><div class="v22-head"><div><div class="v22-brand">M.BizAccount</div><div class="v22-sub">Accounting & GST Edition</div></div><div class="v22-sub">Tally-style workflow • Original M.BizAccount interface</div></div><div class="v22-grid"><nav class="v22-nav"><button onclick="mbizV22Open('dashboard')">🏠 Gateway / Dashboard</button><button onclick="mbizV22Open('parties')">📒 Ledgers / Accounts</button><button onclick="mbizV22Open('items')">📦 Inventory</button><button onclick="mbizV22Open('voucher')">🧾 Vouchers</button><button onclick="mbizV22Open('payments')">📅 Day Book</button><button onclick="mbizV22Open('expenses')">💳 Expenses</button><button onclick="mbizV22Open('reports')">📊 Reports / GST</button><button onclick="mbizV22Open('settings')">⚙️ Company / Settings</button></nav><main class="v22-main"><div class="v22-cards"><div class="v22-card"><div class="v22-label">Sales Vouchers</div><div class="v22-value">${sales}</div></div><div class="v22-card"><div class="v22-label">Purchase Vouchers</div><div class="v22-value">${purchase}</div></div><div class="v22-card"><div class="v22-label">Ledgers</div><div class="v22-value">${window.D?D.parties.length:0}</div></div><div class="v22-card"><div class="v22-label">Stock Items</div><div class="v22-value">${window.D?D.items.length:0}</div></div></div><div class="v22-short">${MBizV22.vouchers.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div><div class="v22-short">${MBizV22.shortcuts.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div></main></div></section>`}</script>
@@ -340,7 +910,131 @@ function saveJournal(){
 
 function saveContra(){const amount=+($("ca2")?.value||0);if(amount<=0)return alert("Enter an amount.");D.tx.push({id:uid(),type:"contra",number:no("receipt"),date:$("cd").value||today(),amount,from:$("cf").value,to:$("ct2").value,total:amount});modal="";save();toast("Contra voucher saved")}
 function voucherMenu(){modal=`<div class="modalbg"><div class="modal"><h2>Voucher Types — F10</h2><div class="v4-help">Select a voucher type and press Enter.</div><div class="v4-f10"><button onclick="modal='';invoiceDialog('sales')"><b>F8</b> Sales</button><button onclick="modal='';invoiceDialog('purchase')"><b>F9</b> Purchase</button><button onclick="modal='';moneyDialog('payment')"><b>F5</b> Payment</button><button onclick="modal='';moneyDialog('receipt')"><b>F6</b> Receipt</button><button onclick="modal='';journalDialog()"><b>F7</b> Journal</button><button onclick="modal='';tab='invoices';render()"><b>Alt+F6</b> Credit Note / Sales Returns</button><button onclick="modal='';tab='invoices';render()"><b>Alt+F5</b> Debit Note / Purchase Returns</button><button onclick="modal='';stockJournalDialog()"><b>Alt+F7</b> Stock Journal</button><button onclick="modal='';tab='items';render()"><b>Ctrl+F7</b> Physical Stock</button><button onclick="modal='';tab='invoices';render()"><b>Alt+F8</b> Delivery Note</button><button onclick="modal='';tab='invoices';render()"><b>Ctrl+F8</b> Sales Order</button><button onclick="modal='';tab='invoices';render()"><b>Ctrl+F9</b> Purchase Order</button></div><div class="foot"><button class="secondary" onclick="modal='';render()">Close</button></div></div></div>`;render()}
-function dashboard(){let s=totals(),recent=[...D.tx,...D.expenses.map(e=>({...e,type:"expense"}))].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,8);return header("Dashboard","Your complete business overview.")+`<div class="cards">${[["Sales",s.sales],["Purchases",s.purchases],["Receivable",s.rec],["Payable",s.pay],["Cash & bank",s.cash],["Stock value",s.stock],["Expenses",s.expenses],["Profit / Loss",s.profit]].map(x=>`<div class="card"><small>${x[0]}</small><div class="money">${money(x[1])}</div></div>`).join("")}</div><div class="grid2" style="margin-top:15px"><div class="panel"><h3>Sales vs purchases</h3><canvas id="chart" class="chart"></canvas></div><div class="panel"><h3>Quick actions</h3><div class="actions"><button class="primary" onclick="invoiceDialog('sales')">+ Sales invoice</button><button class="secondary" onclick="invoiceDialog('purchase')">+ Purchase</button><button class="secondary" onclick="expenseDialog()">+ Expense</button><button class="secondary" onclick="moneyDialog('receipt')">+ Receipt</button></div></div></div><br><h3>Recent activity</h3>${recent.length?table(["No.","Date","Type","Party / Note","Amount","Actions"],recent.map(x=>[x.number||"—",x.date,x.type,pname(x.partyId)||esc(x.note),money(x.total??x.amount),x.id?`<button class="secondary" onclick="editTx('${x.id}')">Edit</button> <button class="dangerbtn" onclick="deleteTx('${x.id}')">Delete</button>`:"—"])):empty("No transactions yet.")}`}
+function dashboard(){
+  let s=totals();
+  let recent=[...D.tx,...D.expenses.map(e=>({...e,type:"expense"}))]
+    .sort((a,b)=>(b.date||"").localeCompare(a.date||""))
+    .slice(0,6);
+
+  let profitClass=s.profit>=0?"positive":"negative";
+
+  return `
+  <section class="mf-dashboard">
+
+    <div class="mf-welcome">
+      <div>
+        <div class="mf-eyebrow">BUSINESS OVERVIEW</div>
+        <h1>Good to see you 👋</h1>
+        <p>${esc(D.company.name||"M.BizAccount")} · Your financial snapshot</p>
+      </div>
+      <div class="mf-date">${new Date().toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}</div>
+    </div>
+
+    <div class="mf-actions">
+      <button class="mf-primary" onclick="invoiceDialog('sales')">＋ New Sales Invoice</button>
+      <button onclick="invoiceDialog('purchase')">＋ Purchase</button>
+      <button onclick="expenseDialog()">＋ Expense</button>
+      <button onclick="moneyDialog('receipt')">＋ Receipt</button>
+    </div>
+
+    <div class="mf-kpis">
+      <div class="mf-kpi">
+        <div class="mf-kpi-top"><span>Total Sales</span><span>↗</span></div>
+        <strong>${money(s.sales)}</strong>
+        <small>Recorded sales</small>
+      </div>
+
+      <div class="mf-kpi">
+        <div class="mf-kpi-top"><span>Expenses</span><span>↘</span></div>
+        <strong>${money(s.expenses)}</strong>
+        <small>Business expenses</small>
+      </div>
+
+      <div class="mf-kpi">
+        <div class="mf-kpi-top"><span>Cash & Bank</span><span>₹</span></div>
+        <strong>${money(s.cash)}</strong>
+        <small>Available balance</small>
+      </div>
+
+      <div class="mf-kpi">
+        <div class="mf-kpi-top"><span>Profit / Loss</span><span>●</span></div>
+        <strong class="${profitClass}">${money(s.profit)}</strong>
+        <small>${s.profit>=0?"Net profit":"Net loss"}</small>
+      </div>
+    </div>
+
+    <div class="mf-grid">
+
+      <div class="mf-card mf-chart-card">
+        <div class="mf-card-head">
+          <div>
+            <h3>Business performance</h3>
+            <span>Sales vs purchases</span>
+          </div>
+          <span class="mf-badge">Overview</span>
+        </div>
+        <canvas id="chart" class="chart mf-chart"></canvas>
+      </div>
+
+      <div class="mf-card">
+        <div class="mf-card-head">
+          <div>
+            <h3>Financial summary</h3>
+            <span>Current position</span>
+          </div>
+        </div>
+
+        <div class="mf-summary-row">
+          <span>Receivable</span>
+          <b>${money(s.rec)}</b>
+        </div>
+        <div class="mf-summary-row">
+          <span>Payable</span>
+          <b>${money(s.pay)}</b>
+        </div>
+        <div class="mf-summary-row">
+          <span>Stock value</span>
+          <b>${money(s.stock)}</b>
+        </div>
+        <div class="mf-summary-row">
+          <span>GST balance</span>
+          <b>${money(s.gst)}</b>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mf-card mf-recent">
+      <div class="mf-card-head">
+        <div>
+          <h3>Recent transactions</h3>
+          <span>Latest business activity</span>
+        </div>
+        <button class="mf-link" onclick="tab='invoices';render()">View all →</button>
+      </div>
+
+      ${
+        recent.length
+        ? `<div class="mf-transactions">${
+            recent.map(x=>`
+              <div class="mf-transaction">
+                <div class="mf-t-icon">${x.type==="sales"?"S":x.type==="purchase"?"P":x.type==="expense"?"E":"₹"}</div>
+                <div class="mf-t-main">
+                  <b>${esc(x.number||x.type||"Transaction")}</b>
+                  <small>${esc(pname(x.partyId)||x.note||x.type||"Business transaction")}</small>
+                </div>
+                <div class="mf-t-date">${esc(x.date||"")}</div>
+                <strong>${money(x.total??x.amount??0)}</strong>
+              </div>
+            `).join("")
+          }</div>`
+        : empty("No transactions yet.")
+      }
+    </div>
+
+  </section>`;
+}
+
 function parties(){return header("Customers & suppliers","Ledger balances and contact details.")+`<div class="actions"><input class="search" id="partySearch" placeholder="Search party..." value="${esc(searchTerm)}" oninput="searchTerm=this.value;renderParties()"><button class="primary" onclick="partyDialog()">+ Add party</button></div><div id="partyList"></div>`}
 function renderParties(){let a=D.parties.filter(p=>(p.name+" "+p.phone+" "+p.gstin).toLowerCase().includes(searchTerm.toLowerCase()));$("partyList").innerHTML=a.length?table(["Name","Type","GSTIN","Phone","Balance",""],a.map(p=>{let b=D.tx.filter(v=>v.partyId===p.id).reduce((z,v)=>z+txEffect(v),0);return [`<b>${esc(p.name)}</b>`,p.type,esc(p.gstin||"—"),esc(p.phone||"—"),money(Math.abs(b))+" "+(b>=0?"Dr":"Cr"),`<button class="secondary" onclick="activeParty='${p.id}';render()">Ledger</button> <button class="secondary" onclick="partyDialog('${p.id}')">Edit</button> <button class="dangerbtn" onclick="deleteParty('${p.id}')">Delete</button>`]})):empty("No parties found.")}
 function partyDialog(id){let p=D.parties.find(x=>x.id===id)||{name:"",type:"customer",gstin:"",phone:"",address:""};modal=`<div class="modalbg"><div class="modal"><h2>${id?"Edit":"Add"} party</h2><div class="field"><label>Name</label><input id="pn" value="${esc(p.name)}"></div><div class="row"><div class="field"><label>Type</label><select id="pt"><option value="customer" ${p.type==="customer"?"selected":""}>Customer</option><option value="supplier" ${p.type==="supplier"?"selected":""}>Supplier</option></select></div><div class="field"><label>GSTIN</label><input id="pg" value="${esc(p.gstin)}"></div></div><div class="row"><div class="field"><label>Phone</label><input id="pp" value="${esc(p.phone)}"></div><div class="field"><label>Address</label><input id="pa" value="${esc(p.address)}"></div></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="saveParty('${id||""}')">Save</button></div></div></div>`;render()}
