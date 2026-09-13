@@ -25,6 +25,71 @@ html, body { width:100%; max-width:100%; overflow-x:hidden; }body { margin:0; }*
 .v21-section{margin-top:18px}.v21-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.v21-card{border:1px solid #d9dee7;border-radius:12px;padding:14px;background:#fff}.v21-card h3{margin:0 0 7px}.v21-kpi{font-size:22px;font-weight:800}.v21-help{font-size:12px;color:#667085}.v21-shortcuts{display:flex;flex-wrap:wrap;gap:7px}.v21-shortcuts span{border:1px solid #ccd3df;border-radius:7px;padding:5px 8px;background:#f7f8fa;font-size:12px}@media(max-width:700px){.v21-grid{grid-template-columns:1fr}}
 .v22-gateway{font-family:Arial,sans-serif;color:#1d2939;background:#f5f7fa;border:1px solid #cfd6df;border-radius:8px;overflow:hidden;margin:10px 0}.v22-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #cfd6df;background:#fff}.v22-brand{font-weight:800;font-size:18px}.v22-sub{font-size:11px;opacity:.65}.v22-grid{display:grid;grid-template-columns:230px 1fr;min-height:420px}.v22-nav{border-right:1px solid #cfd6df;padding:10px;background:#fafbfc}.v22-nav button{display:block;width:100%;text-align:left;margin:4px 0;padding:9px 10px;border:1px solid transparent;background:transparent;border-radius:6px;cursor:pointer}.v22-nav button:hover{border-color:#cfd6df;background:#fff}.v22-main{padding:14px}.v22-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.v22-card{background:#fff;border:1px solid #cfd6df;border-radius:8px;padding:12px}.v22-label{font-size:11px;opacity:.65}.v22-value{font-size:20px;font-weight:800;margin-top:4px}.v22-short{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}.v22-key{padding:6px 8px;border:1px solid #cfd6df;border-radius:6px;background:#fff;font-size:12px}@media(max-width:800px){.v22-grid{grid-template-columns:1fr}.v22-nav{border-right:0;border-bottom:1px solid #cfd6df;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.v22-nav button{margin:0}.v22-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:430px){.v22-cards{grid-template-columns:1fr}.v22-head{align-items:flex-start;flex-direction:column}}
 .auth-backdrop{position:fixed;inset:0;z-index:100000;background:#0f172aeF;display:flex;align-items:center;justify-content:center;padding:18px}.auth-card{width:min(390px,100%);background:#fff;border-radius:14px;padding:24px;box-shadow:0 20px 60px #0007}.auth-card h2{margin:0 0 6px;font:26px Georgia;color:var(--green)}.auth-card p{margin:0 0 18px;color:var(--muted)}.auth-error{display:none;color:#a33d3d;background:#fdecec;border:1px solid #e4b7b7;padding:8px;border-radius:7px;margin:10px 0;font-size:12px}.auth-status{font-size:11px;color:var(--muted);margin-top:8px}
+
+/* ===== DRK.Co Modern UI/UX ===== */
+:root{
+  --ui-radius:16px;
+  --ui-shadow:0 8px 30px rgba(0,0,0,.08);
+  --ui-border:rgba(0,0,0,.10);
+}
+body{
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+button,.btn,input,select,textarea{
+  border-radius:12px;
+  transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease;
+}
+button,.btn{
+  min-height:44px;
+  font-weight:600;
+  cursor:pointer;
+}
+button:active,.btn:active{
+  transform:scale(.98);
+}
+input,select,textarea{
+  min-height:44px;
+  border:1px solid var(--ui-border);
+  outline:none;
+}
+input:focus,select:focus,textarea:focus{
+  box-shadow:0 0 0 3px rgba(59,130,246,.15);
+}
+.panel,.card,.format-panel{
+  border-radius:var(--ui-radius);
+  box-shadow:var(--ui-shadow);
+}
+.row,.grid{
+  gap:16px;
+}
+.actions{
+  gap:10px;
+  flex-wrap:wrap;
+}
+@media(max-width:700px){
+  .row,.grid{
+    grid-template-columns:1fr!important;
+  }
+  .panel,.card,.format-panel{
+    border-radius:14px;
+    padding:14px!important;
+  }
+  button,.btn{
+    min-height:46px;
+  }
+  input,select,textarea{
+    font-size:16px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+
 </style>
 <script>window.V21_FEATURES={voucherTypes:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],gstModes:["Local (CGST + SGST/UTGST)","Interstate (IGST)","Exempt","Nil Rated"],units:["NOS","KG","LTR","BOX","MTR","SET"]};function v21VoucherMenu(){return `<div class="v21-section"><div class="v21-card"><h3>Voucher Types</h3><div class="v21-shortcuts">${V21_FEATURES.voucherTypes.map((x,i)=>`<span>${i+1}. ${x}</span>`).join("")}</div><div class="v21-help" style="margin-top:8px">Use the existing voucher screens to record transactions. This layer keeps the Tally-style terminology while preserving your current M.BizAccount data.</div></div></div>`}function v21GstSummary(){const tx=(window.D&&Array.isArray(D.tx))?D.tx:[];let sales=0,purchase=0;tx.filter(x=>!x.cancelled).forEach(x=>{const t=String(x.type||"").toLowerCase();const total=Number(x.total||x.amount||0);if(t.includes("sales"))sales+=total;if(t.includes("purchase"))purchase+=total});return `<div class="v21-section"><div class="v21-grid"><div class="v21-card"><div class="v21-help">Sales</div><div class="v21-kpi">${typeof money==="function"?money(sales):sales.toFixed(2)}</div></div><div class="v21-card"><div class="v21-help">Purchase</div><div class="v21-kpi">${typeof money==="function"?money(purchase):purchase.toFixed(2)}</div></div></div></div>`}</script>
 <script id="v22-accounting-layer">window.MBizV22={vouchers:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],reports:["Day Book","Trial Balance","Profit & Loss","Balance Sheet","Outstanding","Stock Summary","GST Summary","HSN/SAC Summary"],shortcuts:["F2 Date","F4 Contra","F5 Payment","F6 Receipt","F7 Journal","F8 Sales","F9 Purchase"]};function mbizV22Open(tabName){if(typeof window.tab!=="undefined"){window.tab=tabName;if(typeof render==="function")render()}}function mbizV22Panel(){const sales=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("sales")).length:0;const purchase=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("purchase")).length:0;return `<section class="v22-gateway"><div class="v22-head"><div><div class="v22-brand">M.BizAccount</div><div class="v22-sub">Accounting & GST Edition</div></div><div class="v22-sub">Tally-style workflow • Original M.BizAccount interface</div></div><div class="v22-grid"><nav class="v22-nav"><button onclick="mbizV22Open('dashboard')">🏠 Gateway / Dashboard</button><button onclick="mbizV22Open('parties')">📒 Ledgers / Accounts</button><button onclick="mbizV22Open('items')">📦 Inventory</button><button onclick="mbizV22Open('voucher')">🧾 Vouchers</button><button onclick="mbizV22Open('payments')">📅 Day Book</button><button onclick="mbizV22Open('expenses')">💳 Expenses</button><button onclick="mbizV22Open('reports')">📊 Reports / GST</button><button onclick="mbizV22Open('settings')">⚙️ Company / Settings</button></nav><main class="v22-main"><div class="v22-cards"><div class="v22-card"><div class="v22-label">Sales Vouchers</div><div class="v22-value">${sales}</div></div><div class="v22-card"><div class="v22-label">Purchase Vouchers</div><div class="v22-value">${purchase}</div></div><div class="v22-card"><div class="v22-label">Ledgers</div><div class="v22-value">${window.D?D.parties.length:0}</div></div><div class="v22-card"><div class="v22-label">Stock Items</div><div class="v22-value">${window.D?D.items.length:0}</div></div></div><div class="v22-short">${MBizV22.vouchers.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div><div class="v22-short">${MBizV22.shortcuts.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div></main></div></section>`}</script>
