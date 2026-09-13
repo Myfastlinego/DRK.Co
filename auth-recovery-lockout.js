@@ -2,10 +2,10 @@
 (function () {
   'use strict';
 
-  const LOCK_KEY = 'mbizaccount_login_lockouts_v3';
+  const LOCK_KEY = 'mbizaccount_login_lockouts_v4';
   const MAX_BACKOFF_MINUTES = 60;
+  let ready = false;
   let recoveryButtonsAdded = false;
-  let loginHandlerInstalled = false;
 
   const $ = (id) => document.getElementById(id);
   const normalize = (value) => String(value || '').trim().toLowerCase();
@@ -32,15 +32,18 @@
     return entry;
   }
 
-  function formatRemaining(ms) {
-    const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = String(totalSeconds % 60).padStart(2, '0');
-    return minutes + 'm ' + seconds + 's';
-  }
-
   function delayMinutes(fails) {
     return fails >= 5 ? Math.min(MAX_BACKOFF_MINUTES, fails - 4) : 0;
+  }
+
+  function formatRemaining(ms) {
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    return Math.floor(total / 60) + 'm ' + String(total % 60).padStart(2, '0') + 's';
+  }
+
+  function setStatus(message) {
+    const el = $('authStatus');
+    if (el) el.textContent = message;
   }
 
   function showError(message) {
@@ -48,27 +51,24 @@
       window.mbizAuthError(message);
       return;
     }
-    const box = $('authError');
-    if (box) { box.textContent = message; box.style.display = ''; }
+    const el = $('authError');
+    if (el) {
+      el.textContent = message;
+      el.style.display = '';
+    }
   }
 
-  function setStatus(message) {
-    const status = $('authStatus');
-    if (status) status.textContent = message;
-  }
-
-  function setBusy(button, busy) {
-    if (!button) return;
-    button.disabled = busy;
-    button.textContent = busy ? 'Signing in...' : 'Sign In';
+  function clearError() {
+    const el = $('authError');
+    if (el) el.style.display = 'none';
   }
 
   function applyLockUI() {
-    const email = $('authEmail')?.value || '';
-    const entry = getEntry(email);
     const button = $('authSubmit');
+    const email = $('authEmail')?.value || '';
     if (!button) return false;
 
+    const entry = getEntry(email);
     if (entry.lockedUntil > Date.now()) {
       button.disabled = true;
       button.textContent = 'Locked ' + formatRemaining(entry.lockedUntil - Date.now());
@@ -86,6 +86,7 @@
   function registerFailure(email) {
     const key = normalize(email);
     if (!key) return { fails: 0, minutes: 0, until: 0 };
+
     const state = readState();
     const entry = state[key] || { fails: 0, lockedUntil: 0 };
     entry.fails = (entry.fails || 0) + 1;
@@ -102,102 +103,110 @@
     saveState(state);
   }
 
-  window.mbizAuthLockState = getEntry;
-  window.mbizAuthRegisterFailure = registerFailure;
-  window.mbizAuthClearFailures = clearFailures;
-  window.mbizAuthApplyLockUI = applyLockUI;
-
-  window.mbizForgotPassword = async function () {
+  async function forgotPassword() {
     const email = ($('authEmail')?.value || '').trim();
     if (!email) {
       showError('Enter your admin email first.');
       $('authEmail')?.focus();
       return;
     }
-    if (!window.mbizSupabase?.auth?.resetPasswordForEmail) {
-      showError('Authentication service is unavailable. Please refresh the page.');
+
+    const client = window.mbizSupabase;
+    if (!client || !client.auth || typeof client.auth.resetPasswordForEmail !== 'function') {
+      showError('Authentication service is not ready. Please wait a moment and try again.');
       return;
     }
+
+    const button = $('forgotPasswordBtn');
+    if (button) { button.disabled = true; button.textContent = 'Sending...'; }
+    clearError();
+    setStatus('Sending password reset request…');
 
     try {
-      const { error } = await window.mbizSupabase.auth.resetPasswordForEmail(email, {
-        redirectTo: location.href.split('#')[0]
+      const { error } = await client.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + window.location.pathname
       });
       if (error) throw error;
-      const box = $('authError');
-      if (box) box.style.display = 'none';
-      setStatus('Password reset request sent. Check the email inbox for this User ID.');
+      setStatus('Reset email requested. Check the inbox for the entered User ID.');
     } catch (error) {
       console.error('Password recovery failed:', error);
-      showError('Password reset could not be started. Please verify the User ID and try again.');
+      showError('Password reset could not be sent. Please check the User ID/email and try again.');
+      setStatus('Password recovery failed.');
+    } finally {
+      if (button) { button.disabled = false; button.textContent = 'Forgot Password?'; }
     }
-  };
+  }
 
-  window.mbizForgotUserId = function () {
-    const box = $('authError');
-    if (box) box.style.display = 'none';
-    setStatus('User ID = the admin email address registered in Supabase for this M.BizAccount.');
-  };
+  function forgotUserId() {
+    clearError();
+    setStatus('Your User ID is the admin email address registered in Supabase for M.BizAccount.');
+  }
 
   function addRecoveryButtons() {
-    if (recoveryButtonsAdded || $('authRecovery')) {
-      recoveryButtonsAdded = true;
-      return;
-    }
     const card = document.querySelector('.auth-card');
-    if (!card) return;
+    if (!card || recoveryButtonsAdded) return;
+    if ($('authRecovery')) { recoveryButtonsAdded = true; return; }
 
     const wrap = document.createElement('div');
     wrap.id = 'authRecovery';
     wrap.style.cssText = 'display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:13px';
-    wrap.innerHTML =
-      '<button type="button" class="secondary" id="forgotPasswordBtn">Forgot Password?</button>' +
-      '<button type="button" class="secondary" id="forgotUserIdBtn">Forgot User ID?</button>';
-    card.appendChild(wrap);
 
-    $('forgotPasswordBtn')?.addEventListener('click', function (event) {
+    const forgotPasswordButton = document.createElement('button');
+    forgotPasswordButton.type = 'button';
+    forgotPasswordButton.className = 'secondary';
+    forgotPasswordButton.id = 'forgotPasswordBtn';
+    forgotPasswordButton.textContent = 'Forgot Password?';
+    forgotPasswordButton.addEventListener('click', function (event) {
       event.preventDefault();
       event.stopPropagation();
-      window.mbizForgotPassword();
+      forgotPassword();
     });
-    $('forgotUserIdBtn')?.addEventListener('click', function (event) {
+
+    const forgotUserIdButton = document.createElement('button');
+    forgotUserIdButton.type = 'button';
+    forgotUserIdButton.className = 'secondary';
+    forgotUserIdButton.id = 'forgotUserIdBtn';
+    forgotUserIdButton.textContent = 'Forgot User ID?';
+    forgotUserIdButton.addEventListener('click', function (event) {
       event.preventDefault();
       event.stopPropagation();
-      window.mbizForgotUserId();
+      forgotUserId();
     });
+
+    wrap.appendChild(forgotPasswordButton);
+    wrap.appendChild(forgotUserIdButton);
+    card.appendChild(wrap);
     recoveryButtonsAdded = true;
   }
 
-  function installLoginHandler() {
-    if (loginHandlerInstalled) return;
+  function replaceLogin() {
+    if (ready) return;
     if (!$('authSubmit') || !$('authEmail') || !$('authPassword')) return;
 
     window.mbizLogin = async function (event) {
       if (event) event.preventDefault();
 
-      const email = ($('authEmail')?.value || '').trim();
-      const password = $('authPassword')?.value || '';
+      const email = ($('authEmail').value || '').trim();
+      const password = $('authPassword').value || '';
       const button = $('authSubmit');
 
-      if (!email || !password) {
-        if (!email) $('authEmail')?.focus();
-        return false;
-      }
+      if (!email) { $('authEmail').focus(); return false; }
+      if (!password) { $('authPassword').focus(); return false; }
       if (applyLockUI()) return false;
-      if (!window.mbizSupabase?.auth?.signInWithPassword) {
-        showError('Authentication service is unavailable. Please refresh the page.');
+
+      const client = window.mbizSupabase;
+      if (!client || !client.auth || typeof client.auth.signInWithPassword !== 'function') {
+        showError('Authentication service is not ready. Please wait a moment and try again.');
         return false;
       }
 
-      const errorBox = $('authError');
-      if (errorBox) errorBox.style.display = 'none';
-      setBusy(button, true);
+      clearError();
+      if (button) { button.disabled = true; button.textContent = 'Signing in...'; }
       setStatus('Checking your account…');
 
       try {
-        const { error } = await window.mbizSupabase.auth.signInWithPassword({ email, password });
+        const { error } = await client.auth.signInWithPassword({ email, password });
         if (error) throw error;
-
         clearFailures(email);
         setStatus('Signed in.');
         return true;
@@ -213,29 +222,30 @@
         }
         return false;
       } finally {
-        if (!applyLockUI()) setBusy(button, false);
+        applyLockUI();
+        const entry = getEntry(email);
+        if (!(entry.lockedUntil > Date.now()) && button) {
+          button.disabled = false;
+          button.textContent = 'Sign In';
+        }
       }
     };
 
-    loginHandlerInstalled = true;
+    ready = true;
   }
 
   function init() {
     addRecoveryButtons();
-    installLoginHandler();
-
-    const email = $('authEmail');
-    const password = $('authPassword');
-    if (email && !email.dataset.mbizRecoveryBound) {
-      email.addEventListener('input', applyLockUI);
-      email.dataset.mbizRecoveryBound = '1';
-    }
-    if (password && !password.dataset.mbizRecoveryBound) {
-      password.addEventListener('input', applyLockUI);
-      password.dataset.mbizRecoveryBound = '1';
-    }
+    replaceLogin();
     applyLockUI();
   }
+
+  window.mbizForgotPassword = forgotPassword;
+  window.mbizForgotUserId = forgotUserId;
+  window.mbizAuthLockState = getEntry;
+  window.mbizAuthRegisterFailure = registerFailure;
+  window.mbizAuthClearFailures = clearFailures;
+  window.mbizAuthApplyLockUI = applyLockUI;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, { once: true });
@@ -243,8 +253,5 @@
     init();
   }
 
-  window.setInterval(function () {
-    init();
-    applyLockUI();
-  }, 1000);
+  setInterval(init, 1000);
 })();
