@@ -2,10 +2,9 @@
 (function () {
   'use strict';
 
-  const LOCK_KEY = 'mbizaccount_login_lockouts_v4';
+  const LOCK_KEY = 'mbizaccount_login_lockouts_v5';
   const MAX_BACKOFF_MINUTES = 60;
-  let ready = false;
-  let recoveryButtonsAdded = false;
+  let initialized = false;
 
   const $ = (id) => document.getElementById(id);
   const normalize = (value) => String(value || '').trim().toLowerCase();
@@ -21,8 +20,9 @@
   }
 
   function getEntry(email) {
-    const state = readState();
     const key = normalize(email);
+    if (!key) return { fails: 0, lockedUntil: 0 };
+    const state = readState();
     const entry = state[key] || { fails: 0, lockedUntil: 0 };
     if (entry.lockedUntil && Date.now() >= entry.lockedUntil) {
       entry.lockedUntil = 0;
@@ -47,20 +47,18 @@
   }
 
   function showError(message) {
-    if (typeof window.mbizAuthError === 'function') {
+    const box = $('authError');
+    if (box) {
+      box.textContent = message;
+      box.style.display = '';
+    } else if (typeof window.mbizAuthError === 'function') {
       window.mbizAuthError(message);
-      return;
-    }
-    const el = $('authError');
-    if (el) {
-      el.textContent = message;
-      el.style.display = '';
     }
   }
 
   function clearError() {
-    const el = $('authError');
-    if (el) el.style.display = 'none';
+    const box = $('authError');
+    if (box) box.style.display = 'none';
   }
 
   function applyLockUI() {
@@ -76,7 +74,7 @@
       return true;
     }
 
-    if (button.textContent.startsWith('Locked')) {
+    if (button.textContent.indexOf('Locked ') === 0) {
       button.disabled = false;
       button.textContent = 'Sign In';
     }
@@ -99,8 +97,18 @@
 
   function clearFailures(email) {
     const state = readState();
-    delete state[normalize(email)];
+    const key = normalize(email);
+    if (key) delete state[key];
     saveState(state);
+  }
+
+  async function waitForSupabase(timeoutMs) {
+    const start = Date.now();
+    while (Date.now() - start < timeoutMs) {
+      if (window.mbizSupabase?.auth) return window.mbizSupabase;
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    return null;
   }
 
   async function forgotPassword() {
@@ -111,107 +119,121 @@
       return;
     }
 
-    const client = window.mbizSupabase;
-    if (!client || !client.auth || typeof client.auth.resetPasswordForEmail !== 'function') {
-      showError('Authentication service is not ready. Please wait a moment and try again.');
-      return;
-    }
-
     const button = $('forgotPasswordBtn');
-    if (button) { button.disabled = true; button.textContent = 'Sending...'; }
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending...';
+    }
     clearError();
-    setStatus('Sending password reset request…');
+    setStatus('Connecting to secure password recovery…');
 
     try {
-      const { error } = await client.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + window.location.pathname
-      });
-      if (error) throw error;
-      setStatus('Reset email requested. Check the inbox for the entered User ID.');
+      const client = await waitForSupabase(5000);
+      if (!client || typeof client.auth.resetPasswordForEmail !== 'function') {
+        throw new Error('Supabase auth is unavailable');
+      }
+
+      const redirectTo = window.location.origin + window.location.pathname;
+      const result = await client.auth.resetPasswordForEmail(email, { redirectTo });
+      if (result?.error) throw result.error;
+
+      setStatus('Password reset email requested. Check the inbox for this User ID.');
+      clearError();
     } catch (error) {
       console.error('Password recovery failed:', error);
-      showError('Password reset could not be sent. Please check the User ID/email and try again.');
+      showError('Password reset could not be sent. Check the User ID/email and try again.');
       setStatus('Password recovery failed.');
     } finally {
-      if (button) { button.disabled = false; button.textContent = 'Forgot Password?'; }
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Forgot Password?';
+      }
     }
   }
 
   function forgotUserId() {
     clearError();
-    setStatus('Your User ID is the admin email address registered in Supabase for M.BizAccount.');
+    setStatus('User ID = the admin email address registered in Supabase for M.BizAccount.');
   }
 
   function addRecoveryButtons() {
     const card = document.querySelector('.auth-card');
-    if (!card || recoveryButtonsAdded) return;
-    if ($('authRecovery')) { recoveryButtonsAdded = true; return; }
+    if (!card) return false;
+    if ($('authRecovery')) return true;
 
     const wrap = document.createElement('div');
     wrap.id = 'authRecovery';
     wrap.style.cssText = 'display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:13px';
 
-    const forgotPasswordButton = document.createElement('button');
-    forgotPasswordButton.type = 'button';
-    forgotPasswordButton.className = 'secondary';
-    forgotPasswordButton.id = 'forgotPasswordBtn';
-    forgotPasswordButton.textContent = 'Forgot Password?';
-    forgotPasswordButton.addEventListener('click', function (event) {
+    const passwordBtn = document.createElement('button');
+    passwordBtn.type = 'button';
+    passwordBtn.className = 'secondary';
+    passwordBtn.id = 'forgotPasswordBtn';
+    passwordBtn.textContent = 'Forgot Password?';
+    passwordBtn.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      forgotPassword();
+      void forgotPassword();
     });
 
-    const forgotUserIdButton = document.createElement('button');
-    forgotUserIdButton.type = 'button';
-    forgotUserIdButton.className = 'secondary';
-    forgotUserIdButton.id = 'forgotUserIdBtn';
-    forgotUserIdButton.textContent = 'Forgot User ID?';
-    forgotUserIdButton.addEventListener('click', function (event) {
+    const userIdBtn = document.createElement('button');
+    userIdBtn.type = 'button';
+    userIdBtn.className = 'secondary';
+    userIdBtn.id = 'forgotUserIdBtn';
+    userIdBtn.textContent = 'Forgot User ID?';
+    userIdBtn.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
       forgotUserId();
     });
 
-    wrap.appendChild(forgotPasswordButton);
-    wrap.appendChild(forgotUserIdButton);
+    wrap.appendChild(passwordBtn);
+    wrap.appendChild(userIdBtn);
     card.appendChild(wrap);
-    recoveryButtonsAdded = true;
+    return true;
   }
 
-  function replaceLogin() {
-    if (ready) return;
-    if (!$('authSubmit') || !$('authEmail') || !$('authPassword')) return;
+  function installLogin() {
+    if (initialized) return true;
+    const emailInput = $('authEmail');
+    const passwordInput = $('authPassword');
+    const submitButton = $('authSubmit');
+    if (!emailInput || !passwordInput || !submitButton) return false;
 
     window.mbizLogin = async function (event) {
       if (event) event.preventDefault();
 
-      const email = ($('authEmail').value || '').trim();
-      const password = $('authPassword').value || '';
-      const button = $('authSubmit');
-
-      if (!email) { $('authEmail').focus(); return false; }
-      if (!password) { $('authPassword').focus(); return false; }
+      const email = emailInput.value.trim();
+      const password = passwordInput.value || '';
+      if (!email) { emailInput.focus(); return false; }
+      if (!password) { passwordInput.focus(); return false; }
       if (applyLockUI()) return false;
 
-      const client = window.mbizSupabase;
-      if (!client || !client.auth || typeof client.auth.signInWithPassword !== 'function') {
-        showError('Authentication service is not ready. Please wait a moment and try again.');
-        return false;
-      }
-
       clearError();
-      if (button) { button.disabled = true; button.textContent = 'Signing in...'; }
+      submitButton.disabled = true;
+      submitButton.textContent = 'Signing in...';
       setStatus('Checking your account…');
 
       try {
+        const client = await waitForSupabase(5000);
+        if (!client || typeof client.auth.signInWithPassword !== 'function') {
+          throw new Error('Authentication service unavailable');
+        }
+
         const { error } = await client.auth.signInWithPassword({ email, password });
         if (error) throw error;
+
         clearFailures(email);
         setStatus('Signed in.');
         return true;
       } catch (error) {
         console.error('Sign in failed:', error);
+        if (String(error?.message || '').toLowerCase().includes('authentication service unavailable')) {
+          showError('Authentication service is unavailable. Please refresh and try again.');
+          setStatus('Secure sign-in is temporarily unavailable.');
+          return false;
+        }
+
         const result = registerFailure(email);
         if (result.minutes > 0) {
           showError('Too many failed attempts. This User ID is locked for ' + result.minutes + ' minute' + (result.minutes === 1 ? '' : 's') + '.');
@@ -222,21 +244,20 @@
         }
         return false;
       } finally {
-        applyLockUI();
-        const entry = getEntry(email);
-        if (!(entry.lockedUntil > Date.now()) && button) {
-          button.disabled = false;
-          button.textContent = 'Sign In';
+        if (!applyLockUI()) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Sign In';
         }
       }
     };
 
-    ready = true;
+    initialized = true;
+    return true;
   }
 
   function init() {
     addRecoveryButtons();
-    replaceLogin();
+    installLogin();
     applyLockUI();
   }
 
