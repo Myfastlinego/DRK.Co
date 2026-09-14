@@ -831,7 +831,166 @@ function drkAccountingCheck(){
 function totals(){let sales=0,purchases=0,gst=0,cash=0,expenses=0;D.tx.filter(v=>!v.cancelled).forEach(v=>{if(v.type==="sales"){sales+=+v.total||0;gst+=+v.gst||0;if(v.mode==="Cash")cash+=+v.total||0}if(v.type==="purchase"){purchases+=+v.total||0;gst-=+v.gst||0;if(v.mode==="Cash")cash-=+v.total||0}if(v.type==="receipt")cash+=+v.amount||0;if(v.type==="payment")cash-=+v.amount||0});D.expenses.forEach(e=>{expenses+=+e.amount||0;cash-=+e.amount||0});let rec=0,pay=0;D.parties.forEach(p=>{let b=D.tx.filter(v=>v.partyId===p.id&&!v.cancelled).reduce((a,v)=>a+txEffect(v),0);if(p.type==="customer")rec+=Math.max(0,b);else pay+=Math.max(0,-b)});let stock=D.items.reduce((a,i)=>a+(+i.stock||0)*(+i.rate||0),0);return{sales,purchases,gst,cash,expenses,rec,pay,stock,profit:sales-purchases-expenses}}
 function header(title,sub){return `<div class="topbar"><div><h1>${title}</h1><div class="sub">${sub||""}</div></div><span class="badge">${new Date().toLocaleDateString("en-IN")}</span></div>`}
 function table(head,rows){return `<div class="tablewrap"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((x,i)=>`<td class="${i===r.length-1?'r':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
-function gateway(){let fy="1-Apr-"+new Date().getFullYear()+" to 31-Mar-"+(new Date().getFullYear()+1);let last=D.tx.length?[...D.tx].sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0].date:"No entries";const menu=[["Create / Alter","parties"],["Chart of Accounts","parties"],["Stock Items / Inventory","items"],["Vouchers","voucher"],["Day Book","payments"],["Expenses","expenses"],["Banking","payments"],["Import / Search","search"],["Balance Sheet","reports"],["Profit & Loss A/c","reports"],["Trial Balance / GST","reports"],["Stock Summary","reports"],["Outstanding","reports"],["Display More Reports","reports"],["Quit / Dashboard","dashboard"]];let mi=Math.max(0,Math.min(gatewayMenuIndex||0,menu.length-1));return `<div class="classic-gateway" tabindex="0"><div class="cg-top"><div class="cg-brand">M.BizAccount<small>ACCOUNTING SOFTWARE V13</small></div><div class="cg-menu-top"><span>MANAGE</span><span onclick="tab='settings';render()">K: Company</span><span onclick="tab='settings';render()">Y: Data</span><span>Z: Exchange</span><button class="cg-goto" onclick="tab='search';render()">G: Go To</button></div><div class="cg-actions"><span>O: Import</span><span>E: Export</span><span>M: Share</span><span>P: Print</span><span>F1: Help</span></div></div><div class="cg-body"><div class="cg-left"><div class="cg-period"><div><span class="cg-head">CURRENT PERIOD</span><b>${fy}</b></div><div><span class="cg-head">CURRENT DATE</span><b>${new Date((D.workingDate||today())+"T00:00:00").toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</b></div></div><div class="cg-headrow"><span class="cg-head">NAME OF COMPANY</span><span class="cg-head">DATE OF LAST ENTRY</span></div><div class="cg-row"><div>${esc(D.company.name||"M.BizAccount")}</div><div>${last}</div></div><div class="v9-menuhint"><span class="v9-kbd">↑</span> <span class="v9-kbd">↓</span> Move &nbsp; <span class="v9-kbd">Enter</span> Select &nbsp; <span class="v9-kbd">Esc</span> Back</div></div><div class="cg-center"><div class="cg-box"><div class="cg-title">Gateway of M.BizAccount</div><div class="cg-section">Masters</div>${menu.slice(0,3).map((m,i)=>`<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`).join("")}<div class="cg-section">Transactions</div>${menu.slice(3,6).map((m,j)=>{let i=j+3;return `<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`}).join("")}<div class="cg-section">Utilities</div>${menu.slice(6,8).map((m,j)=>{let i=j+6;return `<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`}).join("")}<div class="cg-section">Reports</div>${menu.slice(8,14).map((m,j)=>{let i=j+8;return `<button id="gateway-item-${i}" class="cg-item ${i===mi?'selected v9-focus':''}" tabindex="${i===mi?0:-1}" data-gindex="${i}" onclick="gatewayActivate(${i})">${m[0]}</button>`}).join("")}<button id="gateway-item-14" class="cg-item cg-quit ${mi===14?'selected v9-focus':''}" tabindex="${mi===14?0:-1}" data-gindex="14" onclick="gatewayActivate(14)">Quit / Dashboard</button></div></div><div class="cg-right"><button class="cg-key" onclick="dateDialog()"><b>F2:</b><span>Date</span></button><button class="cg-key" onclick="tab='settings';render()"><b>F3:</b><span>Company</span></button><button class="cg-key" onclick="contraDialog()"><b>F4:</b><span>Contra</span></button><button class="cg-key" onclick="moneyDialog('payment')"><b>F5:</b><span>Payment</span></button><button class="cg-key" onclick="moneyDialog('receipt')"><b>F6:</b><span>Receipt</span></button><button class="cg-key" onclick="journalDialog()"><b>F7:</b><span>Journal</span></button><button class="cg-key" onclick="invoiceDialog('sales')"><b>F8:</b><span>Sales</span></button><button class="cg-key" onclick="invoiceDialog('purchase')"><b>F9:</b><span>Purchase</span></button><button class="cg-key" onclick="voucherMenu()"><b>F10:</b><span>Vouchers</span></button><button class="cg-key" onclick="tab='settings';render()"><b>F11:</b><span>Features</span></button><button class="cg-key" onclick="tab='settings';render()"><b>F12:</b><span>Configure</span></button></div></div><div class="v9-status"><span><b>Enter</b> Select/Accept &nbsp; <b>Esc</b> Back &nbsp; <b>↑↓</b> Navigate</span><span><b>F8</b> Sales &nbsp; <b>F9</b> Purchase</span></div><div class="cg-footer">M.BizAccount V13 · Keyboard-first workflow · Tally-like accounting navigation</div></div>`}
+function gateway(){
+  const now=new Date();
+  const year=now.getFullYear();
+  const fy="1-Apr-"+year+" to 31-Mar-"+(year+1);
+  const last=D.tx.length?[...D.tx].sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0].date:"No entries";
+
+  const menu=[
+    ["Create / Alter","parties"],["Chart of Accounts","parties"],
+    ["Stock Items / Inventory","items"],["Vouchers","voucher"],
+    ["Day Book","payments"],["Expenses","expenses"],
+    ["Banking","payments"],["Import / Search","search"],
+    ["Balance Sheet","reports"],["Profit & Loss A/c","reports"],
+    ["Trial Balance / GST","reports"],["Stock Summary","reports"],
+    ["Outstanding","reports"],["Display More Reports","reports"],
+    ["Quit / Dashboard","dashboard"]
+  ];
+
+  let mi=Math.max(0,Math.min(gatewayMenuIndex||0,menu.length-1));
+
+  const quick=[
+    ["F8","Sales Invoice",()=>invoiceDialog("sales")],
+    ["F9","Purchase",()=>invoiceDialog("purchase")],
+    ["F6","Receipt",()=>moneyDialog("receipt")],
+    ["F5","Payment",()=>moneyDialog("payment")],
+    ["F7","Journal",()=>journalDialog()],
+    ["F4","Contra",()=>contraDialog()]
+  ];
+
+  return `
+  <div class="cg-item" tabindex="0" style="
+    min-height:calc(100vh - 20px);
+    box-sizing:border-box;
+    padding:18px;
+    background:linear-gradient(135deg,#07111f,#0d1b2d 55%,#10243b);
+    color:#eef6ff;
+    font-family:Inter,system-ui,sans-serif;
+    border-radius:18px;
+    outline:none;
+  ">
+
+    <div style="
+      display:flex;align-items:center;justify-content:space-between;
+      gap:15px;padding:18px 20px;margin-bottom:16px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      backdrop-filter:blur(12px);
+    ">
+      <div>
+        <div style="font-size:24px;font-weight:800;letter-spacing:.3px">M.BizAccount</div>
+        <div style="font-size:12px;opacity:.6;margin-top:4px">DRK.Co • BUSINESS FINANCE SYSTEM</div>
+      </div>
+      <div style="text-align:right;font-size:12px;opacity:.75">
+        <div>${new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</div>
+        <div style="margin-top:4px">FY ${fy}</div>
+      </div>
+    </div>
+
+    <div style="
+      display:grid;grid-template-columns:1.25fr 2fr;
+      gap:16px;
+    ">
+
+      <div style="
+        background:rgba(255,255,255,.055);
+        border:1px solid rgba(255,255,255,.09);
+        border-radius:16px;padding:18px;
+      ">
+        <div style="font-size:12px;opacity:.55;text-transform:uppercase;letter-spacing:1px">Company</div>
+        <div style="font-size:20px;font-weight:750;margin-top:7px">
+          ${esc(D.company.name||"M.BizAccount")}
+        </div>
+
+        <div style="margin-top:20px;display:grid;gap:10px">
+          <div style="padding:13px;border-radius:12px;background:rgba(0,0,0,.16)">
+            <div style="font-size:11px;opacity:.5">CURRENT DATE</div>
+            <b>${new Date((D.workingDate||today())+"T00:00:00").toLocaleDateString("en-IN")}</b>
+          </div>
+          <div style="padding:13px;border-radius:12px;background:rgba(0,0,0,.16)">
+            <div style="font-size:11px;opacity:.5">LAST ENTRY</div>
+            <b>${last}</b>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;font-size:11px;opacity:.5">
+          ↑ ↓ Navigate &nbsp; • &nbsp; Enter Select &nbsp; • &nbsp; Esc Back
+        </div>
+      </div>
+
+      <div style="
+        background:rgba(255,255,255,.055);
+        border:1px solid rgba(255,255,255,.09);
+        border-radius:16px;padding:18px;
+      ">
+        <div style="font-size:13px;font-weight:700;opacity:.7;margin-bottom:12px">
+          QUICK ACTIONS
+        </div>
+
+        <div style="
+          display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+        ">
+          ${quick.map(q=>`
+            <button onclick="${
+              q[0]==="F8" ? "invoiceDialog('sales')" :
+              q[0]==="F9" ? "invoiceDialog('purchase')" :
+              q[0]==="F6" ? "moneyDialog('receipt')" :
+              q[0]==="F5" ? "moneyDialog('payment')" :
+              q[0]==="F7" ? "journalDialog()" :
+              "contraDialog()"
+            }"
+              style="
+                border:1px solid rgba(255,255,255,.10);
+                background:rgba(255,255,255,.055);
+                color:inherit;border-radius:13px;padding:14px 10px;
+                cursor:pointer;text-align:left;
+              ">
+              <div style="font-size:11px;opacity:.5">${q[0]}</div>
+              <div style="font-weight:700;margin-top:5px">${q[1]}</div>
+            </button>
+          `).join("")}
+        </div>
+
+        <div style="font-size:13px;font-weight:700;opacity:.7;margin:20px 0 10px">
+          WORKSPACE
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+          ${menu.slice(0,8).map((m,i)=>`
+            <button id="gateway-item-${i}"
+              class="cg-item ${i===mi?'selected v9-focus':''}"
+              data-gindex="${i}"
+              tabindex="${i===mi?0:-1}"
+              onclick="gatewayActivate(${i})"
+              style="
+                border:1px solid ${i===mi?'rgba(255,255,255,.22)':'rgba(255,255,255,.07)'};
+                background:${i===mi?'rgba(255,255,255,.12)':'rgba(255,255,255,.035)'};
+                color:inherit;border-radius:10px;padding:11px;
+                text-align:left;cursor:pointer;
+              ">
+              <span style="opacity:.45;font-size:11px">${i+1}</span>
+              <b style="margin-left:7px">${m[0]}</b>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div style="
+      margin-top:16px;padding:13px 16px;
+      display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      background:rgba(255,255,255,.045);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:13px;font-size:12px;opacity:.75;
+    ">
+      <span>F2 Date • F3 Company • F4 Contra • F5 Payment • F6 Receipt • F7 Journal</span>
+      <span>F8 Sales • F9 Purchase • F10 Vouchers • F11 Features • F12 Configure</span>
+    </div>
+
+  </div>`;
+}
 function gatewayActivate(i){gatewayMenuIndex=i;const actions=[()=>{tab="parties";activeParty=null;render()},()=>{tab="parties";activeParty=null;render()},()=>{tab="items";render()},()=>voucherMenu(),()=>{tab="payments";render()},()=>{tab="expenses";render()},()=>{tab="payments";render()},()=>{tab="search";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="dashboard";render()}];actions[i]()}
 function dateDialog(){modal=`<div class="modalbg"><div class="modal"><h2>Change Date — F2</h2><div class="field"><label>Current date</label><input id="dateValue" type="date" value="${today()}"></div><div class="foot"><button class="secondary" onclick="modal='';render()">Cancel</button><button class="primary" onclick="setWorkingDate()">Accept</button></div></div></div>`;render();setTimeout(()=>$("dateValue")?.focus(),0)}
 function setWorkingDate(){D.workingDate=$("dateValue").value||today();save();toast("Date changed")}
