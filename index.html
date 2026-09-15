@@ -677,6 +677,36 @@ button:disabled,[aria-disabled="true"]{
   }
 }
 
+/* ===== DRK V23 NEON GATEWAY ===== */
+.mbiz-neon-gateway{min-height:calc(100vh - 55px);background:radial-gradient(circle at 70% 0%,#163fc0 0,#081d6b 35%,#04134f 70%,#020a2c 100%);color:#f7fbff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;position:relative}
+.mbiz-neon-gateway:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 0 45%,rgba(0,225,255,.06) 55%,transparent 70%)}
+.neon-top{height:99px;display:grid;grid-template-columns:360px minmax(350px,1fr) 230px;align-items:center;gap:20px;padding:10px 20px;border-bottom:1px solid rgba(70,207,255,.45);background:linear-gradient(90deg,#071b68,#082b9d 55%,#1a35c0);box-shadow:0 0 28px rgba(0,176,255,.25)}
+.neon-layout{display:grid;grid-template-columns:264px minmax(420px,1fr) 315px 240px;min-height:calc(100vh - 139px);position:relative}
+.neon-sidebar{border-right:1px solid #1e72d8;background:linear-gradient(180deg,#08236f,#061858);display:flex;flex-direction:column}
+.neon-nav{padding:17px 14px;display:flex;flex-direction:column;gap:4px}
+.neon-nav button{display:grid;grid-template-columns:30px 1fr 30px;align-items:center;width:100%;min-height:45px;border:1px solid transparent;border-radius:9px;background:transparent;color:#e9f4ff;text-align:left;font-size:15px;cursor:pointer;padding:7px 9px;transition:.15s}
+.neon-nav button:hover,.neon-nav button.active{background:rgba(0,220,255,.12);border-color:#16d9ff;box-shadow:0 0 12px rgba(0,217,255,.25)}
+.neon-main{padding:20px;background:linear-gradient(180deg,rgba(3,19,76,.4),rgba(2,10,44,.7))}
+.neon-gateway-panel{border-left:1px solid #1473d8;background:linear-gradient(180deg,#071c63,#041449);padding:16px;overflow:auto}
+.neon-shortcuts{border-left:1px solid #1473d8;background:#030d35;padding:16px;overflow:auto}
+.neon-shortcuts h3{margin:0 0 14px;color:#00e0ff;font-size:16px}
+.neon-shortcuts button{width:100%;display:flex;align-items:center;gap:10px;padding:8px;border:0;background:transparent;color:#dcecff;text-align:left}
+.neon-shortcuts kbd{min-width:38px;padding:4px 6px;border:1px solid #18dfff;border-radius:5px;color:#fff;text-align:center;box-shadow:0 0 8px rgba(0,220,255,.35)}
+.ng-head{font-size:22px;font-weight:700;color:#fff;padding:8px 4px 15px;text-shadow:0 0 10px #00dfff}
+.ng-section{font-size:11px;color:#4deaff;letter-spacing:1.5px;margin:13px 4px 6px}
+.ng-item{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;margin:2px 0;border:1px solid transparent;border-radius:7px;background:transparent;color:#eaf5ff;text-align:left;cursor:pointer}
+.ng-item:hover,.ng-item.selected{background:linear-gradient(90deg,rgba(0,225,255,.2),rgba(41,73,255,.15));border-color:#16d9ff;box-shadow:0 0 10px rgba(0,210,255,.2)}
+.ng-quit{margin-top:12px;color:#ffdbdb}
+.neon-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.neon-actions button{min-height:100px;border:1px solid #16d9ff;border-radius:14px;background:linear-gradient(145deg,rgba(12,50,145,.9),rgba(3,17,70,.95));color:#fff;cursor:pointer;box-shadow:0 0 14px rgba(0,204,255,.15);font-size:15px}
+.neon-actions button:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(0,225,255,.35)}
+.neon-title{font-size:48px;font-weight:800;margin:8px 0;text-shadow:0 0 18px rgba(0,220,255,.35)}
+.neon-welcome{padding:22px;border:1px solid rgba(35,220,255,.45);border-radius:18px;background:linear-gradient(135deg,rgba(14,57,160,.65),rgba(2,17,70,.8));box-shadow:inset 0 0 25px rgba(0,190,255,.08),0 0 18px rgba(0,190,255,.12)}
+.neon-mini-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.neon-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.neon-footer{position:fixed;bottom:0;left:0;right:0;min-height:30px;display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:#02091f;border-top:1px solid #1268c9;color:#a9c7ef;font-size:12px}
+@media(max-width:1000px){.neon-layout{grid-template-columns:205px 1fr 270px}.neon-shortcuts{display:none}.neon-top{grid-template-columns:270px 1fr 150px}.neon-actions{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.neon-layout{grid-template-columns:1fr}.neon-sidebar{display:none}.neon-gateway-panel{border-top:1px solid #1473d8}.neon-top{height:auto;grid-template-columns:1fr;padding:10px 12px;gap:8px}.neon-search{order:3}.neon-user{text-align:left}.neon-main{padding:12px}.neon-info-grid{grid-template-columns:1fr}.neon-title{font-size:34px}.neon-welcome{min-height:155px}.neon-mini-stats{grid-template-columns:repeat(2,1fr)}.neon-footer{position:relative;height:auto;flex-direction:column;align-items:flex-start}}
 </style>
 <script>window.V21_FEATURES={voucherTypes:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],gstModes:["Local (CGST + SGST/UTGST)","Interstate (IGST)","Exempt","Nil Rated"],units:["NOS","KG","LTR","BOX","MTR","SET"]};function v21VoucherMenu(){return `<div class="v21-section"><div class="v21-card"><h3>Voucher Types</h3><div class="v21-shortcuts">${V21_FEATURES.voucherTypes.map((x,i)=>`<span>${i+1}. ${x}</span>`).join("")}</div><div class="v21-help" style="margin-top:8px">Use the existing voucher screens to record transactions. This layer keeps the Tally-style terminology while preserving your current M.BizAccount data.</div></div></div>`}function v21GstSummary(){const tx=(window.D&&Array.isArray(D.tx))?D.tx:[];let sales=0,purchase=0;tx.filter(x=>!x.cancelled).forEach(x=>{const t=String(x.type||"").toLowerCase();const total=Number(x.total||x.amount||0);if(t.includes("sales"))sales+=total;if(t.includes("purchase"))purchase+=total});return `<div class="v21-section"><div class="v21-grid"><div class="v21-card"><div class="v21-help">Sales</div><div class="v21-kpi">${typeof money==="function"?money(sales):sales.toFixed(2)}</div></div><div class="v21-card"><div class="v21-help">Purchase</div><div class="v21-kpi">${typeof money==="function"?money(purchase):purchase.toFixed(2)}</div></div></div></div>`}</script>
 <script id="v22-accounting-layer">window.MBizV22={vouchers:["Sales","Purchase","Receipt","Payment","Contra","Journal","Debit Note","Credit Note"],reports:["Day Book","Trial Balance","Profit & Loss","Balance Sheet","Outstanding","Stock Summary","GST Summary","HSN/SAC Summary"],shortcuts:["F2 Date","F4 Contra","F5 Payment","F6 Receipt","F7 Journal","F8 Sales","F9 Purchase"]};function mbizV22Open(tabName){if(typeof window.tab!=="undefined"){window.tab=tabName;if(typeof render==="function")render()}}function mbizV22Panel(){const sales=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("sales")).length:0;const purchase=(window.D&&Array.isArray(D.tx))?D.tx.filter(x=>!x.cancelled&&String(x.type||"").toLowerCase().includes("purchase")).length:0;return `<section class="v22-gateway"><div class="v22-head"><div><div class="v22-brand">M.BizAccount</div><div class="v22-sub">Accounting & GST Edition</div></div><div class="v22-sub">Tally-style workflow • Original M.BizAccount interface</div></div><div class="v22-grid"><nav class="v22-nav"><button onclick="mbizV22Open('dashboard')">🏠 Gateway / Dashboard</button><button onclick="mbizV22Open('parties')">📒 Ledgers / Accounts</button><button onclick="mbizV22Open('items')">📦 Inventory</button><button onclick="mbizV22Open('voucher')">🧾 Vouchers</button><button onclick="mbizV22Open('payments')">📅 Day Book</button><button onclick="mbizV22Open('expenses')">💳 Expenses</button><button onclick="mbizV22Open('reports')">📊 Reports / GST</button><button onclick="mbizV22Open('settings')">⚙️ Company / Settings</button></nav><main class="v22-main"><div class="v22-cards"><div class="v22-card"><div class="v22-label">Sales Vouchers</div><div class="v22-value">${sales}</div></div><div class="v22-card"><div class="v22-label">Purchase Vouchers</div><div class="v22-value">${purchase}</div></div><div class="v22-card"><div class="v22-label">Ledgers</div><div class="v22-value">${window.D?D.parties.length:0}</div></div><div class="v22-card"><div class="v22-label">Stock Items</div><div class="v22-value">${window.D?D.items.length:0}</div></div></div><div class="v22-short">${MBizV22.vouchers.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div><div class="v22-short">${MBizV22.shortcuts.map(x=>`<span class="v22-key">${x}</span>`).join("")}</div></main></div></section>`}</script>
@@ -832,163 +862,97 @@ function totals(){let sales=0,purchases=0,gst=0,cash=0,expenses=0;D.tx.filter(v=
 function header(title,sub){return `<div class="topbar"><div><h1>${title}</h1><div class="sub">${sub||""}</div></div><span class="badge">${new Date().toLocaleDateString("en-IN")}</span></div>`}
 function table(head,rows){return `<div class="tablewrap"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((x,i)=>`<td class="${i===r.length-1?'r':''}">${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
 function gateway(){
-  const now=new Date();
-  const year=now.getFullYear();
-  const fy="1-Apr-"+year+" to 31-Mar-"+(year+1);
-  const last=D.tx.length?[...D.tx].sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0].date:"No entries";
-
+  let fy="1-Apr-"+new Date().getFullYear()+" to 31-Mar-"+(new Date().getFullYear()+1);
+  let last=D.tx.length?[...D.tx].sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0].date:"No entries";
   const menu=[
-    ["Create / Alter","parties"],["Chart of Accounts","parties"],
-    ["Stock Items / Inventory","items"],["Vouchers","voucher"],
-    ["Day Book","payments"],["Expenses","expenses"],
-    ["Banking","payments"],["Import / Search","search"],
-    ["Balance Sheet","reports"],["Profit & Loss A/c","reports"],
-    ["Trial Balance / GST","reports"],["Stock Summary","reports"],
-    ["Outstanding","reports"],["Display More Reports","reports"],
-    ["Quit / Dashboard","dashboard"]
+    ["Create / Alter","parties"],["Chart of Accounts","parties"],["Stock Items / Inventory","items"],
+    ["Vouchers","voucher"],["Day Book","payments"],["Expenses","expenses"],
+    ["Banking","payments"],["Import / Search","search"],["Balance Sheet","reports"],
+    ["Profit & Loss A/c","reports"],["Trial Balance / GST","reports"],["Stock Summary","reports"],
+    ["Outstanding","reports"],["Display More Reports","reports"],["Quit / Dashboard","dashboard"]
   ];
-
   let mi=Math.max(0,Math.min(gatewayMenuIndex||0,menu.length-1));
-
-  const quick=[
-    ["F8","Sales Invoice",()=>invoiceDialog("sales")],
-    ["F9","Purchase",()=>invoiceDialog("purchase")],
-    ["F6","Receipt",()=>moneyDialog("receipt")],
-    ["F5","Payment",()=>moneyDialog("payment")],
-    ["F7","Journal",()=>journalDialog()],
-    ["F4","Contra",()=>contraDialog()]
+  const nav=[
+    ["⌂","Gateway","dashboard","F1"],["▣","Dashboard","dashboard","F2"],["♙","Customers","parties","F3"],
+    ["♧","Suppliers","parties","F4"],["▦","Inventory","items","F5"],["🛒","Sales","voucher","F6"],
+    ["🛒","Purchase","voucher","F7"],["▤","Vouchers","voucher","F8"],["▱","Payments","payments","F9"],
+    ["▧","Expenses","expenses","F10"],["▥","Reports","reports","F11"],["⚙","Settings","settings","F12"]
   ];
-
-  return `
-  <div class="cg-item" tabindex="0" style="
-    min-height:calc(100vh - 20px);
-    box-sizing:border-box;
-    padding:18px;
-    background:linear-gradient(135deg,#07111f,#0d1b2d 55%,#10243b);
-    color:#eef6ff;
-    font-family:Inter,system-ui,sans-serif;
-    border-radius:18px;
-    outline:none;
-  ">
-
-    <div style="
-      display:flex;align-items:center;justify-content:space-between;
-      gap:15px;padding:18px 20px;margin-bottom:16px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:16px;
-      backdrop-filter:blur(12px);
-    ">
-      <div>
-        <div style="font-size:24px;font-weight:800;letter-spacing:.3px">M.BizAccount</div>
-        <div style="font-size:12px;opacity:.6;margin-top:4px">DRK.Co • BUSINESS FINANCE SYSTEM</div>
+  const stats=totals();
+  const go=(t)=>`onclick="tab='${t}';render()"`;
+  return `<div class="mbiz-neon-gateway" tabindex="0">
+    <header class="neon-top">
+      <div class="neon-brand">
+        <div class="neon-logo">M.<span>Biz</span> <i>Account</i></div>
+        <div class="neon-tag">Simple &nbsp;•&nbsp; Smart &nbsp;•&nbsp; Business</div>
       </div>
-      <div style="text-align:right;font-size:12px;opacity:.75">
-        <div>${new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</div>
-        <div style="margin-top:4px">FY ${fy}</div>
-      </div>
+      <div class="neon-search" ${go("search")}>⌕ <span>Search (F12) &nbsp;|&nbsp; Customers &nbsp;|&nbsp; Items &nbsp;|&nbsp; Vouchers &nbsp;|&nbsp; Reports &nbsp;|&nbsp; Settings ...</span></div>
+      <div class="neon-user">◉ &nbsp; Admin⌄ <span>— &nbsp; □ &nbsp; ×</span></div>
+    </header>
+
+    <div class="neon-layout">
+      <aside class="neon-sidebar">
+        <div class="neon-nav">
+          ${nav.map((n,i)=>`<button class="${i===0?'active':''}" ${go(n[2])}>
+            <span class="nicon">${n[0]}</span><span>${n[1]}</span><kbd>${n[3]}</kbd>
+          </button>`).join("")}
+        </div>
+        <div class="neon-side-brand"><b>MB</b><div><strong>${esc(D.company.name||"DRK.Co.")}</strong><small>Manage • Track • Grow</small></div></div>
+      </aside>
+
+      <main class="neon-main">
+        <div class="neon-info-grid">
+          <div class="neon-info"><span>▣</span><div><small>Current Period</small><b>${fy}</b></div></div>
+          <div class="neon-info"><span>▣</span><div><small>Current Date</small><b>${new Date((D.workingDate||today())+"T00:00:00").toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</b></div></div>
+          <div class="neon-info"><span>▥</span><div><small>Company Name</small><b>${esc(D.company.name||"M.BizAccount")}</b></div></div>
+          <div class="neon-info"><span>▤</span><div><small>Date of Last Entry</small><b>${last}</b></div></div>
+        </div>
+
+        <section class="neon-welcome">
+          <div class="wide">W E L C O M E &nbsp; T O</div>
+          <div class="neon-title">M.<i>Biz</i> <em>Account</em></div>
+          <div class="wide">M A N A G E &nbsp; • &nbsp; T R A C K &nbsp; • &nbsp; G R O W</div>
+        </section>
+
+        <div class="neon-actions">
+          <button class="a-create" onclick="invoiceDialog('sales')"><strong>＋</strong><b>Create</b><small>New Voucher</small><kbd>Alt + C</kbd></button>
+          <button class="a-search" onclick="tab='search';render()"><strong>⌕</strong><b>Search</b><small>Find anything</small><kbd>F12</kbd></button>
+          <button class="a-reports" onclick="tab='reports';render()"><strong>♧</strong><b>Reports</b><small>View Reports</small><kbd>F11</kbd></button>
+          <button class="a-settings" onclick="tab='settings';render()"><strong>⚙</strong><b>Settings</b><small>Configure</small><kbd>F12</kbd></button>
+        </div>
+
+        <div class="neon-mini-stats">
+          <div><small>Sales</small><b>${money(stats.sales)}</b></div>
+          <div><small>Purchase</small><b>${money(stats.purchases)}</b></div>
+          <div><small>Receivable</small><b>${money(stats.rec)}</b></div>
+          <div><small>Stock</small><b>${money(stats.stock)}</b></div>
+        </div>
+      </main>
+
+      <section class="neon-gateway-panel">
+        <div class="ng-head">✦ &nbsp; Gateway</div>
+        <div class="ng-section">MASTERS <span>⌁</span></div>
+        ${menu.slice(0,3).map((m,i)=>`<button id="gateway-item-${i}" class="ng-item ${i===mi?'selected v9-focus':''}" data-gindex="${i}" onclick="gatewayActivate(${i})"><span>${["▣","♙","▦"][i]}</span>${m[0]}</button>`).join("")}
+        <div class="ng-section">TRANSACTIONS</div>
+        ${menu.slice(3,6).map((m,j)=>{let i=j+3;return `<button id="gateway-item-${i}" class="ng-item ${i===mi?'selected v9-focus':''}" data-gindex="${i}" onclick="gatewayActivate(${i})"><span>${["▤","▤","♧"][j]}</span>${m[0]}</button>`}).join("")}
+        <div class="ng-section">UTILITIES</div>
+        ${menu.slice(6,8).map((m,j)=>{let i=j+6;return `<button id="gateway-item-${i}" class="ng-item ${i===mi?'selected v9-focus':''}" data-gindex="${i}" onclick="gatewayActivate(${i})"><span>${["♜","⌕"][j]}</span>${m[0]}</button>`}).join("")}
+        <div class="ng-section">REPORTS</div>
+        ${menu.slice(8,14).map((m,j)=>{let i=j+8;return `<button id="gateway-item-${i}" class="ng-item ${i===mi?'selected v9-focus':''}" data-gindex="${i}" onclick="gatewayActivate(${i})"><span>♧</span>${m[0]}</button>`}).join("")}
+        <button id="gateway-item-14" class="ng-item ng-quit ${mi===14?'selected v9-focus':''}" data-gindex="14" onclick="gatewayActivate(14)">Quit / Dashboard</button>
+      </section>
+
+      <aside class="neon-shortcuts">
+        <h3>Keyboard Shortcuts</h3>
+        ${[
+          ["F1","Gateway"],["F2","Dashboard"],["F3","Customers"],["F4","Suppliers"],["F5","Inventory"],
+          ["F6","Sales"],["F7","Purchase"],["F8","Vouchers"],["F9","Payments"],["F10","Expenses"],
+          ["F11","Reports"],["F12","Settings"]
+        ].map(x=>`<button><kbd>${x[0]}</kbd><span>${x[1]}</span></button>`).join("")}
+      </aside>
     </div>
 
-    <div style="
-      display:grid;grid-template-columns:1.25fr 2fr;
-      gap:16px;
-    ">
-
-      <div style="
-        background:rgba(255,255,255,.055);
-        border:1px solid rgba(255,255,255,.09);
-        border-radius:16px;padding:18px;
-      ">
-        <div style="font-size:12px;opacity:.55;text-transform:uppercase;letter-spacing:1px">Company</div>
-        <div style="font-size:20px;font-weight:750;margin-top:7px">
-          ${esc(D.company.name||"M.BizAccount")}
-        </div>
-
-        <div style="margin-top:20px;display:grid;gap:10px">
-          <div style="padding:13px;border-radius:12px;background:rgba(0,0,0,.16)">
-            <div style="font-size:11px;opacity:.5">CURRENT DATE</div>
-            <b>${new Date((D.workingDate||today())+"T00:00:00").toLocaleDateString("en-IN")}</b>
-          </div>
-          <div style="padding:13px;border-radius:12px;background:rgba(0,0,0,.16)">
-            <div style="font-size:11px;opacity:.5">LAST ENTRY</div>
-            <b>${last}</b>
-          </div>
-        </div>
-
-        <div style="margin-top:20px;font-size:11px;opacity:.5">
-          ↑ ↓ Navigate &nbsp; • &nbsp; Enter Select &nbsp; • &nbsp; Esc Back
-        </div>
-      </div>
-
-      <div style="
-        background:rgba(255,255,255,.055);
-        border:1px solid rgba(255,255,255,.09);
-        border-radius:16px;padding:18px;
-      ">
-        <div style="font-size:13px;font-weight:700;opacity:.7;margin-bottom:12px">
-          QUICK ACTIONS
-        </div>
-
-        <div style="
-          display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
-        ">
-          ${quick.map(q=>`
-            <button onclick="${
-              q[0]==="F8" ? "invoiceDialog('sales')" :
-              q[0]==="F9" ? "invoiceDialog('purchase')" :
-              q[0]==="F6" ? "moneyDialog('receipt')" :
-              q[0]==="F5" ? "moneyDialog('payment')" :
-              q[0]==="F7" ? "journalDialog()" :
-              "contraDialog()"
-            }"
-              style="
-                border:1px solid rgba(255,255,255,.10);
-                background:rgba(255,255,255,.055);
-                color:inherit;border-radius:13px;padding:14px 10px;
-                cursor:pointer;text-align:left;
-              ">
-              <div style="font-size:11px;opacity:.5">${q[0]}</div>
-              <div style="font-weight:700;margin-top:5px">${q[1]}</div>
-            </button>
-          `).join("")}
-        </div>
-
-        <div style="font-size:13px;font-weight:700;opacity:.7;margin:20px 0 10px">
-          WORKSPACE
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
-          ${menu.slice(0,8).map((m,i)=>`
-            <button id="gateway-item-${i}"
-              class="cg-item ${i===mi?'selected v9-focus':''}"
-              data-gindex="${i}"
-              tabindex="${i===mi?0:-1}"
-              onclick="gatewayActivate(${i})"
-              style="
-                border:1px solid ${i===mi?'rgba(255,255,255,.22)':'rgba(255,255,255,.07)'};
-                background:${i===mi?'rgba(255,255,255,.12)':'rgba(255,255,255,.035)'};
-                color:inherit;border-radius:10px;padding:11px;
-                text-align:left;cursor:pointer;
-              ">
-              <span style="opacity:.45;font-size:11px">${i+1}</span>
-              <b style="margin-left:7px">${m[0]}</b>
-            </button>
-          `).join("")}
-        </div>
-      </div>
-    </div>
-
-    <div style="
-      margin-top:16px;padding:13px 16px;
-      display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
-      background:rgba(255,255,255,.045);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:13px;font-size:12px;opacity:.75;
-    ">
-      <span>F2 Date • F3 Company • F4 Contra • F5 Payment • F6 Receipt • F7 Journal</span>
-      <span>F8 Sales • F9 Purchase • F10 Vouchers • F11 Features • F12 Configure</span>
-    </div>
-
+    <footer class="neon-footer"><span>M.BizAccount &nbsp; v2.0 &nbsp; | &nbsp; © 2025 All Rights Reserved</span><span>● Online &nbsp; | &nbsp; Backend: V23 Local &nbsp; | &nbsp; Company: ${esc(D.company.name||"DRK.Co.")}</span></footer>
   </div>`;
 }
 function gatewayActivate(i){gatewayMenuIndex=i;const actions=[()=>{tab="parties";activeParty=null;render()},()=>{tab="parties";activeParty=null;render()},()=>{tab="items";render()},()=>voucherMenu(),()=>{tab="payments";render()},()=>{tab="expenses";render()},()=>{tab="payments";render()},()=>{tab="search";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="reports";render()},()=>{tab="dashboard";render()}];actions[i]()}
