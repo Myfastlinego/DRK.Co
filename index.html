@@ -473,7 +473,28 @@ function mbizV22Panel(){
 .v23-backend-card>div:first-child{display:flex;justify-content:space-between;gap:10px;align-items:center}.v23-backend-card span{font-size:11px;color:#a9c5e8}.v23-backend-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.v23-backend-actions button{color:#173b55}
 </style>
 
-</head>
+<style id="mbiz-neon-ui-v2">
+:root{--mbiz-bg:#030a24;--mbiz-panel:#071a4b;--mbiz-blue:#168cff;--mbiz-cyan:#16e0ff;--mbiz-text:#eef7ff;--mbiz-muted:#9eb8dc;--mbiz-line:#176bc7;--mbiz-glow:0 0 18px rgba(0,207,255,.22)}
+@keyframes mbizSweep{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}@keyframes mbizPulse{0%,100%{box-shadow:0 0 8px rgba(22,224,255,.14)}50%{box-shadow:0 0 16px rgba(22,224,255,.28)}}@keyframes mbizFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+@media screen{
+html,body{background:var(--mbiz-bg);color:var(--mbiz-text)}body{overflow-x:hidden}#app{min-height:calc(100vh - 49px)}
+.website-bar{background:linear-gradient(90deg,#020a2c,#071c62 55%,#101b78)!important;border-bottom:1px solid rgba(22,224,255,.5)!important;box-shadow:0 0 20px rgba(0,140,255,.18)!important}.website-actions a,.website-actions button{border-color:#1aa9ff!important;background:#072b73!important}
+.app{background:radial-gradient(circle at 82% 0%,#0b2b70 0,#040d30 42%,#020719 100%);color:var(--mbiz-text)}.side{background:linear-gradient(180deg,#071f63,#030d31)!important;border-right:1px solid #147fe0!important;box-shadow:8px 0 25px rgba(0,120,255,.12)}.brand{border-bottom-color:rgba(40,220,255,.25)!important}.brand b{color:#f4fbff}.brand b i{color:#37ddff!important}.brand small{color:#9db9df!important}.brandlogo{border:1px solid #16dfff;box-shadow:0 0 12px rgba(22,224,255,.3)}
+.nav button{color:#dcecff!important;border-left-color:transparent!important;border-radius:8px;margin:2px 8px;width:calc(100% - 16px);transition:transform .18s ease,background .18s ease,box-shadow .18s ease}.nav button:hover,.nav button.on{background:linear-gradient(90deg,#0d398e,#075ec6)!important;border-left-color:#20ddff!important;box-shadow:0 0 14px rgba(0,191,255,.28)!important;transform:translateX(2px)}
+.main{background:transparent!important;padding:22px!important}.topbar{padding:15px 18px;margin-bottom:16px;border:1px solid #126fc9;border-radius:13px;background:linear-gradient(135deg,rgba(8,39,105,.9),rgba(5,19,61,.9));box-shadow:var(--mbiz-glow);position:relative;overflow:hidden}.topbar:after{content:"";position:absolute;inset:0;width:35%;background:linear-gradient(90deg,transparent,rgba(22,224,255,.08),transparent);transform:translateX(-120%);animation:mbizSweep 7s linear infinite;pointer-events:none}.topbar h1{color:#f5fbff!important;font-family:Arial,sans-serif!important;font-size:24px!important}.sub,.card small,.muted{color:var(--mbiz-muted)!important}
+.card,.panel{background:linear-gradient(145deg,rgba(8,37,105,.94),rgba(4,17,55,.96))!important;border-color:#146fc9!important;color:var(--mbiz-text);box-shadow:0 0 12px rgba(0,132,255,.16)!important;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.card:hover,.panel:hover{transform:translateY(-2px);border-color:#19dfff!important;box-shadow:0 0 19px rgba(0,207,255,.23)!important}.money{color:#eafcff!important}
+.primary,.secondary,.dangerbtn{transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important}.primary{background:linear-gradient(135deg,#075fbe,#0b8be5)!important;border:1px solid #19dcff!important;color:#fff!important;box-shadow:0 0 10px rgba(0,190,255,.2)}.secondary{background:#071f58!important;border-color:#2389df!important;color:#e8f5ff!important}.dangerbtn{background:#35152c!important;border-color:#d44b87!important;color:#ffdcec!important}.primary:hover,.secondary:hover,.dangerbtn:hover{transform:translateY(-1px);box-shadow:0 0 13px rgba(22,224,255,.25)!important}
+input,select,textarea{background:#06183f!important;color:#eef7ff!important;border-color:#176ec4!important}input::placeholder,textarea::placeholder{color:#7897bf}input:focus,select:focus,textarea:focus{border-color:#18dcff!important;outline:none;box-shadow:0 0 0 2px rgba(24,220,255,.12),0 0 12px rgba(24,220,255,.2)!important}.field label{color:#9db9df!important}
+.tablewrap{border-color:#176bc7!important}table{background:#06183f!important;color:#eaf5ff}th{color:#70e9ff!important;border-bottom-color:#1aaeff!important;background:#071f58}td{border-bottom-color:#123e78!important}.empty{background:#06183f!important;border-color:#176bc7!important;color:#91add3!important}.badge{background:#073a72!important;color:#86efff!important;border:1px solid #159edb}
+.modalbg{background:rgba(1,5,20,.78)!important;backdrop-filter:blur(5px)}.modal{background:linear-gradient(145deg,#081f57,#04102f)!important;color:#eef7ff;border:1px solid #168fe5;box-shadow:0 0 35px rgba(0,170,255,.25)!important}.modal h2{color:#f5fbff;font-family:Arial,sans-serif}.foot{border-top:1px solid rgba(22,138,229,.25);padding-top:12px}.toast{background:linear-gradient(135deg,#075fbe,#092d78)!important;border:1px solid #18dfff;box-shadow:0 0 16px rgba(0,210,255,.3)}
+.v9-status{background:#061b49!important;border-top-color:#176bc7!important;color:#9ec0e8!important}.v9-kbd{background:#06183f!important;border-color:#287bbf!important;color:#eaf6ff}.v9-focus{outline-color:#18dcff!important;box-shadow:0 0 0 1px rgba(24,220,255,.2),0 0 12px rgba(24,220,255,.18)!important}
+.mbiz-neon-gateway{background:radial-gradient(circle at 70% 0%,#153fc0 0,#081d6b 34%,#04134f 68%,#020a2c 100%)!important}.mbiz-neon-gateway:after{content:"";position:absolute;inset:-20%;pointer-events:none;background:linear-gradient(110deg,transparent 40%,rgba(0,225,255,.045) 48%,rgba(255,255,255,.07) 51%,transparent 59%);transform:translateX(-35%);animation:mbizSweep 11s linear infinite}
+.neon-info,.neon-actions button{animation:mbizPulse 5s ease-in-out infinite}.neon-actions button,.ng-item,.neon-nav button,.neon-shortcuts button{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease!important}.neon-actions button:hover,.ng-item:hover,.neon-nav button:hover,.neon-shortcuts button:hover{transform:translateY(-2px)}.neon-search:hover{box-shadow:0 0 20px rgba(8,191,255,.72),inset 0 0 10px #083f9a!important}.neon-logo{animation:mbizFloat 4s ease-in-out infinite}.neon-footer{background:#020a2c!important}
+@media(max-width:760px){.main{padding:10px!important}.topbar{padding:12px}.actions{gap:7px}.card,.panel{border-radius:11px}}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{#app .side,#app .topbar,.website-bar{display:none!important}}
+</style></head>
 <body>
 <div class="website-bar">
   <div><div class="website-brand">M.BizAccount</div><div class="website-sub">GST Billing &amp; Accounting</div></div>
@@ -535,7 +556,7 @@ function gateway(){
     <div class="neon-layout">
       <aside class="neon-sidebar">
         <div class="neon-nav">
-          ${nav.map((n,i)=>`<button class="${i===0?'active':''}" ${go(n[2])}>
+          ${nav.map((n,i)=>`<button class="${(i===0&&tab==="dashboard")||(i>0&&n[2]===tab)?'active':''}" ${go(n[2])}>
             <span class="nicon">${n[0]}</span><span>${n[1]}</span><kbd>${n[3]}</kbd>
           </button>`).join("")}
         </div>
@@ -720,7 +741,13 @@ function previewSavedInvoice(id){
 function printPreviewWindow(){
   const area=document.getElementById('previewInvoiceArea'); if(!area)return;
   const w=window.open('', '_blank'); if(!w)return alert('Please allow pop-ups to print the invoice.');
-  w.document.write('<!doctype html><html><head><title>Invoice Preview</title><style>'+Array.from(document.styleSheets).map(()=> '').join('')+'</style></head><body>'+area.innerHTML+'</div></body></html>');
+  w.document.write('<!doctype html><html><head><title>Invoice Preview</title><style>'+Array.from(document.styleSheets).map(()=> '').join('')+'</style></head><body>'+area.innerHTML+'</div><script id="mbiz-neon-ui-v2-script">
+(function(){
+function syncNeonActive(){const root=document.querySelector('.mbiz-neon-gateway');if(!root)return;const current=typeof tab==='string'?tab:'dashboard';const map={Gateway:'dashboard',Dashboard:'dashboard',Customers:'parties',Suppliers:'parties',Inventory:'items',Sales:'voucher',Purchase:'voucher',Vouchers:'voucher',Payments:'payments',Expenses:'expenses',Reports:'reports',Settings:'settings'};root.querySelectorAll('.neon-nav button').forEach(btn=>{const label=(btn.textContent||'').trim();const target=map[label];btn.classList.toggle('active',target===current&&!(label==='Gateway'&&current!=='dashboard'));});}
+const originalRender=window.render;if(typeof originalRender==='function'&&!originalRender.__mbizNeonV2){function wrappedRender(){const out=originalRender.apply(this,arguments);requestAnimationFrame(syncNeonActive);return out}wrappedRender.__mbizNeonV2=true;window.render=wrappedRender}
+requestAnimationFrame(syncNeonActive);
+})();
+</script></body></html>');
   w.document.close(); setTimeout(()=>w.print(),300);
 }
 function saveInvoice(type){if(!invoiceLines.length)return alert("Add at least one line.");let sub=invoiceLines.reduce((a,l)=>a+l.qty*l.rate*(1-(l.discount||0)/100),0),gst=invoiceLines.reduce((a,l)=>a+l.qty*l.rate*(1-(l.discount||0)/100)*l.gst/100,0),total=sub+gst;let v={id:uid(),type,date:$('vd').value,partyId:$('vp').value,mode:$('vm').value,number:invoiceNo(type,$('vd').value,true),lines:invoiceLines.map(x=>({...x})),subtotal:sub,gst,total,narration:$('vn')?.value||'',placeOfSupply:$('vpos')?.value||'',deliveryNote:$('vdn')?.value||'',paymentTerms:$('vmtp')?.value||'',reference:$('vref')?.value||'',orderNo:$('vbo')?.value||'',dispatchDoc:$('vdd')?.value||'',dispatchedThrough:$('vdt')?.value||'',destination:$('vdest')?.value||'',terms:$('vterms')?.value||''};D.tx.push(v);invoiceLines.forEach(l=>{let x=D.items.find(i=>i.id===l.item);x.stock+=type==='sales'?-l.qty:l.qty});modal='';save();toast('Invoice saved')}
